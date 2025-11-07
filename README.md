@@ -1,6 +1,45 @@
-# React + Vite
+# Feeel Web
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple home workout app that respects your privacy. This web version mirrors the functionality of the Android app with the following features:
+
+- **Workout Management**: Create, edit, and manage custom workouts
+- **Exercise Library**: Browse and select from a comprehensive exercise database
+- **Workout Player**: Interactive workout sessions with timer and progress tracking
+- **Activity Tracking**: Comprehensive workout history with calendar view
+- **Settings**: Customize app appearance with dark mode and personalized colors
+- **Workout Timing**: Adjustable exercise and break durations per workout
+
+## Features
+
+### Workout Management
+- Create new custom workouts with the workout editor
+- Add exercises from the comprehensive exercise library
+- Edit existing workouts to customize exercises and timing
+- Set custom exercise durations and break times
+
+### Activity Tracking
+- View workout history with a calendar interface
+- Track both completed and incomplete workouts
+- Detailed statistics on workout duration and calories burned
+
+### Settings
+- Toggle between light and dark themes
+- Enable personalized color schemes
+- Language selection
+- Notification preferences
+
+## Tech Stack
+
+- React with Vite
+- Material UI for styling
+- React Router for navigation
+- React Calendar for calendar views
+
+## Setup
+
+1. Install dependencies: `npm install`
+2. Start development server: `npm run dev`
+3. Build for production: `npm run build`
 
 Currently, two official plugins are available:
 

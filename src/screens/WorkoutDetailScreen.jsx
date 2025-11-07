@@ -14,9 +14,19 @@ export const WorkoutDetailScreen = () => {
   const [timeLeft, setTimeLeft] = useState(0);
   const [isCompleted, setIsCompleted] = useState(false);
 
-  const exercises = workoutExercises[id] || [];
-  const currentExercise = exercises[currentExerciseIndex];
   const currentWorkout = state.workouts.find(workout => workout.id === parseInt(id));
+  
+  // Get exercises based on whether it's a custom workout or default
+  let exercises;
+  if (currentWorkout && currentWorkout.exercises_list) {
+    // Custom workout with custom exercises
+    exercises = currentWorkout.exercises_list;
+  } else {
+    // Default workout
+    exercises = workoutExercises[id] || [];
+  }
+  
+  const currentExercise = exercises[currentExerciseIndex];
 
   useEffect(() => {
     let interval = null;
@@ -27,10 +37,24 @@ export const WorkoutDetailScreen = () => {
           if (prev <= 1) {
             if (currentExerciseIndex < exercises.length - 1) {
               setCurrentExerciseIndex(prevIndex => prevIndex + 1);
-              return exercises[currentExerciseIndex + 1]?.duration || 0;
+              // For custom workouts, use the exercise's specific duration, otherwise use default
+              const nextExercise = exercises[currentExerciseIndex + 1];
+              return nextExercise?.duration || currentWorkout?.exerciseDuration || 30;
             } else {
               setIsPlaying(false);
               setIsCompleted(true);
+              // Add completed workout to history
+              const totalDuration = exercises.reduce((sum, ex) => sum + (ex.duration || currentWorkout?.exerciseDuration || 30), 0) + 
+                                   (exercises.length - 1) * (currentWorkout?.breakDuration || 15);
+              const completedWorkout = {
+                id: Date.now(), // Use timestamp as ID for new records
+                name: currentWorkout?.name || 'Unknown Workout',
+                date: new Date().toISOString().split('T')[0], // Format as YYYY-MM-DD
+                duration: `${Math.round(totalDuration / 60)} min`,
+                calories: Math.round(totalDuration * 0.15), // Approximate calories
+                status: 'complete'
+              };
+              dispatch({ type: 'ADD_WORKOUT_HISTORY', payload: completedWorkout });
               return 0;
             }
           }
@@ -44,9 +68,10 @@ export const WorkoutDetailScreen = () => {
 
   useEffect(() => {
     if (currentExercise) {
-      setTimeLeft(currentExercise.duration);
+      // For custom workouts, use the exercise's specific duration, otherwise use default
+      setTimeLeft(currentExercise.duration || currentWorkout?.exerciseDuration || 30);
     }
-  }, [currentExerciseIndex, currentExercise]);
+  }, [currentExerciseIndex, currentExercise, currentWorkout]);
 
   const handlePlayPause = () => {
     setIsPlaying(!isPlaying);
@@ -223,6 +248,29 @@ export const WorkoutDetailScreen = () => {
           startIcon={<Replay />}
         >
           Restart
+        </Button>
+        <Button
+          variant="outlined"
+          onClick={() => {
+            // Add incomplete workout to history if user was in the middle of it
+            if (currentExerciseIndex > 0 || timeLeft < (exercises[0]?.duration || currentWorkout?.exerciseDuration || 30)) {
+              const elapsedTime = (currentExerciseIndex * (currentWorkout?.exerciseDuration || 30 + currentWorkout?.breakDuration || 15)) + 
+                                  ((currentWorkout?.exerciseDuration || 30) - timeLeft);
+              const incompleteWorkout = {
+                id: Date.now(), // Use timestamp as ID for new records
+                name: currentWorkout?.name || 'Unknown Workout',
+                date: new Date().toISOString().split('T')[0], // Format as YYYY-MM-DD
+                duration: `${Math.round(elapsedTime / 60)} min`,
+                calories: Math.round(elapsedTime * 0.15), // Approximate calories
+                status: 'incomplete'
+              };
+              dispatch({ type: 'ADD_WORKOUT_HISTORY', payload: incompleteWorkout });
+            }
+            navigate('/workouts');
+          }}
+          color="error"
+        >
+          Stop
         </Button>
         <Button
           variant={isPlaying ? "outlined" : "contained"}

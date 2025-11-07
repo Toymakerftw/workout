@@ -20,6 +20,7 @@ const initialState = {
     darkMode: false,
     remindersEnabled: true,
     language: 'en',
+    personalizedColors: false
   }
 };
 
@@ -47,15 +48,43 @@ const appReducer = (state, action) => {
         ...state,
         workouts: [...state.workouts, action.payload]
       };
+    case 'CREATE_WORKOUT':
+      const newWorkout = {
+        ...action.payload,
+        id: Math.max(0, ...state.workouts.map(w => w.id)) + 1
+      };
+      return {
+        ...state,
+        workouts: [...state.workouts, newWorkout]
+      };
     case 'ADD_WORKOUT_HISTORY':
       return {
         ...state,
         workoutHistory: [action.payload, ...state.workoutHistory]
       };
+    case 'UPDATE_WORKOUT_HISTORY':
+      return {
+        ...state,
+        workoutHistory: state.workoutHistory.map(record => 
+          record.id === action.payload.id ? { ...record, ...action.payload } : record
+        )
+      };
     case 'RESET_WORKOUT_HISTORY':
       return {
         ...state,
         workoutHistory: []
+      };
+    case 'UPDATE_WORKOUT':
+      return {
+        ...state,
+        workouts: state.workouts.map(workout => 
+          workout.id === action.payload.id ? { ...workout, ...action.payload } : workout
+        )
+      };
+    case 'DELETE_WORKOUT':
+      return {
+        ...state,
+        workouts: state.workouts.filter(workout => workout.id !== action.payload)
       };
     default:
       return state;

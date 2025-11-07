@@ -23,6 +23,13 @@ export const SettingsScreen = () => {
     });
   };
 
+  const handlePersonalizedColorsChange = (event) => {
+    dispatch({
+      type: 'UPDATE_SETTING',
+      payload: { key: 'personalizedColors', value: event.target.checked }
+    });
+  };
+
   return (
     <Container maxWidth="md" sx={{ py: 3 }}>
       <Typography variant="h4" component="h1" gutterBottom>
@@ -32,18 +39,30 @@ export const SettingsScreen = () => {
       <Card sx={{ mb: 2 }}>
         <CardContent>
           <Typography variant="h6" gutterBottom>Appearance</Typography>
-          
+
           <List>
             <ListItem disablePadding>
               <FormControlLabel
                 control={
-                  <Switch 
-                    checked={state.settings.darkMode} 
-                    onChange={handleDarkModeChange} 
-                    name="darkMode" 
+                  <Switch
+                    checked={state.settings.darkMode}
+                    onChange={handleDarkModeChange}
+                    name="darkMode"
                   />
                 }
                 label="Dark Mode"
+              />
+            </ListItem>
+            <ListItem disablePadding>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={state.settings.personalizedColors}
+                    onChange={handlePersonalizedColorsChange}
+                    name="personalizedColors"
+                  />
+                }
+                label="Personalized Colors"
               />
             </ListItem>
           </List>
@@ -53,15 +72,15 @@ export const SettingsScreen = () => {
       <Card sx={{ mb: 2 }}>
         <CardContent>
           <Typography variant="h6" gutterBottom>Notifications</Typography>
-          
+
           <List>
             <ListItem disablePadding>
               <FormControlLabel
                 control={
-                  <Switch 
-                    checked={state.settings.remindersEnabled} 
-                    onChange={handleRemindersChange} 
-                    name="reminders" 
+                  <Switch
+                    checked={state.settings.remindersEnabled}
+                    onChange={handleRemindersChange}
+                    name="reminders"
                   />
                 }
                 label="Workout Reminders"
@@ -74,7 +93,7 @@ export const SettingsScreen = () => {
       <Card sx={{ mb: 2 }}>
         <CardContent>
           <Typography variant="h6" gutterBottom>Language</Typography>
-          
+
           <FormControl fullWidth sx={{ mt: 2 }}>
             <InputLabel id="language-select-label">Language</InputLabel>
             <Select
