@@ -1,11 +1,10 @@
 import React from 'react';
-import { Container, Typography, Card, CardContent, List, ListItem, ListItemText, Switch, FormControlLabel, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
 import { useAppContext } from '../context/AppContext';
 
 export const SettingsScreen = () => {
   const { state, dispatch } = useAppContext();
 
-  const handleDarkModeChange = (event) => {
+  const handleDarkModeChange = () => {
     dispatch({ type: 'TOGGLE_THEME' });
   };
 
@@ -31,97 +30,150 @@ export const SettingsScreen = () => {
   };
 
   return (
-    <Container maxWidth="md" sx={{ py: 3 }}>
-      <Typography variant="h4" component="h1" gutterBottom>
-        Settings
-      </Typography>
+    <div className="w-full space-y-6">
+      {/* Header */}
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+          Settings
+        </h1>
+        <p className="text-gray-600 dark:text-gray-400">
+          Customize your app experience
+        </p>
+      </div>
 
-      <Card sx={{ mb: 2 }}>
-        <CardContent>
-          <Typography variant="h6" gutterBottom>Appearance</Typography>
-
-          <List>
-            <ListItem disablePadding>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={state.settings.darkMode}
-                    onChange={handleDarkModeChange}
-                    name="darkMode"
-                  />
-                }
-                label="Dark Mode"
-              />
-            </ListItem>
-            <ListItem disablePadding>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={state.settings.personalizedColors}
-                    onChange={handlePersonalizedColorsChange}
-                    name="personalizedColors"
-                  />
-                }
-                label="Personalized Colors"
-              />
-            </ListItem>
-          </List>
-        </CardContent>
-      </Card>
-
-      <Card sx={{ mb: 2 }}>
-        <CardContent>
-          <Typography variant="h6" gutterBottom>Notifications</Typography>
-
-          <List>
-            <ListItem disablePadding>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={state.settings.remindersEnabled}
-                    onChange={handleRemindersChange}
-                    name="reminders"
-                  />
-                }
-                label="Workout Reminders"
-              />
-            </ListItem>
-          </List>
-        </CardContent>
-      </Card>
-
-      <Card sx={{ mb: 2 }}>
-        <CardContent>
-          <Typography variant="h6" gutterBottom>Language</Typography>
-
-          <FormControl fullWidth sx={{ mt: 2 }}>
-            <InputLabel id="language-select-label">Language</InputLabel>
-            <Select
-              labelId="language-select-label"
-              id="language-select"
-              value={state.settings.language}
-              label="Language"
-              onChange={handleLanguageChange}
+      {/* Appearance Settings */}
+      <div className="card">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+          Appearance
+        </h2>
+        <div className="space-y-4">
+          {/* Dark Mode Toggle */}
+          <div className="flex items-center justify-between py-3 border-b border-gray-200 dark:border-gray-700 last:border-0">
+            <div className="flex-1">
+              <label className="text-base font-medium text-gray-900 dark:text-white">
+                Dark Mode
+              </label>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                Switch between light and dark theme
+              </p>
+            </div>
+            <button
+              onClick={handleDarkModeChange}
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 ${
+                state.settings.darkMode ? 'bg-primary-600' : 'bg-gray-300 dark:bg-gray-600'
+              }`}
+              role="switch"
+              aria-checked={state.settings.darkMode}
             >
-              <MenuItem value="en">English</MenuItem>
-              <MenuItem value="es">Español</MenuItem>
-              <MenuItem value="fr">Français</MenuItem>
-              <MenuItem value="de">Deutsch</MenuItem>
-              <MenuItem value="it">Italiano</MenuItem>
-            </Select>
-          </FormControl>
-        </CardContent>
-      </Card>
+              <span
+                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                  state.settings.darkMode ? 'translate-x-6' : 'translate-x-1'
+                }`}
+              />
+            </button>
+          </div>
 
-      <Card>
-        <CardContent>
-          <Typography variant="h6" gutterBottom>About</Typography>
-          <Typography variant="body2" color="text.secondary">
-            Feeel Web v1.0.0<br />
+          {/* Personalized Colors Toggle */}
+          <div className="flex items-center justify-between py-3 border-b border-gray-200 dark:border-gray-700 last:border-0">
+            <div className="flex-1">
+              <label className="text-base font-medium text-gray-900 dark:text-white">
+                Personalized Colors
+              </label>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                Use personalized color schemes
+              </p>
+            </div>
+            <button
+              onClick={(e) => handlePersonalizedColorsChange({ target: { checked: !state.settings.personalizedColors } })}
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 ${
+                state.settings.personalizedColors ? 'bg-primary-600' : 'bg-gray-300 dark:bg-gray-600'
+              }`}
+              role="switch"
+              aria-checked={state.settings.personalizedColors}
+            >
+              <span
+                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                  state.settings.personalizedColors ? 'translate-x-6' : 'translate-x-1'
+                }`}
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Notifications Settings */}
+      <div className="card">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+          Notifications
+        </h2>
+        <div className="space-y-4">
+          {/* Workout Reminders Toggle */}
+          <div className="flex items-center justify-between py-3">
+            <div className="flex-1">
+              <label className="text-base font-medium text-gray-900 dark:text-white">
+                Workout Reminders
+              </label>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                Get reminders for your scheduled workouts
+              </p>
+            </div>
+            <button
+              onClick={(e) => handleRemindersChange({ target: { checked: !state.settings.remindersEnabled } })}
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 ${
+                state.settings.remindersEnabled ? 'bg-primary-600' : 'bg-gray-300 dark:bg-gray-600'
+              }`}
+              role="switch"
+              aria-checked={state.settings.remindersEnabled}
+            >
+              <span
+                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                  state.settings.remindersEnabled ? 'translate-x-6' : 'translate-x-1'
+                }`}
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Language Settings */}
+      <div className="card">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+          Language
+        </h2>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            Select Language
+          </label>
+          <select
+            className="input-field"
+            value={state.settings.language}
+            onChange={handleLanguageChange}
+          >
+            <option value="en">English</option>
+            <option value="es">Español</option>
+            <option value="fr">Français</option>
+            <option value="de">Deutsch</option>
+            <option value="it">Italiano</option>
+          </select>
+        </div>
+      </div>
+
+      {/* About Section */}
+      <div className="card">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+          About
+        </h2>
+        <div className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+          <p>
+            <strong>Feeel Web</strong> v1.0.0
+          </p>
+          <p>
             A simple home workout app that respects your privacy
-          </Typography>
-        </CardContent>
-      </Card>
-    </Container>
+          </p>
+        </div>
+      </div>
+    </div>
   );
 };
+
+export default SettingsScreen;

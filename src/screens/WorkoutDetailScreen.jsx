@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Container, Typography, Box, Button, Fab, CircularProgress, Slider, IconButton } from '@mui/material';
-import { PlayArrow, Pause, Replay, SkipNext, Info as InfoIcon } from '@mui/icons-material';
 import { workoutExercises } from '../utils/exerciseData';
 import { useAppContext } from '../context/AppContext';
 import ExerciseInfoDialog from '../components/ExerciseInfoDialog';
@@ -21,10 +19,8 @@ export const WorkoutDetailScreen = () => {
   // Get exercises based on whether it's a custom workout or default
   let exercises;
   if (currentWorkout && currentWorkout.exercises_list) {
-    // Custom workout with custom exercises
     exercises = currentWorkout.exercises_list;
   } else {
-    // Default workout
     exercises = workoutExercises[id] || [];
   }
 
@@ -39,21 +35,19 @@ export const WorkoutDetailScreen = () => {
           if (prev <= 1) {
             if (currentExerciseIndex < exercises.length - 1) {
               setCurrentExerciseIndex(prevIndex => prevIndex + 1);
-              // For custom workouts, use the exercise's specific duration, otherwise use default
               const nextExercise = exercises[currentExerciseIndex + 1];
               return nextExercise?.duration || currentWorkout?.exerciseDuration || 30;
             } else {
               setIsPlaying(false);
               setIsCompleted(true);
-              // Add completed workout to history
               const totalDuration = exercises.reduce((sum, ex) => sum + (ex.duration || currentWorkout?.exerciseDuration || 30), 0) +
                                    (exercises.length - 1) * (currentWorkout?.breakDuration || 15);
               const completedWorkout = {
-                id: Date.now(), // Use timestamp as ID for new records
+                id: Date.now(),
                 name: currentWorkout?.name || 'Unknown Workout',
-                date: new Date().toISOString().split('T')[0], // Format as YYYY-MM-DD
+                date: new Date().toISOString().split('T')[0],
                 duration: `${Math.round(totalDuration / 60)} min`,
-                calories: Math.round(totalDuration * 0.15), // Approximate calories
+                calories: Math.round(totalDuration * 0.15),
                 status: 'complete'
               };
               dispatch({ type: 'ADD_WORKOUT_HISTORY', payload: completedWorkout });
@@ -66,11 +60,10 @@ export const WorkoutDetailScreen = () => {
     }
 
     return () => clearInterval(interval);
-  }, [isPlaying, timeLeft, currentExerciseIndex, exercises]);
+  }, [isPlaying, timeLeft, currentExerciseIndex, exercises, currentExercise, currentWorkout, dispatch]);
 
   useEffect(() => {
     if (currentExercise) {
-      // For custom workouts, use the exercise's specific duration, otherwise use default
       setTimeLeft(currentExercise.duration || currentWorkout?.exerciseDuration || 30);
     }
   }, [currentExerciseIndex, currentExercise, currentWorkout]);
@@ -100,6 +93,23 @@ export const WorkoutDetailScreen = () => {
     }
   };
 
+  const handleStop = () => {
+    if (currentExerciseIndex > 0 || timeLeft < (exercises[0]?.duration || currentWorkout?.exerciseDuration || 30)) {
+      const elapsedTime = (currentExerciseIndex * (currentWorkout?.exerciseDuration || 30 + currentWorkout?.breakDuration || 15)) +
+                          ((currentWorkout?.exerciseDuration || 30) - timeLeft);
+      const incompleteWorkout = {
+        id: Date.now(),
+        name: currentWorkout?.name || 'Unknown Workout',
+        date: new Date().toISOString().split('T')[0],
+        duration: `${Math.round(elapsedTime / 60)} min`,
+        calories: Math.round(elapsedTime * 0.15),
+        status: 'incomplete'
+      };
+      dispatch({ type: 'ADD_WORKOUT_HISTORY', payload: incompleteWorkout });
+    }
+    navigate('/workouts');
+  };
+
   if (isCompleted) {
     const handleDoAgain = () => {
       setIsPlaying(false);
@@ -109,17 +119,16 @@ export const WorkoutDetailScreen = () => {
     };
 
     const handleBackToWorkouts = () => {
-      // Add workout to history
       if (currentWorkout) {
-        const totalDuration = exercises.reduce((sum, ex) => sum + ex.duration, 0);
-        const calories = Math.round(totalDuration * 0.15); // Estimate calories burned
+        const totalDuration = exercises.reduce((sum, ex) => sum + (ex.duration || currentWorkout.exerciseDuration || 30), 0);
+        const calories = Math.round(totalDuration * 0.15);
 
         dispatch({
           type: 'ADD_WORKOUT_HISTORY',
           payload: {
-            id: Date.now(), // Use timestamp as ID
+            id: Date.now(),
             name: currentWorkout.name,
-            date: new Date().toISOString().split('T')[0], // Format as YYYY-MM-DD
+            date: new Date().toISOString().split('T')[0],
             duration: `${Math.floor(totalDuration / 60)}m ${totalDuration % 60}s`,
             calories: calories
           }
@@ -129,188 +138,286 @@ export const WorkoutDetailScreen = () => {
     };
 
     return (
-      <Container maxWidth="sm" sx={{ height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', py: 3 }}>
-        <Typography variant="h4" gutterBottom>
-          Workout Completed! 🎉
-        </Typography>
-        <Typography variant="h6" color="text.secondary" gutterBottom>
-          Great job completing your workout!
-        </Typography>
-        <Button variant="contained" size="large" onClick={handleDoAgain} sx={{ mt: 2, mr: 1 }}>
-          Do Again
-        </Button>
-        <Button variant="outlined" size="large" onClick={handleBackToWorkouts} sx={{ mt: 2, ml: 1 }}>
-          Back to Workouts
-        </Button>
-      </Container>
+      <div className="flex flex-col items-center justify-center min-h-[60vh] text-center py-8 px-4">
+        <div className="mb-6">
+          <div className="w-20 h-20 mx-auto bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mb-4">
+            <svg
+              className="w-10 h-10 text-green-600 dark:text-green-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M5 13l4 4L19 7"
+              />
+            </svg>
+          </div>
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+            Workout Completed! 🎉
+          </h2>
+          <p className="text-lg text-gray-600 dark:text-gray-400">
+            Great job completing your workout!
+          </p>
+        </div>
+        <div className="flex flex-col sm:flex-row gap-3 w-full max-w-md">
+          <button
+            onClick={handleDoAgain}
+            className="btn-primary flex-1"
+          >
+            Do Again
+          </button>
+          <button
+            onClick={handleBackToWorkouts}
+            className="btn-secondary flex-1"
+          >
+            Back to Workouts
+          </button>
+        </div>
+      </div>
     );
   }
 
   if (!currentExercise) {
     return (
-      <Container maxWidth="sm" sx={{ height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-        <Typography variant="h6">
+      <div className="flex flex-col items-center justify-center min-h-[60vh] text-center py-8 px-4">
+        <p className="text-lg text-gray-600 dark:text-gray-400 mb-4">
           No exercises found for this workout
-        </Typography>
-        <Button variant="outlined" onClick={() => window.history.back()} sx={{ mt: 2 }}>
+        </p>
+        <button
+          onClick={() => navigate('/workouts')}
+          className="btn-secondary"
+        >
           Back to Workouts
-        </Button>
-      </Container>
+        </button>
+      </div>
     );
   }
 
+  const progress = (currentExerciseIndex / exercises.length) * 100;
+  const timeProgress = currentExercise.duration
+    ? ((currentExercise.duration - timeLeft) / currentExercise.duration) * 100
+    : 0;
+
   return (
-    <Container maxWidth="sm" sx={{ height: '100vh', display: 'flex', flexDirection: 'column', py: 3 }}>
-      <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-          <Typography variant="h6" color="text.secondary">
+    <div className="flex flex-col h-full min-h-[60vh]">
+      {/* Header */}
+      <div className="flex justify-between items-center mb-4">
+        <div>
+          <p className="text-sm text-gray-600 dark:text-gray-400">
             Exercise {currentExerciseIndex + 1} of {exercises.length}
-          </Typography>
-          <IconButton
-            onClick={handleExerciseInfo}
-            sx={{ 
-              backgroundColor: 'rgba(255, 255, 255, 0.7)',
-              '&:hover': {
-                backgroundColor: 'rgba(255, 255, 255, 0.9)',
-              }
-            }}
-          >
-            <InfoIcon />
-          </IconButton>
-        </Box>
-
-        <Typography variant="h4" align="center" gutterBottom>
-          {currentExercise.name}
-        </Typography>
-
-        <Typography variant="h6" align="center" gutterBottom>
-          {currentExercise.description}
-        </Typography>
-
-        <Box sx={{
-          width: 250,
-          height: 250,
-          borderRadius: '10px',
-          overflow: 'hidden',
-          position: 'relative',
-          my: 2,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: '#f0f0f0',
-          border: '1px solid #ddd'
-        }}>
-          {currentExercise.image ? (
-            <img
-              src={`/exercise_images/${currentExercise.image}.webp`}
-              alt={currentExercise.name}
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'contain'
-              }}
+          </p>
+          <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mt-2">
+            <div
+              className="bg-primary-600 h-2 rounded-full transition-all duration-300"
+              style={{ width: `${progress}%` }}
             />
-          ) : (
-            <Typography variant="body2" color="text.secondary">
-              Exercise Image
-            </Typography>
-          )}
-        </Box>
-
-        <Box sx={{ width: 200, height: 200, borderRadius: '50%', border: '10px solid #e0e0e0', position: 'relative', my: 2 }}>
-          <CircularProgress
-            variant="determinate"
-            value={100 - (timeLeft / currentExercise.duration * 100)}
-            size={200}
-            thickness={4}
-            sx={{
-              position: 'absolute',
-              top: -10,
-              left: -10,
-              color: '#1976d2',
-              zIndex: 1
-            }}
-          />
-          <Box
-            sx={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              bottom: 0,
-              right: 0,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
+          </div>
+        </div>
+        <button
+          onClick={handleExerciseInfo}
+          className="p-2 text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+          aria-label="Exercise info"
+        >
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
           >
-            <Typography variant="h4" component="div">
-              {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')}
-            </Typography>
-          </Box>
-        </Box>
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+        </button>
+      </div>
 
-        <Typography variant="body1" align="center" color="text.secondary">
-          {Math.floor((currentExerciseIndex / exercises.length) * 100)}% Complete
-        </Typography>
+      {/* Exercise Info */}
+      <div className="text-center mb-6">
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
+          {currentExercise.name}
+        </h2>
+        <p className="text-base text-gray-600 dark:text-gray-400">
+          {currentExercise.description}
+        </p>
+      </div>
 
-        <Slider
-          value={(currentExerciseIndex / exercises.length) * 100}
-          disabled
-          sx={{ width: '80%', mt: 2 }}
-        />
-      </Box>
+      {/* Exercise Image */}
+      <div className="w-full max-w-sm mx-auto mb-6 rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 aspect-square flex items-center justify-center">
+        {currentExercise.image ? (
+          <img
+            src={`/exercise_images/${currentExercise.image}.webp`}
+            alt={currentExercise.name}
+            className="w-full h-full object-contain p-4"
+          />
+        ) : (
+          <div className="text-gray-400 dark:text-gray-500 text-sm">
+            Exercise Image
+          </div>
+        )}
+      </div>
 
-      <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mt: 'auto', pb: 3 }}>
-        <Button
-          variant="outlined"
-          onClick={handleRestart}
-          startIcon={<Replay />}
-        >
-          Restart
-        </Button>
-        <Button
-          variant="outlined"
-          onClick={() => {
-            // Add incomplete workout to history if user was in the middle of it
-            if (currentExerciseIndex > 0 || timeLeft < (exercises[0]?.duration || currentWorkout?.exerciseDuration || 30)) {
-              const elapsedTime = (currentExerciseIndex * (currentWorkout?.exerciseDuration || 30 + currentWorkout?.breakDuration || 15)) +
-                                  ((currentWorkout?.exerciseDuration || 30) - timeLeft);
-              const incompleteWorkout = {
-                id: Date.now(), // Use timestamp as ID for new records
-                name: currentWorkout?.name || 'Unknown Workout',
-                date: new Date().toISOString().split('T')[0], // Format as YYYY-MM-DD
-                duration: `${Math.round(elapsedTime / 60)} min`,
-                calories: Math.round(elapsedTime * 0.15), // Approximate calories
-                status: 'incomplete'
-              };
-              dispatch({ type: 'ADD_WORKOUT_HISTORY', payload: incompleteWorkout });
-            }
-            navigate('/workouts');
-          }}
-          color="error"
-        >
-          Stop
-        </Button>
-        <Button
-          variant={isPlaying ? "outlined" : "contained"}
-          onClick={handlePlayPause}
-          startIcon={isPlaying ? <Pause /> : <PlayArrow />}
-        >
-          {isPlaying ? "Pause" : "Start"}
-        </Button>
-        <Button
-          variant="outlined"
-          onClick={handleNext}
-          endIcon={<SkipNext />}
-        >
-          Skip
-        </Button>
-      </Box>
+      {/* Timer Circle */}
+      <div className="flex justify-center mb-6">
+        <div className="relative w-64 h-64 md:w-80 md:h-80">
+          {/* Progress Circle */}
+          <svg className="transform -rotate-90 w-full h-full">
+            <circle
+              cx="50%"
+              cy="50%"
+              r="45%"
+              stroke="currentColor"
+              strokeWidth="8"
+              fill="transparent"
+              className="text-gray-200 dark:text-gray-700"
+            />
+            <circle
+              cx="50%"
+              cy="50%"
+              r="45%"
+              stroke="currentColor"
+              strokeWidth="8"
+              fill="transparent"
+              strokeDasharray={`${2 * Math.PI * 45}%`}
+              strokeDashoffset={`${2 * Math.PI * 45 * (1 - timeProgress / 100)}%`}
+              className="text-primary-600 transition-all duration-1000"
+              strokeLinecap="round"
+            />
+          </svg>
+          {/* Timer Text */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="text-center">
+              <div className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white">
+                {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Controls */}
+      <div className="mt-auto pb-4">
+        <div className="flex flex-wrap justify-center gap-3">
+          <button
+            onClick={handleRestart}
+            className="flex items-center gap-2 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+              />
+            </svg>
+            <span>Restart</span>
+          </button>
+          <button
+            onClick={handleStop}
+            className="flex items-center gap-2 px-4 py-2 border border-red-300 dark:border-red-600 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+            <span>Stop</span>
+          </button>
+          <button
+            onClick={handlePlayPause}
+            className={`flex items-center gap-2 px-6 py-2 rounded-lg font-medium transition-colors ${
+              isPlaying
+                ? 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600'
+                : 'bg-primary-600 hover:bg-primary-700 text-white'
+            }`}
+          >
+            {isPlaying ? (
+              <>
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <span>Pause</span>
+              </>
+            ) : (
+              <>
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <span>Start</span>
+              </>
+            )}
+          </button>
+          <button
+            onClick={handleNext}
+            className="flex items-center gap-2 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+          >
+            <span>Skip</span>
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+
       <ExerciseInfoDialog
         exercise={currentExercise}
         open={exerciseInfoOpen}
         onClose={() => setExerciseInfoOpen(false)}
       />
-    </Container>
+    </div>
   );
 };

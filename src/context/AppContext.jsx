@@ -108,6 +108,15 @@ const AppContext = createContext();
 export const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(appReducer, initialState);
 
+  // Apply dark mode to document
+  React.useEffect(() => {
+    if (state.settings.darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [state.settings.darkMode]);
+
   return (
     <AppContext.Provider value={{ state, dispatch }}>
       {children}
