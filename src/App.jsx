@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AppProvider } from './context/AppContext';
 import WorkoutListScreen from './screens/WorkoutListScreen';
@@ -8,8 +8,24 @@ import { WorkoutDetailScreen } from './screens/WorkoutDetailScreen';
 import MainLayout from './components/MainLayout';
 import WorkoutEditorScreen from './screens/WorkoutEditorScreen';
 import CustomWorkoutScreen from './screens/CustomWorkoutScreen';
+import { Howler } from 'howler';
 
 const App = () => {
+  useEffect(() => {
+    const unlockAudio = () => {
+      if (Howler.ctx.state === 'suspended') {
+        Howler.ctx.resume();
+      }
+      document.removeEventListener('click', unlockAudio);
+    };
+
+    document.addEventListener('click', unlockAudio);
+
+    return () => {
+      document.removeEventListener('click', unlockAudio);
+    };
+  }, []);
+
   return (
     <AppProvider>
       <Router>

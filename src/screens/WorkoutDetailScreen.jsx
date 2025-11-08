@@ -3,16 +3,28 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { workoutExercises } from '../utils/exerciseData';
 import { useAppContext } from '../context/AppContext';
 import ExerciseInfoDialog from '../components/ExerciseInfoDialog';
+import { useSound } from '../hooks/useSound';
+import { useHapticFeedback } from '../hooks/useHapticFeedback';
+import { useNotifications } from '../hooks/useNotifications';
 
 export const WorkoutDetailScreen = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { state, dispatch } = useAppContext();
+  const { playSound } = useSound();
+  const { triggerHapticFeedback } = useHapticFeedback();
+  const { permission, requestPermission, sendNotification } = useNotifications();
   const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [timeLeft, setTimeLeft] = useState(0);
   const [isCompleted, setIsCompleted] = useState(false);
   const [exerciseInfoOpen, setExerciseInfoOpen] = useState(false);
+
+  useEffect(() => {
+    if (permission === 'default') {
+      requestPermission();
+    }
+  }, [permission, requestPermission]);
 
   const currentWorkout = state.workouts.find(workout => workout.id === parseInt(id));
 
@@ -40,6 +52,11 @@ export const WorkoutDetailScreen = () => {
             } else {
               setIsPlaying(false);
               setIsCompleted(true);
+              playSound('end');
+              triggerHapticFeedback([200, 100, 200]);
+              sendNotification('Workout Completed!', {
+                body: 'Great job completing your workout!'
+              });
               const totalDuration = exercises.reduce((sum, ex) => sum + (ex.duration || currentWorkout?.exerciseDuration || 30), 0) +
                                    (exercises.length - 1) * (currentWorkout?.breakDuration || 15);
               const completedWorkout = {
@@ -60,7 +77,7 @@ export const WorkoutDetailScreen = () => {
     }
 
     return () => clearInterval(interval);
-  }, [isPlaying, timeLeft, currentExerciseIndex, exercises, currentExercise, currentWorkout, dispatch]);
+  }, [isPlaying, timeLeft, currentExerciseIndex, exercises, currentExercise, currentWorkout, dispatch, playSound, triggerHapticFeedback, sendNotification]);
 
   useEffect(() => {
     if (currentExercise) {
@@ -69,10 +86,18 @@ export const WorkoutDetailScreen = () => {
   }, [currentExerciseIndex, currentExercise, currentWorkout]);
 
   const handlePlayPause = () => {
+    triggerHapticFeedback();
+    if (!isPlaying) {
+      playSound('start');
+    } else {
+      playSound('click');
+    }
     setIsPlaying(!isPlaying);
   };
 
   const handleRestart = () => {
+    triggerHapticFeedback();
+    playSound('click');
     setIsPlaying(false);
     setCurrentExerciseIndex(0);
     setTimeLeft(exercises[0]?.duration || 0);
@@ -84,16 +109,25 @@ export const WorkoutDetailScreen = () => {
   };
 
   const handleNext = () => {
+    triggerHapticFeedback();
+    playSound('click');
     if (currentExerciseIndex < exercises.length - 1) {
       setCurrentExerciseIndex(prev => prev + 1);
       setTimeLeft(exercises[currentExerciseIndex + 1]?.duration || 0);
       setIsPlaying(false);
     } else {
       setIsCompleted(true);
+      playSound('end');
+      triggerHapticFeedback([200, 100, 200]);
+      sendNotification('Workout Completed!', {
+        body: 'Great job completing your workout!'
+      });
     }
   };
 
   const handleStop = () => {
+    triggerHapticFeedback();
+    playSound('click');
     if (currentExerciseIndex > 0 || timeLeft < (exercises[0]?.duration || currentWorkout?.exerciseDuration || 30)) {
       const elapsedTime = (currentExerciseIndex * (currentWorkout?.exerciseDuration || 30 + currentWorkout?.breakDuration || 15)) +
                           ((currentWorkout?.exerciseDuration || 30) - timeLeft);
@@ -112,6 +146,8 @@ export const WorkoutDetailScreen = () => {
 
   if (isCompleted) {
     const handleDoAgain = () => {
+      triggerHapticFeedback();
+      playSound('click');
       setIsPlaying(false);
       setCurrentExerciseIndex(0);
       setTimeLeft(exercises[0]?.duration || 0);
@@ -119,21 +155,8 @@ export const WorkoutDetailScreen = () => {
     };
 
     const handleBackToWorkouts = () => {
-      if (currentWorkout) {
-        const totalDuration = exercises.reduce((sum, ex) => sum + (ex.duration || currentWorkout.exerciseDuration || 30), 0);
-        const calories = Math.round(totalDuration * 0.15);
-
-        dispatch({
-          type: 'ADD_WORKOUT_HISTORY',
-          payload: {
-            id: Date.now(),
-            name: currentWorkout.name,
-            date: new Date().toISOString().split('T')[0],
-            duration: `${Math.floor(totalDuration / 60)}m ${totalDuration % 60}s`,
-            calories: calories
-          }
-        });
-      }
+      triggerHapticFeedback();
+      playSound('click');
       navigate('/workouts');
     };
 
