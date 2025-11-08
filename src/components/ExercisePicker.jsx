@@ -12,14 +12,18 @@ import {
   ListItemSecondaryAction,
   TextField,
   Box,
-  Chip
+  Chip,
+  IconButton
 } from '@mui/material';
-import { Add as AddIcon, Search as SearchIcon } from '@mui/icons-material';
+import { Add as AddIcon, Search as SearchIcon, Info as InfoIcon } from '@mui/icons-material';
 import { exercisesData } from '../utils/exerciseData';
+import ExerciseInfoDialog from './ExerciseInfoDialog';
 
 const ExercisePicker = ({ open, onClose, onAddExercises, selectedExercises = [] }) => {
   const [searchTerm, setSearchTerm] = useState('');
-  
+  const [selectedExercise, setSelectedExercise] = useState(null);
+  const [infoDialogOpen, setInfoDialogOpen] = useState(false);
+
   // Filter exercises based on search term
   const filteredExercises = Object.entries(exercisesData).filter(([key, exercise]) => {
     return exercise.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -33,11 +37,16 @@ const ExercisePicker = ({ open, onClose, onAddExercises, selectedExercises = [] 
     onAddExercises({ ...exercise });
   };
 
+  const handleShowInfo = (exercise) => {
+    setSelectedExercise(exercise);
+    setInfoDialogOpen(true);
+  };
+
   return (
-    <Dialog 
-      open={open} 
-      onClose={onClose} 
-      maxWidth="md" 
+    <Dialog
+      open={open}
+      onClose={onClose}
+      maxWidth="md"
       fullWidth
       fullScreen
     >
@@ -48,7 +57,7 @@ const ExercisePicker = ({ open, onClose, onAddExercises, selectedExercises = [] 
         <DialogContentText sx={{ mb: 2 }}>
           Select exercises to add to your workout
         </DialogContentText>
-        
+
         <TextField
           autoFocus
           margin="dense"
@@ -62,7 +71,7 @@ const ExercisePicker = ({ open, onClose, onAddExercises, selectedExercises = [] 
           }}
           sx={{ mb: 2 }}
         />
-        
+
         <List>
           {filteredExercises.map(([key, exercise]) => {
             const isAdded = selectedExercises.some(ex => ex.id === exercise.id);
@@ -76,17 +85,17 @@ const ExercisePicker = ({ open, onClose, onAddExercises, selectedExercises = [] 
                         {exercise.description}
                       </Box>
                       <Box component="span" sx={{ display: 'block', mt: 0.5 }}>
-                        <Chip 
-                          label={exercise.category} 
-                          size="small" 
+                        <Chip
+                          label={exercise.category}
+                          size="small"
                           variant="outlined"
                           sx={{ mr: 0.5, mt: 0.5 }}
                         />
                         {exercise.muscles && exercise.muscles.map((muscle, idx) => (
-                          <Chip 
+                          <Chip
                             key={idx}
-                            label={muscle} 
-                            size="small" 
+                            label={muscle}
+                            size="small"
                             variant="outlined"
                             sx={{ mr: 0.5, mt: 0.5 }}
                           />
@@ -96,7 +105,15 @@ const ExercisePicker = ({ open, onClose, onAddExercises, selectedExercises = [] 
                   }
                 />
                 <ListItemSecondaryAction>
-                  <Button 
+                  <IconButton
+                    edge="end"
+                    aria-label="info"
+                    onClick={() => handleShowInfo(exercise)}
+                    sx={{ mr: 1 }}
+                  >
+                    <InfoIcon />
+                  </IconButton>
+                  <Button
                     startIcon={<AddIcon />}
                     onClick={() => handleAddExercise(key)}
                     disabled={isAdded}
@@ -108,6 +125,14 @@ const ExercisePicker = ({ open, onClose, onAddExercises, selectedExercises = [] 
             );
           })}
         </List>
+        
+        {selectedExercise && (
+          <ExerciseInfoDialog
+            exercise={selectedExercise}
+            open={infoDialogOpen}
+            onClose={() => setInfoDialogOpen(false)}
+          />
+        )}
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Done</Button>

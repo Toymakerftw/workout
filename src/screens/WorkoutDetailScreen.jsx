@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Container, Typography, Box, Button, Fab, CircularProgress, Slider } from '@mui/material';
-import { PlayArrow, Pause, Replay, SkipNext } from '@mui/icons-material';
+import { Container, Typography, Box, Button, Fab, CircularProgress, Slider, IconButton } from '@mui/material';
+import { PlayArrow, Pause, Replay, SkipNext, Info as InfoIcon } from '@mui/icons-material';
 import { workoutExercises } from '../utils/exerciseData';
 import { useAppContext } from '../context/AppContext';
+import ExerciseInfoDialog from '../components/ExerciseInfoDialog';
 
 export const WorkoutDetailScreen = () => {
   const { id } = useParams();
@@ -13,9 +14,10 @@ export const WorkoutDetailScreen = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [timeLeft, setTimeLeft] = useState(0);
   const [isCompleted, setIsCompleted] = useState(false);
+  const [exerciseInfoOpen, setExerciseInfoOpen] = useState(false);
 
   const currentWorkout = state.workouts.find(workout => workout.id === parseInt(id));
-  
+
   // Get exercises based on whether it's a custom workout or default
   let exercises;
   if (currentWorkout && currentWorkout.exercises_list) {
@@ -25,12 +27,12 @@ export const WorkoutDetailScreen = () => {
     // Default workout
     exercises = workoutExercises[id] || [];
   }
-  
+
   const currentExercise = exercises[currentExerciseIndex];
 
   useEffect(() => {
     let interval = null;
-    
+
     if (currentExercise && isPlaying && timeLeft > 0) {
       interval = setInterval(() => {
         setTimeLeft(prev => {
@@ -44,7 +46,7 @@ export const WorkoutDetailScreen = () => {
               setIsPlaying(false);
               setIsCompleted(true);
               // Add completed workout to history
-              const totalDuration = exercises.reduce((sum, ex) => sum + (ex.duration || currentWorkout?.exerciseDuration || 30), 0) + 
+              const totalDuration = exercises.reduce((sum, ex) => sum + (ex.duration || currentWorkout?.exerciseDuration || 30), 0) +
                                    (exercises.length - 1) * (currentWorkout?.breakDuration || 15);
               const completedWorkout = {
                 id: Date.now(), // Use timestamp as ID for new records
@@ -84,6 +86,10 @@ export const WorkoutDetailScreen = () => {
     setIsCompleted(false);
   };
 
+  const handleExerciseInfo = () => {
+    setExerciseInfoOpen(true);
+  };
+
   const handleNext = () => {
     if (currentExerciseIndex < exercises.length - 1) {
       setCurrentExerciseIndex(prev => prev + 1);
@@ -107,7 +113,7 @@ export const WorkoutDetailScreen = () => {
       if (currentWorkout) {
         const totalDuration = exercises.reduce((sum, ex) => sum + ex.duration, 0);
         const calories = Math.round(totalDuration * 0.15); // Estimate calories burned
-        
+
         dispatch({
           type: 'ADD_WORKOUT_HISTORY',
           payload: {
@@ -156,27 +162,40 @@ export const WorkoutDetailScreen = () => {
   return (
     <Container maxWidth="sm" sx={{ height: '100vh', display: 'flex', flexDirection: 'column', py: 3 }}>
       <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-        <Typography variant="h6" color="text.secondary" gutterBottom>
-          Exercise {currentExerciseIndex + 1} of {exercises.length}
-        </Typography>
-        
+        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+          <Typography variant="h6" color="text.secondary">
+            Exercise {currentExerciseIndex + 1} of {exercises.length}
+          </Typography>
+          <IconButton
+            onClick={handleExerciseInfo}
+            sx={{ 
+              backgroundColor: 'rgba(255, 255, 255, 0.7)',
+              '&:hover': {
+                backgroundColor: 'rgba(255, 255, 255, 0.9)',
+              }
+            }}
+          >
+            <InfoIcon />
+          </IconButton>
+        </Box>
+
         <Typography variant="h4" align="center" gutterBottom>
           {currentExercise.name}
         </Typography>
-        
+
         <Typography variant="h6" align="center" gutterBottom>
           {currentExercise.description}
         </Typography>
 
-        <Box sx={{ 
-          width: 250, 
-          height: 250, 
-          borderRadius: '10px', 
-          overflow: 'hidden', 
-          position: 'relative', 
-          my: 2, 
-          display: 'flex', 
-          alignItems: 'center', 
+        <Box sx={{
+          width: 250,
+          height: 250,
+          borderRadius: '10px',
+          overflow: 'hidden',
+          position: 'relative',
+          my: 2,
+          display: 'flex',
+          alignItems: 'center',
           justifyContent: 'center',
           backgroundColor: '#f0f0f0',
           border: '1px solid #ddd'
@@ -185,10 +204,10 @@ export const WorkoutDetailScreen = () => {
             <img
               src={`/exercise_images/${currentExercise.image}.webp`}
               alt={currentExercise.name}
-              style={{ 
-                width: '100%', 
-                height: '100%', 
-                objectFit: 'contain' 
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'contain'
               }}
             />
           ) : (
@@ -199,18 +218,18 @@ export const WorkoutDetailScreen = () => {
         </Box>
 
         <Box sx={{ width: 200, height: 200, borderRadius: '50%', border: '10px solid #e0e0e0', position: 'relative', my: 2 }}>
-          <CircularProgress 
-            variant="determinate" 
-            value={100 - (timeLeft / currentExercise.duration * 100)} 
-            size={200} 
+          <CircularProgress
+            variant="determinate"
+            value={100 - (timeLeft / currentExercise.duration * 100)}
+            size={200}
             thickness={4}
-            sx={{ 
-              position: 'absolute', 
-              top: -10, 
-              left: -10, 
+            sx={{
+              position: 'absolute',
+              top: -10,
+              left: -10,
               color: '#1976d2',
               zIndex: 1
-            }} 
+            }}
           />
           <Box
             sx={{
@@ -233,7 +252,7 @@ export const WorkoutDetailScreen = () => {
         <Typography variant="body1" align="center" color="text.secondary">
           {Math.floor((currentExerciseIndex / exercises.length) * 100)}% Complete
         </Typography>
-        
+
         <Slider
           value={(currentExerciseIndex / exercises.length) * 100}
           disabled
@@ -254,7 +273,7 @@ export const WorkoutDetailScreen = () => {
           onClick={() => {
             // Add incomplete workout to history if user was in the middle of it
             if (currentExerciseIndex > 0 || timeLeft < (exercises[0]?.duration || currentWorkout?.exerciseDuration || 30)) {
-              const elapsedTime = (currentExerciseIndex * (currentWorkout?.exerciseDuration || 30 + currentWorkout?.breakDuration || 15)) + 
+              const elapsedTime = (currentExerciseIndex * (currentWorkout?.exerciseDuration || 30 + currentWorkout?.breakDuration || 15)) +
                                   ((currentWorkout?.exerciseDuration || 30) - timeLeft);
               const incompleteWorkout = {
                 id: Date.now(), // Use timestamp as ID for new records
@@ -287,6 +306,11 @@ export const WorkoutDetailScreen = () => {
           Skip
         </Button>
       </Box>
+      <ExerciseInfoDialog
+        exercise={currentExercise}
+        open={exerciseInfoOpen}
+        onClose={() => setExerciseInfoOpen(false)}
+      />
     </Container>
   );
 };

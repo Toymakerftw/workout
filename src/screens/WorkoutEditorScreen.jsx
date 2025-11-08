@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Container, 
-  Typography, 
-  TextField, 
-  Button, 
-  Card, 
-  CardContent, 
-  Box, 
-  FormControl, 
-  InputLabel, 
-  Select, 
-  MenuItem, 
+import {
+  Container,
+  Typography,
+  TextField,
+  Button,
+  Card,
+  CardContent,
+  Box,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
   IconButton,
   List,
   ListItem,
@@ -19,10 +19,11 @@ import {
   Divider,
   Fab
 } from '@mui/material';
-import { Add as AddIcon, Delete as DeleteIcon, Done as DoneIcon } from '@mui/icons-material';
+import { Add as AddIcon, Delete as DeleteIcon, Done as DoneIcon, Info as InfoIcon } from '@mui/icons-material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppContext } from '../context/AppContext';
 import ExercisePicker from '../components/ExercisePicker';
+import ExerciseInfoDialog from '../components/ExerciseInfoDialog';
 import { exercisesData } from '../utils/exerciseData';
 
 const WorkoutEditorScreen = () => {
@@ -30,7 +31,7 @@ const WorkoutEditorScreen = () => {
   const navigate = useNavigate();
   const { state, dispatch } = useAppContext();
   const isEditing = id !== undefined && id !== 'new';
-  
+
   const [workout, setWorkout] = useState({
     id: null,
     name: '',
@@ -40,8 +41,10 @@ const WorkoutEditorScreen = () => {
     exerciseDuration: 30,
     breakDuration: 15
   });
-  
+
   const [showExercisePicker, setShowExercisePicker] = useState(false);
+  const [selectedExercise, setSelectedExercise] = useState(null);
+  const [exerciseInfoOpen, setExerciseInfoOpen] = useState(false);
 
   useEffect(() => {
     if (isEditing) {
@@ -66,12 +69,12 @@ const WorkoutEditorScreen = () => {
       alert('Please enter a workout name');
       return;
     }
-    
+
     if (workout.exercises.length === 0) {
       alert('Please add at least one exercise');
       return;
     }
-    
+
     const totalDuration = workout.exercises.reduce((total, exercise, index) => {
       // Add exercise duration
       const exerciseTime = exercise.duration || workout.exerciseDuration;
@@ -79,7 +82,7 @@ const WorkoutEditorScreen = () => {
       const breakTime = index < workout.exercises.length - 1 ? workout.breakDuration : 0;
       return total + exerciseTime + breakTime;
     }, 0);
-    
+
     const workoutPayload = {
       ...workout,
       id: isEditing ? parseInt(id) : (state.workouts.length > 0 ? Math.max(...state.workouts.map(w => w.id)) : 0) + 1,
@@ -89,16 +92,16 @@ const WorkoutEditorScreen = () => {
       exerciseDuration: workout.exerciseDuration,
       breakDuration: workout.breakDuration
     };
-    
+
     // Ensure the ID is valid for editing
     if (isEditing && (isNaN(parseInt(id)) || parseInt(id) <= 0)) {
       console.error('Invalid workout ID for editing:', id);
       alert('Invalid workout ID. Cannot edit this workout.');
       return;
     }
-    
-    console.log('About to dispatch action', { 
-      actionType: isEditing ? 'UPDATE_WORKOUT' : 'CREATE_WORKOUT', 
+
+    console.log('About to dispatch action', {
+      actionType: isEditing ? 'UPDATE_WORKOUT' : 'CREATE_WORKOUT',
       payload: workoutPayload,
       stateWorkouts: state.workouts
     });
@@ -108,7 +111,7 @@ const WorkoutEditorScreen = () => {
     } else {
       dispatch({ type: 'CREATE_WORKOUT', payload: workoutPayload });
     }
-    
+
     console.log('Dispatch completed, navigating to /workouts');
     navigate('/workouts');
   };
@@ -133,7 +136,7 @@ const WorkoutEditorScreen = () => {
   const handleExerciseChange = (index, field, value) => {
     setWorkout(prev => ({
       ...prev,
-      exercises: prev.exercises.map((ex, i) => 
+      exercises: prev.exercises.map((ex, i) =>
         i === index ? { ...ex, [field]: value } : ex
       )
     }));
@@ -149,14 +152,19 @@ const WorkoutEditorScreen = () => {
     }));
   };
 
+  const handleShowExerciseInfo = (exercise) => {
+    setSelectedExercise(exercise);
+    setExerciseInfoOpen(true);
+  };
+
   return (
     <Container maxWidth="md" sx={{ py: 3 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Typography variant="h4" component="h1">
           {isEditing ? 'Edit Workout' : 'Create Workout'}
         </Typography>
-        <Button 
-          variant="contained" 
+        <Button
+          variant="contained"
           startIcon={<DoneIcon />}
           onClick={handleSave}
           color="primary"
@@ -203,8 +211,8 @@ const WorkoutEditorScreen = () => {
         <CardContent>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
             <Typography variant="h6">Exercises</Typography>
-            <Button 
-              variant="outlined" 
+            <Button
+              variant="outlined"
               startIcon={<AddIcon />}
               onClick={() => setShowExercisePicker(!showExercisePicker)}
             >
@@ -250,9 +258,17 @@ const WorkoutEditorScreen = () => {
                       }
                     />
                     <ListItemSecondaryAction>
-                      <IconButton 
-                        edge="end" 
-                        aria-label="delete" 
+                      <IconButton
+                        edge="end"
+                        aria-label="info"
+                        onClick={() => handleShowExerciseInfo(exercise)}
+                        sx={{ mr: 1 }}
+                      >
+                        <InfoIcon />
+                      </IconButton>
+                      <IconButton
+                        edge="end"
+                        aria-label="delete"
                         onClick={() => handleRemoveExercise(index)}
                         color="error"
                       >
@@ -281,9 +297,9 @@ const WorkoutEditorScreen = () => {
               label="Exercise Duration (seconds)"
               type="number"
               value={workout.exerciseDuration}
-              onChange={(e) => setWorkout(prev => ({ 
-                ...prev, 
-                exerciseDuration: parseInt(e.target.value) || 30 
+              onChange={(e) => setWorkout(prev => ({
+                ...prev,
+                exerciseDuration: parseInt(e.target.value) || 30
               }))}
               inputProps={{ min: 1 }}
               fullWidth
@@ -292,9 +308,9 @@ const WorkoutEditorScreen = () => {
               label="Break Duration (seconds)"
               type="number"
               value={workout.breakDuration}
-              onChange={(e) => setWorkout(prev => ({ 
-                ...prev, 
-                breakDuration: parseInt(e.target.value) || 15 
+              onChange={(e) => setWorkout(prev => ({
+                ...prev,
+                breakDuration: parseInt(e.target.value) || 15
               }))}
               inputProps={{ min: 0 }}
               fullWidth
@@ -312,6 +328,12 @@ const WorkoutEditorScreen = () => {
         <DoneIcon sx={{ mr: 1 }} />
         Save Workout
       </Fab>
+      
+      <ExerciseInfoDialog
+        exercise={selectedExercise}
+        open={exerciseInfoOpen}
+        onClose={() => setExerciseInfoOpen(false)}
+      />
     </Container>
   );
 };
