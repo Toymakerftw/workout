@@ -107,7 +107,14 @@ const AppContext = createContext();
 
 // Create the provider component
 export const AppProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(appReducer, initialState);
+  const [state, dispatch] = useReducer(appReducer, initialState, () => {
+    const localData = localStorage.getItem('feeel-app-state');
+    return localData ? JSON.parse(localData) : initialState;
+  });
+
+  React.useEffect(() => {
+    localStorage.setItem('feeel-app-state', JSON.stringify(state));
+  }, [state]);
 
   // Apply dark mode to document
   React.useEffect(() => {
