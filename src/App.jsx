@@ -19,6 +19,7 @@ const App = () => {
             <Route path="/workouts" element={<WorkoutListScreen />} />
             <Route path="/workouts/:id" element={<WorkoutDetailScreen />} />
             <Route path="/workouts/edit/:id" element={<WorkoutEditorScreen />} />
+            <Route path="/workout/edit/new" element={<WorkoutEditorScreen />} />
             <Route path="/workouts/new" element={<WorkoutEditorScreen />} />
             <Route path="/workouts/generate" element={<CustomWorkoutScreen />} />
             <Route path="/activity" element={<ActivityScreen />} />

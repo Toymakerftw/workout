@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { useAppContext } from '../context/AppContext';
 import ExercisePicker from '../components/ExercisePicker';
 import ExerciseInfoDialog from '../components/ExerciseInfoDialog';
@@ -8,6 +8,7 @@ import { exercisesData } from '../utils/exerciseData';
 const WorkoutEditorScreen = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const { state, dispatch } = useAppContext();
   const isEditing = id !== undefined && id !== 'new';
 
@@ -39,8 +40,19 @@ const WorkoutEditorScreen = () => {
           breakDuration: existingWorkout.breakDuration || 15
         });
       }
+    } else if (location.state && location.state.newWorkout) {
+      const { newWorkout } = location.state;
+      setWorkout({
+        id: null,
+        name: newWorkout.name,
+        description: newWorkout.description,
+        exercises: newWorkout.exercises,
+        category: newWorkout.category,
+        exerciseDuration: newWorkout.exerciseDuration,
+        breakDuration: newWorkout.breakDuration
+      });
     }
-  }, [id, isEditing, state.workouts]);
+  }, [id, isEditing, state.workouts, location.state]);
 
   const handleSave = () => {
     if (!workout.name.trim()) {
