@@ -49,14 +49,21 @@ const appReducer = (state, action) => {
         workouts: [...state.workouts, action.payload]
       };
     case 'CREATE_WORKOUT':
-      const newWorkout = {
-        ...action.payload,
-        id: Math.max(0, ...state.workouts.map(w => w.id)) + 1
-      };
-      return {
+      console.log('CREATE_WORKOUT action received:', action.payload);
+      // Use the ID from the payload if it exists, otherwise generate a new one
+      const newWorkout = action.payload.id 
+        ? action.payload 
+        : {
+            ...action.payload,
+            id: Math.max(0, ...state.workouts.map(w => w.id)) + 1
+          };
+      console.log('Creating new workout with ID:', newWorkout.id, 'Current workouts:', state.workouts);
+      const newState = {
         ...state,
         workouts: [...state.workouts, newWorkout]
       };
+      console.log('New state after CREATE_WORKOUT:', newState.workouts);
+      return newState;
     case 'ADD_WORKOUT_HISTORY':
       return {
         ...state,
@@ -75,11 +82,14 @@ const appReducer = (state, action) => {
         workoutHistory: []
       };
     case 'UPDATE_WORKOUT':
+      console.log('UPDATE_WORKOUT action received:', action.payload);
+      const updatedWorkouts = state.workouts.map(workout => 
+        workout.id === action.payload.id ? { ...workout, ...action.payload } : workout
+      );
+      console.log('New state after UPDATE_WORKOUT:', updatedWorkouts);
       return {
         ...state,
-        workouts: state.workouts.map(workout => 
-          workout.id === action.payload.id ? { ...workout, ...action.payload } : workout
-        )
+        workouts: updatedWorkouts
       };
     case 'DELETE_WORKOUT':
       return {

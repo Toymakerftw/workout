@@ -23,12 +23,13 @@ import { Add as AddIcon, Delete as DeleteIcon, Done as DoneIcon } from '@mui/ico
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppContext } from '../context/AppContext';
 import ExercisePicker from '../components/ExercisePicker';
+import { exercisesData } from '../utils/exerciseData';
 
 const WorkoutEditorScreen = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { state, dispatch } = useAppContext();
-  const isEditing = id !== 'new';
+  const isEditing = id !== undefined && id !== 'new';
   
   const [workout, setWorkout] = useState({
     id: null,
@@ -51,7 +52,7 @@ const WorkoutEditorScreen = () => {
           id: existingWorkout.id,
           name: existingWorkout.name,
           description: existingWorkout.description || '',
-          exercises: [],
+          exercises: existingWorkout.exercises_list || [], // Use exercises_list if available, otherwise empty array
           category: existingWorkout.category || 'strength',
           exerciseDuration: existingWorkout.exerciseDuration || 30,
           breakDuration: existingWorkout.breakDuration || 15
@@ -71,13 +72,17 @@ const WorkoutEditorScreen = () => {
       return;
     }
     
-    const totalDuration = workout.exercises.reduce((total, exercise) => {
-      return total + (exercise.duration || workout.exerciseDuration) + workout.breakDuration;
+    const totalDuration = workout.exercises.reduce((total, exercise, index) => {
+      // Add exercise duration
+      const exerciseTime = exercise.duration || workout.exerciseDuration;
+      // Add break duration only if it's not the last exercise
+      const breakTime = index < workout.exercises.length - 1 ? workout.breakDuration : 0;
+      return total + exerciseTime + breakTime;
     }, 0);
     
     const workoutPayload = {
       ...workout,
-      id: isEditing ? parseInt(id) : Math.max(...state.workouts.map(w => w.id), 0) + 1,
+      id: isEditing ? parseInt(id) : (state.workouts.length > 0 ? Math.max(...state.workouts.map(w => w.id)) : 0) + 1,
       exercises: workout.exercises.length,
       duration: `${Math.round(totalDuration / 60)} min`,
       exercises_list: workout.exercises,  // Save the actual exercise list
@@ -85,12 +90,26 @@ const WorkoutEditorScreen = () => {
       breakDuration: workout.breakDuration
     };
     
+    // Ensure the ID is valid for editing
+    if (isEditing && (isNaN(parseInt(id)) || parseInt(id) <= 0)) {
+      console.error('Invalid workout ID for editing:', id);
+      alert('Invalid workout ID. Cannot edit this workout.');
+      return;
+    }
+    
+    console.log('About to dispatch action', { 
+      actionType: isEditing ? 'UPDATE_WORKOUT' : 'CREATE_WORKOUT', 
+      payload: workoutPayload,
+      stateWorkouts: state.workouts
+    });
+
     if (isEditing) {
       dispatch({ type: 'UPDATE_WORKOUT', payload: workoutPayload });
     } else {
       dispatch({ type: 'CREATE_WORKOUT', payload: workoutPayload });
     }
     
+    console.log('Dispatch completed, navigating to /workouts');
     navigate('/workouts');
   };
 

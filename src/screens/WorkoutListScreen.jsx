@@ -7,6 +7,9 @@ import { useAppContext } from '../context/AppContext';
 const WorkoutListScreen = () => {
   const { state } = useAppContext();
   const navigate = useNavigate();
+  
+  // Log workouts to help debug
+  console.log('WorkoutListScreen render - current workouts:', state.workouts);
 
   const handleCreateNewWorkout = () => {
     navigate('/workouts/new');
@@ -22,7 +25,7 @@ const WorkoutListScreen = () => {
           <ListItem key={workout.id} divider>
             <ListItemText
               primary={workout.name}
-              secondary={`${workout.exercises} exercises • ${workout.duration} • ${workout.description}`}
+              secondary={`${workout.exercises || 0} exercises • ${workout.duration || '0 min'} • ${workout.description || ''}`}
             />
             <ListItemSecondaryAction>
               <IconButton 
