@@ -4,7 +4,7 @@ import { useAppContext } from '../context/AppContext';
 import WorkoutCard from '../components/WorkoutCard';
 
 const WorkoutListScreen = () => {
-  const { state } = useAppContext();
+  const { state, dispatch } = useAppContext();
   const navigate = useNavigate();
 
   const handleCreateNewWorkout = () => {
@@ -13,6 +13,12 @@ const WorkoutListScreen = () => {
 
   const handleEditWorkout = (workoutId) => {
     navigate(`/workouts/edit/${workoutId}`);
+  };
+
+  const handleDeleteWorkout = (workoutId) => {
+    if (window.confirm('Are you sure you want to delete this workout? This action cannot be undone.')) {
+      dispatch({ type: 'DELETE_WORKOUT', payload: workoutId });
+    }
   };
 
   return (
@@ -36,6 +42,7 @@ const WorkoutListScreen = () => {
                 key={workout.id}
                 workout={workout}
                 onEdit={handleEditWorkout}
+                onDelete={handleDeleteWorkout}
               />
             ))}
           </div>
