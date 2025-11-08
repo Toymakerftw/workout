@@ -53,3 +53,24 @@ The React Compiler is not enabled on this template because of its impact on dev 
 ## Expanding the ESLint configuration
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+## PWA Installation
+
+This app is a Progressive Web App (PWA) and can be installed on your device:
+
+- **On mobile**: Tap the install button in your browser (Chrome, Safari, etc.) when visiting the site
+- **On desktop**: Most modern browsers offer an install option in the address bar or menu
+
+## Deployment to Vercel
+
+This app is configured for easy deployment to Vercel:
+
+1. Push your code to a GitHub repository
+2. Connect your repository to [Vercel](https://vercel.com)
+3. Vercel will automatically detect the project and deploy it
+4. Your PWA will be available with all features intact
+
+The project includes:
+- `vercel.json` for proper routing
+- PWA manifest and service worker generated during build
+- Proper caching strategies for offline functionality
