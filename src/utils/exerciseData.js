@@ -167,6 +167,350 @@ export const exercisesData = {
     category: 'stretch',
     muscles: ['hips', 'thighs', 'ankles'],
     image: 'childsPose' // matches the original file name
+  },
+  'wall-sit': {
+    id: 22,
+    name: 'Wall Sit',
+    description: 'Sit against a wall to strengthen your thighs',
+    category: 'strength',
+    muscles: ['quadriceps', 'glutes', 'hamstrings'],
+    image: 'wallSit' // matches the original file name
+  },
+  'ab-crunches': {
+    id: 23,
+    name: 'Ab Crunches',
+    description: 'Classic abdominal crunches to strengthen your core',
+    category: 'strength',
+    muscles: ['abs', 'core'],
+    image: 'abCrunches' // matches the original file name
+  },
+  'step-ups': {
+    id: 24,
+    name: 'Step-ups',
+    description: 'Step up and down on a platform to work your legs',
+    category: 'strength',
+    muscles: ['quadriceps', 'glutes', 'hamstrings'],
+    image: 'stepUps' // matches the original file name
+  },
+  'side-plank-left': {
+    id: 25,
+    name: 'Side Plank Left',
+    description: 'Hold a side plank position on your left side',
+    category: 'strength',
+    muscles: ['obliques', 'core', 'shoulders'],
+    image: 'sidePlank' // matches the original file name
+  },
+  'side-plank-right': {
+    id: 26,
+    name: 'Side Plank Right',
+    description: 'Hold a side plank position on your right side',
+    category: 'strength',
+    muscles: ['obliques', 'core', 'shoulders'],
+    image: 'sidePlank' // matches the original file name
+  },
+  'side-split-squats-left': {
+    id: 27,
+    name: 'Side Split Squats Left',
+    description: 'Squat to the side while keeping the other leg extended',
+    category: 'strength',
+    muscles: ['quadriceps', 'glutes', 'adductors'],
+    image: 'sideSplitSquats' // matches the original file name
+  },
+  'side-split-squats-right': {
+    id: 28,
+    name: 'Side Split Squats Right',
+    description: 'Squat to the side while keeping the other leg extended',
+    category: 'strength',
+    muscles: ['quadriceps', 'glutes', 'adductors'],
+    image: 'sideSplitSquats' // matches the original file name
+  },
+  'bulgarian-split-squats-left': {
+    id: 29,
+    name: 'Bulgarian Split Squats Left',
+    description: 'Single leg squat with rear foot elevated',
+    category: 'strength',
+    muscles: ['quadriceps', 'glutes', 'hamstrings'],
+    image: 'bulgarianSplitSquats' // matches the original file name
+  },
+  'bulgarian-split-squats-right': {
+    id: 30,
+    name: 'Bulgarian Split Squats Right',
+    description: 'Single leg squat with rear foot elevated',
+    category: 'strength',
+    muscles: ['quadriceps', 'glutes', 'hamstrings'],
+    image: 'bulgarianSplitSquats' // matches the original file name
+  },
+  'pistol-squats-left': {
+    id: 31,
+    name: 'Pistol Squats Left',
+    description: 'Single leg squat on one leg while extending the other',
+    category: 'strength',
+    muscles: ['quadriceps', 'glutes', 'hamstrings', 'calves'],
+    image: 'pistolSquats' // matches the original file name
+  },
+  'pistol-squats-right': {
+    id: 32,
+    name: 'Pistol Squats Right',
+    description: 'Single leg squat on one leg while extending the other',
+    category: 'strength',
+    muscles: ['quadriceps', 'glutes', 'hamstrings', 'calves'],
+    image: 'pistolSquats' // matches the original file name
+  },
+  'calf-raises-left': {
+    id: 33,
+    name: 'Calf Raises Left',
+    description: 'Raise up on your left toes to work your calf muscles',
+    category: 'strength',
+    muscles: ['calves'],
+    image: 'singleLegCalfRaises' // matches the original file name
+  },
+  'calf-raises-right': {
+    id: 34,
+    name: 'Calf Raises Right',
+    description: 'Raise up on your right toes to work your calf muscles',
+    category: 'strength',
+    muscles: ['calves'],
+    image: 'singleLegCalfRaises' // matches the original file name
+  },
+  'split-squats-left': {
+    id: 35,
+    name: 'Split Squats Left',
+    description: 'Split stance squat focusing on one leg at a time',
+    category: 'strength',
+    muscles: ['quadriceps', 'glutes', 'hamstrings'],
+    image: 'splitSquats' // matches the original file name
+  },
+  'split-squats-right': {
+    id: 36,
+    name: 'Split Squats Right',
+    description: 'Split stance squat focusing on one leg at a time',
+    category: 'strength',
+    muscles: ['quadriceps', 'glutes', 'hamstrings'],
+    image: 'splitSquats' // matches the original file name
+  },
+  'arm-circles-backward': {
+    id: 37,
+    name: 'Arm Circles Backward',
+    description: 'Rotate arms backward for shoulder mobility',
+    category: 'stretch',
+    muscles: ['shoulders', 'upper back'],
+    image: 'armCirclesBW' // matches the original file name
+  },
+  'pike-pushups': {
+    id: 38,
+    name: 'Pike Pushups',
+    description: 'Incline pushups with hips raised to target shoulders',
+    category: 'strength',
+    muscles: ['shoulders', 'triceps', 'upper chest'],
+    image: 'pikePushUps' // matches the original file name
+  },
+  'no-pushup-burpee': {
+    id: 39,
+    name: 'No Push-up Burpees',
+    description: 'Burpees without the push-up for easier alternative',
+    category: 'cardio',
+    muscles: ['full body'],
+    image: 'noPushUpBurpees' // matches the original file name
+  },
+  'squat-thrusts': {
+    id: 40,
+    name: 'Squat Thrusts',
+    description: 'Squat down and jump up, similar to burpees without push-up',
+    category: 'cardio',
+    muscles: ['full body'],
+    image: 'squatThrusts' // matches the original file name
+  },
+  'reverse-lunges': {
+    id: 41,
+    name: 'Reverse Lunges',
+    description: 'Lunges stepping backward instead of forward',
+    category: 'strength',
+    muscles: ['quadriceps', 'glutes', 'hamstrings'],
+    image: 'reverseLunges' // matches the original file name
+  },
+  'high-plank': {
+    id: 42,
+    name: 'High Plank',
+    description: 'Standard plank position on hands instead of forearms',
+    category: 'strength',
+    muscles: ['core', 'shoulders', 'back'],
+    image: 'highPlank' // matches the original file name
+  },
+  'pull-up': {
+    id: 43,
+    name: 'Pull-up',
+    description: 'Pull yourself up on a bar to strengthen back and arms',
+    category: 'strength',
+    muscles: ['latissimus dorsi', 'biceps', 'rhomboids'],
+    image: 'pullUps' // matches the original file name
+  },
+  'kettlebell-deadlift': {
+    id: 44,
+    name: 'Kettlebell Deadlift',
+    description: 'Lift kettlebell from ground with proper deadlift form',
+    category: 'strength',
+    muscles: ['hamstrings', 'glutes', 'erector spinae', 'trapezius'],
+    image: 'kettlebellDeadlift' // matches the original file name
+  },
+  'sumo-squat': {
+    id: 45,
+    name: 'Sumo Squat',
+    description: 'Wide stance squat with toes pointed outward',
+    category: 'strength',
+    muscles: ['quadriceps', 'glutes', 'adductors'],
+    image: 'sumoSquats' // matches the original file name
+  },
+  'shoulder-rotation-forward': {
+    id: 46,
+    name: 'Shoulder Rotation Forward',
+    description: 'Circle shoulders forward to improve mobility',
+    category: 'stretch',
+    muscles: ['shoulders', 'upper back'],
+    image: 'shoulderRotationFW' // matches the original file name
+  },
+  'shoulder-rotation-backward': {
+    id: 47,
+    name: 'Shoulder Rotation Backward',
+    description: 'Circle shoulders backward to improve mobility',
+    category: 'stretch',
+    muscles: ['shoulders', 'upper back'],
+    image: 'shoulderRotationBW' // matches the original file name
+  },
+  'chin-tuck': {
+    id: 48,
+    name: 'Chin Tuck',
+    description: 'Bring chin toward chest to stretch neck and improve posture',
+    category: 'stretch',
+    muscles: ['neck', 'suboccipital muscles'],
+    image: 'chinTuck' // matches the original file name
+  },
+  'back-neck-stretch': {
+    id: 49,
+    name: 'Back Neck Stretch',
+    description: 'Stretch the back of your neck and upper back muscles',
+    category: 'stretch',
+    muscles: ['neck', 'upper back'],
+    image: 'backNeckStretch' // matches the original file name
+  },
+  'lateral-neck-stretch-left': {
+    id: 50,
+    name: 'Lateral Neck Stretch Left',
+    description: 'Tilt head to the left to stretch the right side of the neck',
+    category: 'stretch',
+    muscles: ['neck', 'levator scapulae'],
+    image: 'lateralNeckStretch' // matches the original file name
+  },
+  'lateral-neck-stretch-right': {
+    id: 51,
+    name: 'Lateral Neck Stretch Right',
+    description: 'Tilt head to the right to stretch the left side of the neck',
+    category: 'stretch',
+    muscles: ['neck', 'levator scapulae'],
+    image: 'lateralNeckStretch' // matches the original file name
+  },
+  'front-neck-stretch': {
+    id: 52,
+    name: 'Front Neck Stretch',
+    description: 'Stretches the front of the neck and throat muscles',
+    category: 'stretch',
+    muscles: ['neck', 'sternocleidomastoid'],
+    image: 'frontNeckStretch' // matches the original file name
+  },
+  'alternating-bicep-curls': {
+    id: 53,
+    name: 'Alternating Bicep Curls',
+    description: 'Curl each arm alternately to work the bicep muscles',
+    category: 'strength',
+    muscles: ['biceps', 'forearms'],
+    image: 'alternatingBicepCurls' // matches the original file name
+  },
+  'levator-scapulae-stretch-left': {
+    id: 54,
+    name: 'Levator Scapulae Stretch Left',
+    description: 'Stretches the muscles between neck and shoulder blade',
+    category: 'stretch',
+    muscles: ['levator scapulae'],
+    image: 'levatorScapulaeStretch' // matches the original file name
+  },
+  'levator-scapulae-stretch-right': {
+    id: 55,
+    name: 'Levator Scapulae Stretch Right',
+    description: 'Stretches the muscles between neck and shoulder blade',
+    category: 'stretch',
+    muscles: ['levator scapulae'],
+    image: 'levatorScapulaeStretch' // matches the original file name
+  },
+  'neck-circles-clockwise': {
+    id: 56,
+    name: 'Neck Circles Clockwise',
+    description: 'Gentle neck rotations in a clockwise direction',
+    category: 'stretch',
+    muscles: ['neck', 'upper back'],
+    image: 'neckCirclesCW' // matches the original file name
+  },
+  'neck-circles-counterclockwise': {
+    id: 57,
+    name: 'Neck Circles Counterclockwise',
+    description: 'Gentle neck rotations in a counterclockwise direction',
+    category: 'stretch',
+    muscles: ['neck', 'upper back'],
+    image: 'neckCirclesCCW' // matches the original file name
+  },
+  'neck-half-circles': {
+    id: 58,
+    name: 'Neck Half Circles',
+    description: 'Gentle neck movement from shoulder to shoulder',
+    category: 'stretch',
+    muscles: ['neck', 'upper back'],
+    image: 'neckHalfCircles' // matches the original file name
+  },
+  'head-tilts': {
+    id: 59,
+    name: 'Head Tilts',
+    description: 'Gentle head tilting movements for neck mobility',
+    category: 'stretch',
+    muscles: ['neck', 'upper back'],
+    image: 'headTilts' // matches the original file name
+  },
+  'quadruped-thoracic-rotation-left': {
+    id: 60,
+    name: 'Quadruped Thoracic Rotation Left',
+    description: 'Rotation exercise on all fours to improve spine mobility',
+    category: 'stretch',
+    muscles: ['thoracic spine', 'core'],
+    image: 'quadrupedThoracicRotation' // matches the original file name
+  },
+  'quadruped-thoracic-rotation-right': {
+    id: 61,
+    name: 'Quadruped Thoracic Rotation Right',
+    description: 'Rotation exercise on all fours to improve spine mobility',
+    category: 'stretch',
+    muscles: ['thoracic spine', 'core'],
+    image: 'quadrupedThoracicRotation' // matches the original file name
+  },
+  'shoulder-dislocates': {
+    id: 62,
+    name: 'Shoulder Dislocates',
+    description: 'Movement to improve shoulder mobility and flexibility',
+    category: 'stretch',
+    muscles: ['shoulders', 'upper back'],
+    image: 'shoulderDislocates' // matches the original file name
+  },
+  'bent-over-row-to-external-rotation': {
+    id: 63,
+    name: 'Bent Over Row to External Rotation',
+    description: 'Compound movement for back and shoulder strengthening',
+    category: 'strength',
+    muscles: ['rhomboids', 'middle trapezius', 'posterior deltoids'],
+    image: 'bentOverRowToExternalRotation' // matches the original file name
+  },
+  'ywts': {
+    id: 64,
+    name: 'YWTs',
+    description: 'Exercise forming Y, W, and T shapes to strengthen shoulders',
+    category: 'strength',
+    muscles: ['posterior deltoids', 'rhomboids', 'middle trapezius'],
+    image: 'YWTs' // matches the original file name
   }
 };
 
@@ -178,6 +522,8 @@ export const workoutExercises = {
     { ...exercisesData.plank, duration: 30 },
     { ...exercisesData.lunge, duration: 30 },
     { ...exercisesData['jumping-jack'], duration: 30 },
+    { ...exercisesData['wall-sit'], duration: 30 },
+    { ...exercisesData['ab-crunches'], duration: 30 }
   ],
   2: [
     { ...exercisesData['jumping-jack'], duration: 30 },
@@ -188,6 +534,8 @@ export const workoutExercises = {
     { ...exercisesData.rest, duration: 30 },
     { ...exercisesData['high-knees'], duration: 30 },
     { ...exercisesData.burpee, duration: 45 },
+    { ...exercisesData['no-pushup-burpee'], duration: 45 },
+    { ...exercisesData['squat-thrusts'], duration: 45 }
   ],
   3: [
     { ...exercisesData.pushup, duration: 45 },
@@ -199,7 +547,9 @@ export const workoutExercises = {
     { ...exercisesData['glute-bridge'], duration: 45 },
     { ...exercisesData['tricep-dip'], duration: 45 },
     { ...exercisesData['leg-raise'], duration: 45 },
-    { ...exercisesData.rest, duration: 60 },
+    { ...exercisesData['pike-pushups'], duration: 45 },
+    { ...exercisesData['step-ups'], duration: 45 },
+    { ...exercisesData.rest, duration: 60 }
   ],
   4: [
     { ...exercisesData['neck-turns'], duration: 15 },
@@ -208,5 +558,46 @@ export const workoutExercises = {
     { ...exercisesData['side-bends'], duration: 15 },
     { ...exercisesData['calf-stretches'], duration: 15 },
     { ...exercisesData['childs-pose'], duration: 30 },
+    { ...exercisesData['shoulder-rotation-forward'], duration: 15 },
+    { ...exercisesData['shoulder-rotation-backward'], duration: 15 },
+    { ...exercisesData['chin-tuck'], duration: 15 },
+    { ...exercisesData['head-tilts'], duration: 15 },
+    { ...exercisesData['back-neck-stretch'], duration: 30 }
   ],
+  5: [
+    { ...exercisesData['ab-crunches'], duration: 30 },
+    { ...exercisesData['reverse-lunges'], duration: 30 },
+    { ...exercisesData['sumo-squat'], duration: 30 },
+    { ...exercisesData['calf-raises-left'], duration: 30 },
+    { ...exercisesData['calf-raises-right'], duration: 30 },
+    { ...exercisesData['split-squats-left'], duration: 30 },
+    { ...exercisesData['split-squats-right'], duration: 30 },
+    { ...exercisesData['pistol-squats-left'], duration: 20 },
+    { ...exercisesData['pistol-squats-right'], duration: 20 },
+    { ...exercisesData.rest, duration: 45 }
+  ],
+  6: [
+    { ...exercisesData['side-plank-left'], duration: 20 },
+    { ...exercisesData['side-plank-right'], duration: 20 },
+    { ...exercisesData['lateral-neck-stretch-left'], duration: 15 },
+    { ...exercisesData['lateral-neck-stretch-right'], duration: 15 },
+    { ...exercisesData['levator-scapulae-stretch-left'], duration: 20 },
+    { ...exercisesData['levator-scapulae-stretch-right'], duration: 20 },
+    { ...exercisesData['neck-circles-clockwise'], duration: 15 },
+    { ...exercisesData['neck-circles-counterclockwise'], duration: 15 },
+    { ...exercisesData['quadruped-thoracic-rotation-left'], duration: 20 },
+    { ...exercisesData['quadruped-thoracic-rotation-right'], duration: 20 },
+    { ...exercisesData['arm-circles-backward'], duration: 15 },
+    { ...exercisesData.rest, duration: 30 }
+  ],
+  7: [
+    { ...exercisesData['pull-up'], duration: 15 },
+    { ...exercisesData['kettlebell-deadlift'], duration: 30 },
+    { ...exercisesData['alternating-bicep-curls'], duration: 30 },
+    { ...exercisesData['ywts'], duration: 20 },
+    { ...exercisesData['bent-over-row-to-external-rotation'], duration: 20 },
+    { ...exercisesData['shoulder-dislocates'], duration: 20 },
+    { ...exercisesData['high-plank'], duration: 30 },
+    { ...exercisesData.rest, duration: 45 }
+  ]
 };
