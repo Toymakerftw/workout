@@ -1,43 +1,39 @@
+import { exercisesData } from './exerciseData';
+
 export const generateCustomWorkout = async (apiKey, userData) => {
   const { height, weight, aim, additionalNotes } = userData;
   
+  const availableExercises = Object.values(exercisesData).map(e => ({
+    name: e.name,
+    description: e.description,
+    category: e.category,
+    muscles: e.muscles
+  }));
+
   const prompt = `
-    Create a personalized workout plan based on the following information:
-    
+    You are a fitness assistant. Create a personalized workout plan based on the user's information and the provided list of available exercises.
+
+    User Information:
     - Height: ${height} cm
     - Weight: ${weight} kg
     - Goal/Aim: ${aim}
     ${additionalNotes ? `- Additional notes: ${additionalNotes}` : ''}
-    
-    The workout should be safe, effective, and appropriate for the user's physical characteristics.
-    Include:
-    1. A workout name and brief description
-    2. A list of exercises with:
-       - Exercise name
-       - Sets and reps/recommendations
-       - Brief description of how to perform the exercise
-       - Difficulty level
-    3. Estimated duration of the workout
-    4. Number of exercises
-    5. Any safety recommendations
-    
-    Please format the response as JSON with the following structure:
+
+    Available Exercises (choose from this list only):
+    ${JSON.stringify(availableExercises, null, 2)}
+
+    Please generate a workout plan and respond with a valid JSON object. The JSON object should have the following structure:
     {
-      "name": "Workout name",
-      "description": "Brief description",
-      "duration": "e.g., '20-30 min'",
+      "name": "Workout name (e.g., 'Full Body Strength')",
+      "description": "A brief, encouraging description of the workout's purpose.",
       "exercises": [
         {
-          "name": "Exercise name",
-          "sets": "e.g., '3 sets of 10 reps'",
-          "description": "How to perform the exercise",
-          "difficulty": "beginner/intermediate/advanced"
+          "name": "Exercise name from the provided list"
         }
-      ],
-      "safetyRecommendations": ["List of safety recommendations"]
+      ]
     }
-    
-    Make sure the response is valid JSON.
+
+    Only include exercises from the provided list. Do not invent new exercises.
   `;
 
   try {
@@ -53,10 +49,15 @@ export const generateCustomWorkout = async (apiKey, userData) => {
         model: 'x-ai/grok-4-fast',
         messages: [
           {
+            role: 'system',
+            content: 'You are a helpful fitness assistant that creates personalized workout plans based on user data and a specific list of available exercises. You must only use exercises from the provided list and respond in valid JSON format.'
+          },
+          {
             role: 'user',
             content: prompt
           }
         ],
+        response_format: { type: 'json_object' },
         temperature: 0.7,
         max_tokens: 2000
       })
@@ -70,12 +71,8 @@ export const generateCustomWorkout = async (apiKey, userData) => {
     const data = await response.json();
     const responseContent = data.choices[0]?.message?.content;
 
-    // Extract JSON from the response (in case it's wrapped in markdown code blocks)
-    const jsonMatch = responseContent.match(/```json\n?([\s\S]*?)\n?```|```([\s\S]*?)```|({[\s\S]*})/);
-    const jsonString = jsonMatch ? (jsonMatch[1] || jsonMatch[2] || jsonMatch[3]) : responseContent;
-
     try {
-      return JSON.parse(jsonString);
+      return JSON.parse(responseContent);
     } catch (parseError) {
       console.error('Error parsing JSON from API response:', parseError);
       console.log('Raw response:', responseContent);
