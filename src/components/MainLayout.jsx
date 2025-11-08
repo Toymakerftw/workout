@@ -9,6 +9,8 @@ const MainLayout = ({ children }) => {
   useEffect(() => {
     if (location.pathname === '/workouts' || location.pathname.startsWith('/workouts/')) {
       setActiveTab('workouts');
+    } else if (location.pathname === '/workouts/generate') {
+      setActiveTab('generate');
     } else if (location.pathname === '/activity') {
       setActiveTab('activity');
     } else if (location.pathname === '/settings') {
@@ -54,6 +56,31 @@ const MainLayout = ({ children }) => {
               />
             </svg>
             <span className="text-xs font-medium">Workouts</span>
+          </button>
+
+          <button
+            onClick={() => handleNavigation('/workouts/generate', 'generate')}
+            className={`flex flex-col items-center justify-center flex-1 h-full transition-colors ${
+              activeTab === 'generate'
+                ? 'text-primary-600 dark:text-primary-400'
+                : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
+            }`}
+            aria-label="Custom Workout"
+          >
+            <svg
+              className="w-6 h-6 mb-1"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M13 10V3L4 14h7v7l9-11h-7z"
+              />
+            </svg>
+            <span className="text-xs font-medium">Custom</span>
           </button>
 
           <button
@@ -140,6 +167,30 @@ const MainLayout = ({ children }) => {
               />
             </svg>
             <span className="font-medium">Workouts</span>
+          </button>
+
+          <button
+            onClick={() => handleNavigation('/workouts/generate', 'generate')}
+            className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
+              activeTab === 'generate'
+                ? 'bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300'
+                : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+            }`}
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M13 10V3L4 14h7v7l9-11h-7z"
+              />
+            </svg>
+            <span className="font-medium">Custom Workout</span>
           </button>
 
           <button

@@ -20,7 +20,8 @@ const initialState = {
     darkMode: false,
     remindersEnabled: true,
     language: 'en',
-    personalizedColors: false
+    personalizedColors: false,
+    openRouterApiKey: ''
   }
 };
 
