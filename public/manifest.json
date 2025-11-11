@@ -1,24 +1,19 @@
 {
-  "name": "Feeel Web - Home Workout App",
-  "short_name": "Feeel",
-  "description": "A simple home workout app that respects your privacy",
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#1976d2",
-  "orientation": "portrait",
+  "name": "Chapter Two - Home Workout App",
+  "short_name": "Chapter Two",
   "icons": [
     {
-      "src": "/android-chrome-192x192.svg",
+      "src": "/android-chrome-192x192.png",
       "sizes": "192x192",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "type": "image/png"
     },
     {
-      "src": "/android-chrome-512x512.svg",
+      "src": "/android-chrome-512x512.png",
       "sizes": "512x512",
-      "type": "image/svg+xml",
-      "purpose": "any"
+      "type": "image/png"
     }
-  ]
+  ],
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "display": "standalone"
 }

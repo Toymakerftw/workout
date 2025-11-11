@@ -1,4 +1,4 @@
-# Feeel Web
+# Chapter Two
 
 A simple home workout app that respects your privacy. This web version mirrors the functionality of the Android app with the following features:
 

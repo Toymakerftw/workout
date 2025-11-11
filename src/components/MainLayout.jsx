@@ -170,7 +170,7 @@ const MainLayout = ({ children }) => {
 
       {/* Sidebar Navigation - Desktop */}
       <aside className="hidden md:flex fixed left-0 top-0 bottom-0 w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex-col p-4">
-        <h1 className="text-2xl font-bold text-primary-600 dark:text-primary-400 mb-8">Feeel</h1>
+        <h1 className="text-2xl font-bold text-primary-600 dark:text-primary-400 mb-8">Chapter Two</h1>
         <nav className="flex flex-col space-y-2">
           <button
             onClick={() => handleNavigation('/workouts', 'workouts')}

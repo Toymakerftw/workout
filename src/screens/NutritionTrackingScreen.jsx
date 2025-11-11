@@ -16,8 +16,8 @@ const NutritionTrackingScreen = () => {
 
   // Load nutrition data from localStorage
   useEffect(() => {
-    const storedMeals = localStorage.getItem('feeel_nutrition_meals');
-    const storedGoal = localStorage.getItem('feeel_daily_calorie_goal');
+    const storedMeals = localStorage.getItem('chapter-two_nutrition_meals');
+    const storedGoal = localStorage.getItem('chapter-two_daily_calorie_goal');
     
     if (storedMeals) {
       setMeals(JSON.parse(storedMeals));
@@ -33,7 +33,7 @@ const NutritionTrackingScreen = () => {
   // Save meals to localStorage whenever meals change
   useEffect(() => {
     if (!loading) {
-      localStorage.setItem('feeel_nutrition_meals', JSON.stringify(meals));
+      localStorage.setItem('chapter-two_nutrition_meals', JSON.stringify(meals));
     }
   }, [meals, loading]);
 

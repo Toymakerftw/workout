@@ -1,4 +1,4 @@
-// Exercise data for the Feeel Web app
+// Exercise data for the Chapter Two app
 export const exercisesData = {
   pushup: {
     id: 1,

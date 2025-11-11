@@ -1,4 +1,4 @@
-const CACHE_NAME = 'feeel-web-v1';
+const CACHE_NAME = 'chapter-two-v1';
 const urlsToCache = [
   '/',
   '/index.html',

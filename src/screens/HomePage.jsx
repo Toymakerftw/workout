@@ -54,7 +54,7 @@ const HomePage = () => {
       <Route path="/" element={<HomePageWithRoutes />}>
         <Route index element={
           <div style={{ padding: '20px' }}>
-            <h2>Welcome to Feeel Web</h2>
+            <h2>Welcome to Chapter Two</h2>
             <p>Select a tab below to get started</p>
           </div>
         } />

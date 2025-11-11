@@ -207,7 +207,7 @@ export const SettingsScreen = () => {
         </h2>
         <div className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
           <p>
-            <strong>Feeel Web</strong> v1.0.0
+            <strong>Chapter Two</strong> v1.0.0
           </p>
           <p>
             A simple home workout app that respects your privacy

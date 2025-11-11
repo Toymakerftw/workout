@@ -1,31 +1,21 @@
-# PWA Icon Setup Instructions
+To complete the PWA setup for Chapter Two, you need to create proper PNG icon files:
 
-To complete the PWA setup for Feeel Web, you need to create proper PNG icon files:
+This can be done with a command line tool like `pwa-asset-generator`.
 
-## Required Steps:
+1. Install `pwa-asset-generator` globally: `npm i -g pwa-asset-generator`
+2. Save it as `src/assets/icon.png`
+3. Run the following command from the root of the project:
 
-1. Create a square icon image (recommended 512x512 pixels) with your app's logo
-2. Save it as `src/assets/feeel-icon.png`
+`pwa-asset-generator src/assets/icon.png public/ -i index.html -m manifest.json`
 
-## Icon Specifications:
-- Format: PNG
-- Size: At least 192x192 pixels (512x512 recommended)
-- Shape: Square
-- Background: Preferably with transparency or a solid background that matches your theme
+This will generate all the necessary icon sizes and update your `index.html` and `manifest.json` files.
 
-## Example Creation Process:
-You can use an online tool or image editor to create the icon:
+### Manual method (if you prefer)
 
-1. Open your preferred image editor
-2. Create a new 512x512 pixel canvas
-3. Add your logo or design
-4. Export as PNG format
-5. Save as `src/assets/feeel-icon.png`
-
-## Alternative Online Tools:
-- Figma
-- Canva
-- Photopea (free)
-- RealFaviconGenerator
-
-After creating the icon file, the Vite PWA plugin will automatically generate all necessary icon sizes during the build process.
+1. Create a 512x512px icon for your app.
+2. Save as `src/assets/icon.png`
+3. Use an online generator or a tool of your choice to generate the following sizes:
+   - 192x192
+   - 512x512
+4. Name them `android-chrome-192x192.png` and `android-chrome-512x512.png` and place them in the `public/` folder.
+5. Update your `vite.config.js` and `manifest.json` to ensure the paths are correct.
