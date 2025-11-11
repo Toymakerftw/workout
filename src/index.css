@@ -89,6 +89,15 @@
   background: #4b5563;
 }
 
+.react-calendar__navigation__label {
+  font-weight: 600;
+}
+
+.dark .react-calendar__navigation__label {
+  color: #f9fafb !important;
+  background-color: transparent !important;
+}
+
 .react-calendar__month-view__weekdays {
   color: #374151;
   font-weight: 600;
