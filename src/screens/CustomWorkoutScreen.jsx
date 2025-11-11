@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAppContext } from '../context/AppContext';
-import { generateCustomWorkout } from '../utils/openRouter';
+import { generateCustomWorkout } from '../utils/geminiApi';
 import { useNavigate } from 'react-router-dom';
 import { exercisesData } from '../utils/exerciseData';
 
@@ -39,8 +39,8 @@ export const CustomWorkoutScreen = () => {
       setError('Please enter your workout aim/target');
       return false;
     }
-    if (!state.settings.openRouterApiKey) {
-      setError('Please set your OpenRouter API key in Settings first');
+    if (!state.settings.geminiApiKey) {
+      setError('Please set your Gemini API key in Settings first');
       navigate('/settings');
       return false;
     }
@@ -58,7 +58,7 @@ export const CustomWorkoutScreen = () => {
     setError('');
     
     try {
-      const workoutData = await generateCustomWorkout(state.settings.openRouterApiKey, formData);
+      const workoutData = await generateCustomWorkout(state.settings.geminiApiKey, formData);
       
       const exercisesArray = Object.values(exercisesData);
       const mappedExercises = workoutData.exercises.map(aiExercise => {
@@ -193,7 +193,7 @@ export const CustomWorkoutScreen = () => {
         </button>
 
         <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
-          Your data is processed securely through OpenRouter's API. We don't store your information.
+          Your data is processed securely through Google Gemini's API. We don't store your information.
         </p>
       </form>
     </div>

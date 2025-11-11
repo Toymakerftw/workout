@@ -29,10 +29,10 @@ export const SettingsScreen = () => {
     });
   };
 
-  const handleOpenRouterApiKeyChange = (event) => {
+  const handleGeminiApiKeyChange = (event) => {
     dispatch({
       type: 'UPDATE_SETTING',
-      payload: { key: 'openRouterApiKey', value: event.target.value }
+      payload: { key: 'geminiApiKey', value: event.target.value }
     });
   };
 
@@ -171,28 +171,28 @@ export const SettingsScreen = () => {
           AI Integration
         </h2>
         <div className="space-y-4">
-          {/* OpenRouter API Key Input */}
+          {/* Gemini API Key Input */}
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              OpenRouter API Key
+              Gemini API Key
             </label>
             <input
               type="password"
               className="input-field w-full"
-              placeholder="Enter your OpenRouter API key"
-              value={state.settings.openRouterApiKey}
-              onChange={handleOpenRouterApiKeyChange}
+              placeholder="Enter your Gemini API key"
+              value={state.settings.geminiApiKey}
+              onChange={handleGeminiApiKeyChange}
               autoComplete="off"
             />
             <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
               Get your API key from{' '}
               <a 
-                href="https://openrouter.ai/keys" 
+                href="https://makersuite.google.com/app/apikey" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-primary-600 hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-300"
               >
-                OpenRouter
+                Google AI Studio
               </a>{' '}
               to use AI-powered workout generation.
             </p>

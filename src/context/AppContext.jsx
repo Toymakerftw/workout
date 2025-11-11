@@ -21,7 +21,7 @@ const initialState = {
     remindersEnabled: true,
     language: 'en',
     personalizedColors: false,
-    openRouterApiKey: ''
+    geminiApiKey: ''
   }
 };
 
