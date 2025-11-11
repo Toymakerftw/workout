@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useAppContext } from '../context/AppContext';
 
 const NutritionTrackingScreen = () => {
   const { state } = useAppContext(); // eslint-disable-line no-unused-vars
-  const [view, setView] = useState('dashboard'); // dashboard, history, camera
+  const [showHistory, setShowHistory] = useState(false);
   const [meals, setMeals] = useState([]);
   const [dailyGoal, setDailyGoal] = useState(2000); // default calories goal
   const [loading, setLoading] = useState(true);
@@ -12,6 +12,7 @@ const NutritionTrackingScreen = () => {
   const [capturedImage, setCapturedImage] = useState(null);
   const [analyzing, setAnalyzing] = useState(false);
   const [analysisResult, setAnalysisResult] = useState(null);
+  const fileInputRef = useRef(null);
 
   // Load nutrition data from localStorage
   useEffect(() => {
@@ -61,10 +62,12 @@ const NutritionTrackingScreen = () => {
   const analyzeFoodImage = async (base64Image) => {
     if (!state.settings.geminiApiKey) {
       alert('Please set your Gemini API key in Settings first');
+      setCapturedImage(null);
       return;
     }
 
     setAnalyzing(true);
+    setAnalysisResult(null);
     
     try {
       // Remove data URL prefix to get just the base64 string
@@ -125,6 +128,7 @@ const NutritionTrackingScreen = () => {
       console.error('Error analyzing food image:', error);
       alert('Error analyzing food image. Please try again.');
       setAnalysisResult(null);
+      setCapturedImage(null); // Close modal on error
     } finally {
       setAnalyzing(false);
     }
@@ -140,14 +144,23 @@ const NutritionTrackingScreen = () => {
     };
     
     setMeals(prev => [newMeal, ...prev]);
-    setAnalysisResult(null);
-    setCapturedImage(null);
+    closeModal();
   };
 
   // Delete a meal
   const deleteMeal = (mealId) => {
     setMeals(prev => prev.filter(meal => meal.id !== mealId));
   };
+  
+  const closeModal = () => {
+    setCapturedImage(null);
+    setAnalysisResult(null);
+    setAnalyzing(false);
+    // Reset file input
+    if(fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  }
 
   // Dashboard View
   const DashboardView = () => (
@@ -209,10 +222,10 @@ const NutritionTrackingScreen = () => {
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Today's Meals</h2>
           <button 
-            onClick={() => setView('camera')}
+            onClick={() => fileInputRef.current && fileInputRef.current.click()}
             className="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg text-sm font-medium"
           >
-            + Camera
+            + Log Food
           </button>
         </div>
 
@@ -220,7 +233,7 @@ const NutritionTrackingScreen = () => {
           <div className="text-center py-8 text-gray-500 dark:text-gray-400">
             <p>No meals logged today.</p>
             <button 
-              onClick={() => setView('camera')}
+              onClick={() => fileInputRef.current && fileInputRef.current.click()}
               className="mt-2 text-primary-600 hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-300"
             >
               Take a picture of your meal
@@ -247,6 +260,14 @@ const NutritionTrackingScreen = () => {
           </div>
         )}
       </div>
+      <div className="text-center">
+        <button 
+          onClick={() => setShowHistory(true)}
+          className="text-primary-600 hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-300"
+        >
+          View Nutrition History
+        </button>
+      </div>
     </div>
   );
 
@@ -267,7 +288,7 @@ const NutritionTrackingScreen = () => {
       <div className="w-full space-y-6">
         <div className="mb-6">
           <button 
-            onClick={() => setView('dashboard')}
+            onClick={() => setShowHistory(false)}
             className="flex items-center text-primary-600 hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-300 mb-4"
           >
             ← Back to Dashboard
@@ -312,150 +333,101 @@ const NutritionTrackingScreen = () => {
     );
   };
 
-  // Camera View
-  const CameraView = () => {
-    return (
-      <div className="w-full max-w-md mx-auto space-y-6">
-        <div className="mb-6">
-          <button 
-            onClick={() => {
-              setView('dashboard');
-              setCapturedImage(null);
-              setAnalysisResult(null);
-            }}
-            className="flex items-center text-primary-600 hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-300 mb-4"
-          >
-            ← Back to Dashboard
-          </button>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-            Food Scanner
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            Take a picture of your food to analyze nutrition
-          </p>
-        </div>
+  // Analysis Modal
+  const AnalysisModal = () => {
+    if (!capturedImage) return null;
 
-        <div className="card">
-          {!capturedImage ? (
-            <div className="text-center py-12">
-              <div className="mx-auto bg-gray-100 dark:bg-gray-700 rounded-full p-6 w-24 h-24 flex items-center justify-center mb-6">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+    const handleRetake = () => {
+      closeModal();
+      setTimeout(() => {
+        fileInputRef.current && fileInputRef.current.click();
+      }, 100);
+    }
+
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto">
+          <div className="p-6 space-y-6">
+            <div className="flex justify-between items-center">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Food Analysis</h2>
+              <button onClick={closeModal} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
+              </button>
+            </div>
+
+            {analyzing ? (
+              <div className="py-12 text-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-6"></div>
+                <p className="text-gray-600 dark:text-gray-400">Analyzing your food...</p>
+                <p className="text-sm text-gray-500 dark:text-gray-500">This may take a moment.</p>
               </div>
-              
-              <p className="text-gray-600 dark:text-gray-400 mb-6">
-                Capture a clear image of your food
-              </p>
-              
-              <label className="bg-primary-600 hover:bg-primary-700 text-white font-medium py-3 px-6 rounded-lg cursor-pointer transition-colors">
-                Take Photo
-                <input
-                  type="file"
-                  accept="image/*"
-                  capture="environment"
-                  className="hidden"
-                  onChange={handleImageUpload}
-                />
-              </label>
-            </div>
-          ) : (
-            <div className="text-center">
-              {analyzing ? (
-                <div className="py-12">
-                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-6"></div>
-                  <p className="text-gray-600 dark:text-gray-400">Analyzing your food...</p>
+            ) : analysisResult ? (
+              <div className="space-y-6">
+                <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-2">
+                  <img 
+                    src={capturedImage} 
+                    alt="Captured food" 
+                    className="max-h-60 w-full object-contain rounded-md mx-auto"
+                  />
                 </div>
-              ) : analysisResult ? (
-                <div className="space-y-6">
-                  <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-2 mx-2">
-                    <img 
-                      src={capturedImage} 
-                      alt="Captured food" 
-                      className="max-h-64 w-full object-contain rounded-md mx-auto"
-                    />
-                  </div>
-                  
-                  <div className="text-left">
-                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Analysis Result</h3>
-                    
-                    <div className="space-y-3">
-                      <div>
-                        <span className="text-sm text-gray-500 dark:text-gray-400">Food Name</span>
-                        <div className="font-medium text-gray-900 dark:text-white">{analysisResult.foodName}</div>
-                      </div>
-                      
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="text-center bg-blue-50 dark:bg-blue-900/30 p-3 rounded-lg">
-                          <div className="text-lg font-bold text-blue-600 dark:text-blue-300">{analysisResult.calories || 0}</div>
-                          <div className="text-xs text-blue-500 dark:text-blue-400">Calories</div>
-                        </div>
-                        <div className="text-center bg-orange-50 dark:bg-orange-900/30 p-3 rounded-lg">
-                          <div className="text-lg font-bold text-orange-600 dark:text-orange-300">{analysisResult.protein || 0}g</div>
-                          <div className="text-xs text-orange-500 dark:text-orange-400">Protein</div>
-                        </div>
-                      </div>
-                      
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="text-center bg-green-50 dark:bg-green-900/30 p-3 rounded-lg">
-                          <div className="text-lg font-bold text-green-600 dark:text-green-300">{analysisResult.carbs || 0}g</div>
-                          <div className="text-xs text-green-500 dark:text-green-400">Carbs</div>
-                        </div>
-                        <div className="text-center bg-red-50 dark:bg-red-900/30 p-3 rounded-lg">
-                          <div className="text-lg font-bold text-red-600 dark:text-red-300">{analysisResult.fat || 0}g</div>
-                          <div className="text-xs text-red-500 dark:text-red-400">Fat</div>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className="flex space-x-3 pt-4">
-                      <button
-                        onClick={() => {
-                          setCapturedImage(null);
-                          setAnalysisResult(null);
-                        }}
-                        className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-lg transition-colors"
-                      >
-                        Retake
-                      </button>
-                      <button
-                        onClick={() => addMeal(analysisResult)}
-                        className="flex-1 bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
-                      >
-                        Save Meal
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div className="space-y-6">
-                  <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-2 mx-2">
-                    <img 
-                      src={capturedImage} 
-                      alt="Captured food" 
-                      className="max-h-64 w-full object-contain rounded-md mx-auto"
-                    />
-                  </div>
-                  
+                
+                <div className="text-left">
                   <div className="space-y-4">
+                    <div>
+                      <span className="text-sm text-gray-500 dark:text-gray-400">Food Name</span>
+                      <div className="font-semibold text-lg text-gray-900 dark:text-white">{analysisResult.foodName}</div>
+                    </div>
+                    
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="text-center bg-blue-50 dark:bg-blue-900/30 p-3 rounded-lg">
+                        <div className="text-xl font-bold text-blue-600 dark:text-blue-300">{analysisResult.calories || 0}</div>
+                        <div className="text-xs text-blue-500 dark:text-blue-400">Calories</div>
+                      </div>
+                      <div className="text-center bg-orange-50 dark:bg-orange-900/30 p-3 rounded-lg">
+                        <div className="text-xl font-bold text-orange-600 dark:text-orange-300">{analysisResult.protein || 0}g</div>
+                        <div className="text-xs text-orange-500 dark:text-orange-400">Protein</div>
+                      </div>
+                      <div className="text-center bg-green-50 dark:bg-green-900/30 p-3 rounded-lg">
+                        <div className="text-xl font-bold text-green-600 dark:text-green-300">{analysisResult.carbs || 0}g</div>
+                        <div className="text-xs text-green-500 dark:text-green-400">Carbs</div>
+                      </div>
+                      <div className="text-center bg-red-50 dark:bg-red-900/30 p-3 rounded-lg">
+                        <div className="text-xl font-bold text-red-600 dark:text-red-300">{analysisResult.fat || 0}g</div>
+                        <div className="text-xs text-red-500 dark:text-red-400">Fat</div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex space-x-3 pt-4">
                     <button
-                      onClick={() => analyzeFoodImage(capturedImage)}
-                      className="w-full bg-primary-600 hover:bg-primary-700 text-white font-medium py-3 px-4 rounded-lg transition-colors"
+                      onClick={handleRetake}
+                      className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-3 px-4 rounded-lg transition-colors"
                     >
-                      Analyze Food
+                      Retake
                     </button>
                     <button
-                      onClick={() => setCapturedImage(null)}
-                      className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-3 px-4 rounded-lg transition-colors"
+                      onClick={() => addMeal(analysisResult)}
+                      className="flex-1 bg-primary-600 hover:bg-primary-700 text-white font-medium py-3 px-4 rounded-lg transition-colors"
                     >
-                      Retake Photo
+                      Save Meal
                     </button>
                   </div>
                 </div>
-              )}
-            </div>
-          )}
+              </div>
+            ) : (
+              <div className="py-12 text-center">
+                <p className="text-gray-600 dark:text-gray-400 mb-4">Could not analyze the image.</p>
+                <button
+                  onClick={handleRetake}
+                  className="bg-primary-600 hover:bg-primary-700 text-white font-medium py-3 px-6 rounded-lg transition-colors"
+                >
+                  Try Again
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     );
@@ -471,9 +443,18 @@ const NutritionTrackingScreen = () => {
 
   return (
     <div className="w-full">
-      {view === 'dashboard' && <DashboardView />}
-      {view === 'history' && <HistoryView />}
-      {view === 'camera' && <CameraView />}
+      <input
+        type="file"
+        accept="image/*"
+        capture="environment"
+        className="hidden"
+        onChange={handleImageUpload}
+        ref={fileInputRef}
+      />
+      
+      {showHistory ? <HistoryView /> : <DashboardView />}
+      
+      <AnalysisModal />
     </div>
   );
 };
