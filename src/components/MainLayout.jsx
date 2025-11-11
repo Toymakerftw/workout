@@ -13,6 +13,8 @@ const MainLayout = ({ children }) => {
       setActiveTab('generate');
     } else if (location.pathname === '/activity') {
       setActiveTab('activity');
+    } else if (location.pathname === '/nutrition') {
+      setActiveTab('nutrition');
     } else if (location.pathname === '/settings') {
       setActiveTab('settings');
     }
@@ -106,6 +108,31 @@ const MainLayout = ({ children }) => {
               />
             </svg>
             <span className="text-xs font-medium">Activity</span>
+          </button>
+
+          <button
+            onClick={() => handleNavigation('/nutrition', 'nutrition')}
+            className={`flex flex-col items-center justify-center flex-1 h-full transition-colors ${
+              activeTab === 'nutrition'
+                ? 'text-primary-600 dark:text-primary-400'
+                : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
+            }`}
+            aria-label="Nutrition"
+          >
+            <svg
+              className="w-6 h-6 mb-1"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth={2} 
+                d="M12 6v6m0 0v6m0-6h6m-6 0H6" 
+              />
+            </svg>
+            <span className="text-xs font-medium">Nutrition</span>
           </button>
 
           <button
@@ -215,6 +242,30 @@ const MainLayout = ({ children }) => {
               />
             </svg>
             <span className="font-medium">Activity</span>
+          </button>
+
+          <button
+            onClick={() => handleNavigation('/nutrition', 'nutrition')}
+            className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
+              activeTab === 'nutrition'
+                ? 'bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300'
+                : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+            }`}
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth={2} 
+                d="M12 6v6m0 0v6m0-6h6m-6 0H6" 
+              />
+            </svg>
+            <span className="font-medium">Nutrition</span>
           </button>
 
           <button

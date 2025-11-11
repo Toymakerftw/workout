@@ -8,6 +8,7 @@ import { WorkoutDetailScreen } from './screens/WorkoutDetailScreen';
 import MainLayout from './components/MainLayout';
 import WorkoutEditorScreen from './screens/WorkoutEditorScreen';
 import CustomWorkoutScreen from './screens/CustomWorkoutScreen';
+import NutritionTrackingScreen from './screens/NutritionTrackingScreen';
 import { Howler } from 'howler';
 
 const App = () => {
@@ -39,6 +40,7 @@ const App = () => {
             <Route path="/workouts/new" element={<WorkoutEditorScreen />} />
             <Route path="/workouts/generate" element={<CustomWorkoutScreen />} />
             <Route path="/activity" element={<ActivityScreen />} />
+            <Route path="/nutrition" element={<NutritionTrackingScreen />} />
             <Route path="/settings" element={<SettingsScreen />} />
           </Routes>
         </MainLayout>
