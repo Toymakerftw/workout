@@ -7,10 +7,10 @@ const MainLayout = ({ children }) => {
   const [activeTab, setActiveTab] = useState('workouts');
 
   useEffect(() => {
-    if (location.pathname === '/workouts' || location.pathname.startsWith('/workouts/')) {
-      setActiveTab('workouts');
-    } else if (location.pathname === '/workouts/generate') {
+    if (location.pathname === '/workouts/generate') {
       setActiveTab('generate');
+    } else if (location.pathname === '/workouts' || location.pathname.startsWith('/workouts/')) {
+      setActiveTab('workouts');
     } else if (location.pathname === '/activity') {
       setActiveTab('activity');
     } else if (location.pathname === '/nutrition') {
