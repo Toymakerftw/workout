@@ -514,90 +514,176 @@ export const exercisesData = {
   }
 };
 
-// Workout exercises mapping
+// Workout exercises mapping - Normalized
+
 export const workoutExercises = {
+
   1: [
-    { ...exercisesData.pushup, duration: 30 },
-    { ...exercisesData.squat, duration: 30 },
-    { ...exercisesData.plank, duration: 30 },
-    { ...exercisesData.lunge, duration: 30 },
-    { ...exercisesData['jumping-jack'], duration: 30 },
-    { ...exercisesData['wall-sit'], duration: 30 },
-    { ...exercisesData['ab-crunches'], duration: 30 }
+
+    { exerciseId: 'pushup', duration: 30 },
+
+    { exerciseId: 'squat', duration: 30 },
+
+    { exerciseId: 'plank', duration: 30 },
+
+    { exerciseId: 'lunge', duration: 30 },
+
+    { exerciseId: 'jumping-jack', duration: 30 },
+
+    { exerciseId: 'wall-sit', duration: 30 },
+
+    { exerciseId: 'ab-crunches', duration: 30 }
+
   ],
+
   2: [
-    { ...exercisesData['jumping-jack'], duration: 30 },
-    { ...exercisesData['high-knees'], duration: 30 },
-    { ...exercisesData.burpee, duration: 45 },
-    { ...exercisesData['mountain-climber'], duration: 30 },
-    { ...exercisesData['jump-rope'], duration: 45 },
-    { ...exercisesData.rest, duration: 30 },
-    { ...exercisesData['high-knees'], duration: 30 },
-    { ...exercisesData.burpee, duration: 45 },
-    { ...exercisesData['no-pushup-burpee'], duration: 45 },
-    { ...exercisesData['squat-thrusts'], duration: 45 }
+
+    { exerciseId: 'jumping-jack', duration: 30 },
+
+    { exerciseId: 'high-knees', duration: 30 },
+
+    { exerciseId: 'burpee', duration: 45 },
+
+    { exerciseId: 'mountain-climber', duration: 30 },
+
+    { exerciseId: 'jump-rope', duration: 45 },
+
+    { exerciseId: 'rest', duration: 30 },
+
+    { exerciseId: 'high-knees', duration: 30 },
+
+    { exerciseId: 'burpee', duration: 45 },
+
+    { exerciseId: 'no-pushup-burpee', duration: 45 },
+
+    { exerciseId: 'squat-thrusts', duration: 45 }
+
   ],
+
   3: [
-    { ...exercisesData.pushup, duration: 45 },
-    { ...exercisesData.squat, duration: 45 },
-    { ...exercisesData['chair-dips'], duration: 45 },
-    { ...exercisesData.lunge, duration: 45 },
-    { ...exercisesData.plank, duration: 60 },
-    { ...exercisesData['pushup-rotation'], duration: 45 },
-    { ...exercisesData['glute-bridge'], duration: 45 },
-    { ...exercisesData['tricep-dip'], duration: 45 },
-    { ...exercisesData['leg-raise'], duration: 45 },
-    { ...exercisesData['pike-pushups'], duration: 45 },
-    { ...exercisesData['step-ups'], duration: 45 },
-    { ...exercisesData.rest, duration: 60 }
+
+    { exerciseId: 'pushup', duration: 45 },
+
+    { exerciseId: 'squat', duration: 45 },
+
+    { exerciseId: 'chair-dips', duration: 45 },
+
+    { exerciseId: 'lunge', duration: 45 },
+
+    { exerciseId: 'plank', duration: 60 },
+
+    { exerciseId: 'pushup-rotation', duration: 45 },
+
+    { exerciseId: 'glute-bridge', duration: 45 },
+
+    { exerciseId: 'tricep-dip', duration: 45 },
+
+    { exerciseId: 'leg-raise', duration: 45 },
+
+    { exerciseId: 'pike-pushups', duration: 45 },
+
+    { exerciseId: 'step-ups', duration: 45 },
+
+    { exerciseId: 'rest', duration: 60 }
+
   ],
+
   4: [
-    { ...exercisesData['neck-turns'], duration: 15 },
-    { ...exercisesData['shoulder-shrugs'], duration: 15 },
-    { ...exercisesData['arm-circles'], duration: 15 },
-    { ...exercisesData['side-bends'], duration: 15 },
-    { ...exercisesData['calf-stretches'], duration: 15 },
-    { ...exercisesData['childs-pose'], duration: 30 },
-    { ...exercisesData['shoulder-rotation-forward'], duration: 15 },
-    { ...exercisesData['shoulder-rotation-backward'], duration: 15 },
-    { ...exercisesData['chin-tuck'], duration: 15 },
-    { ...exercisesData['head-tilts'], duration: 15 },
-    { ...exercisesData['back-neck-stretch'], duration: 30 }
+
+    { exerciseId: 'neck-turns', duration: 15 },
+
+    { exerciseId: 'shoulder-shrugs', duration: 15 },
+
+    { exerciseId: 'arm-circles', duration: 15 },
+
+    { exerciseId: 'side-bends', duration: 15 },
+
+    { exerciseId: 'calf-stretches', duration: 15 },
+
+    { exerciseId: 'childs-pose', duration: 30 },
+
+    { exerciseId: 'shoulder-rotation-forward', duration: 15 },
+
+    { exerciseId: 'shoulder-rotation-backward', duration: 15 },
+
+    { exerciseId: 'chin-tuck', duration: 15 },
+
+    { exerciseId: 'head-tilts', duration: 15 },
+
+    { exerciseId: 'back-neck-stretch', duration: 30 }
+
   ],
+
   5: [
-    { ...exercisesData['ab-crunches'], duration: 30 },
-    { ...exercisesData['reverse-lunges'], duration: 30 },
-    { ...exercisesData['sumo-squat'], duration: 30 },
-    { ...exercisesData['calf-raises-left'], duration: 30 },
-    { ...exercisesData['calf-raises-right'], duration: 30 },
-    { ...exercisesData['split-squats-left'], duration: 30 },
-    { ...exercisesData['split-squats-right'], duration: 30 },
-    { ...exercisesData['pistol-squats-left'], duration: 20 },
-    { ...exercisesData['pistol-squats-right'], duration: 20 },
-    { ...exercisesData.rest, duration: 45 }
+
+    { exerciseId: 'ab-crunches', duration: 30 },
+
+    { exerciseId: 'reverse-lunges', duration: 30 },
+
+    { exerciseId: 'sumo-squat', duration: 30 },
+
+    { exerciseId: 'calf-raises-left', duration: 30 },
+
+    { exerciseId: 'calf-raises-right', duration: 30 },
+
+    { exerciseId: 'split-squats-left', duration: 30 },
+
+    { exerciseId: 'split-squats-right', duration: 30 },
+
+    { exerciseId: 'pistol-squats-left', duration: 20 },
+
+    { exerciseId: 'pistol-squats-right', duration: 20 },
+
+    { exerciseId: 'rest', duration: 45 }
+
   ],
+
   6: [
-    { ...exercisesData['side-plank-left'], duration: 20 },
-    { ...exercisesData['side-plank-right'], duration: 20 },
-    { ...exercisesData['lateral-neck-stretch-left'], duration: 15 },
-    { ...exercisesData['lateral-neck-stretch-right'], duration: 15 },
-    { ...exercisesData['levator-scapulae-stretch-left'], duration: 20 },
-    { ...exercisesData['levator-scapulae-stretch-right'], duration: 20 },
-    { ...exercisesData['neck-circles-clockwise'], duration: 15 },
-    { ...exercisesData['neck-circles-counterclockwise'], duration: 15 },
-    { ...exercisesData['quadruped-thoracic-rotation-left'], duration: 20 },
-    { ...exercisesData['quadruped-thoracic-rotation-right'], duration: 20 },
-    { ...exercisesData['arm-circles-backward'], duration: 15 },
-    { ...exercisesData.rest, duration: 30 }
+
+    { exerciseId: 'side-plank-left', duration: 20 },
+
+    { exerciseId: 'side-plank-right', duration: 20 },
+
+    { exerciseId: 'lateral-neck-stretch-left', duration: 15 },
+
+    { exerciseId: 'lateral-neck-stretch-right', duration: 15 },
+
+    { exerciseId: 'levator-scapulae-stretch-left', duration: 20 },
+
+    { exerciseId: 'levator-scapulae-stretch-right', duration: 20 },
+
+    { exerciseId: 'neck-circles-clockwise', duration: 15 },
+
+    { exerciseId: 'neck-circles-counterclockwise', duration: 15 },
+
+    { exerciseId: 'quadruped-thoracic-rotation-left', duration: 20 },
+
+    { exerciseId: 'quadruped-thoracic-rotation-right', duration: 20 },
+
+    { exerciseId: 'arm-circles-backward', duration: 15 },
+
+    { exerciseId: 'rest', duration: 30 }
+
   ],
+
   7: [
-    { ...exercisesData['pull-up'], duration: 15 },
-    { ...exercisesData['kettlebell-deadlift'], duration: 30 },
-    { ...exercisesData['alternating-bicep-curls'], duration: 30 },
-    { ...exercisesData['ywts'], duration: 20 },
-    { ...exercisesData['bent-over-row-to-external-rotation'], duration: 20 },
-    { ...exercisesData['shoulder-dislocates'], duration: 20 },
-    { ...exercisesData['high-plank'], duration: 30 },
-    { ...exercisesData.rest, duration: 45 }
+
+    { exerciseId: 'pull-up', duration: 15 },
+
+    { exerciseId: 'kettlebell-deadlift', duration: 30 },
+
+    { exerciseId: 'alternating-bicep-curls', duration: 30 },
+
+    { exerciseId: 'ywts', duration: 20 },
+
+    { exerciseId: 'bent-over-row-to-external-rotation', duration: 20 },
+
+    { exerciseId: 'shoulder-dislocates', duration: 20 },
+
+    { exerciseId: 'high-plank', duration: 30 },
+
+    { exerciseId: 'rest', duration: 45 }
+
   ]
+
 };

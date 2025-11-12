@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { workoutExercises } from '../utils/exerciseData';
+import { exercisesData, workoutExercises } from '../utils/exerciseData';
 import { useAppContext } from '../context/AppContext';
 import ExerciseInfoDialog from '../components/ExerciseInfoDialog';
 import { useSound } from '../hooks/useSound';
@@ -33,7 +33,11 @@ export const WorkoutDetailScreen = () => {
   if (currentWorkout && currentWorkout.exercises_list) {
     exercises = currentWorkout.exercises_list;
   } else {
-    exercises = workoutExercises[id] || [];
+    const exerciseList = workoutExercises[id] || [];
+    exercises = exerciseList.map(ex => ({
+      ...exercisesData[ex.exerciseId],
+      duration: ex.duration
+    }));
   }
 
   const currentExercise = exercises[currentExerciseIndex];

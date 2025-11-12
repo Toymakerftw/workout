@@ -1,0 +1,1582 @@
+diff --git a/package-lock.json b/package-lock.json
+index f0e97a7..19ffef9 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -8,15 +8,10 @@
+       "name": "chapter-two",
+       "version": "0.0.0",
+       "dependencies": {
+-        "@emotion/react": "^11.14.0",
+-        "@emotion/styled": "^11.14.1",
+         "@mui/icons-material": "^7.3.5",
+         "@mui/lab": "^7.0.1-beta.19",
+-        "@mui/material": "^7.3.5",
+-        "bootstrap": "^5.3.8",
+         "howler": "^2.2.4",
+         "react": "^19.1.1",
+-        "react-bootstrap": "^2.10.10",
+         "react-calendar": "^6.0.0",
+         "react-dom": "^19.1.1",
+         "react-router-dom": "^7.9.5"
+@@ -54,6 +49,7 @@
+       "version": "7.27.1",
+       "resolved": "https://registry.npmjs.org/@babel/code-frame/-/code-frame-7.27.1.tgz",
+       "integrity": "sha512-cjQ7ZlQ0Mv3b47hABuTevyTuYN4i+loJKGeV9flcCgIK37cCXRh+L1bd3iBHlynerhQ7BhCkn2BPbQUL+rGqFg==",
++      "devOptional": true,
+       "license": "MIT",
+       "dependencies": {
+         "@babel/helper-validator-identifier": "^7.27.1",
+@@ -109,6 +105,7 @@
+       "version": "7.28.5",
+       "resolved": "https://registry.npmjs.org/@babel/generator/-/generator-7.28.5.tgz",
+       "integrity": "sha512-3EwLFhZ38J4VyIP6WNtt2kUdW9dokXA9Cr4IVIFHuCpZ3H8/YFOl5JjZHisrn1fATPBmKKqXzDFvh9fUwHz6CQ==",
++      "devOptional": true,
+       "license": "MIT",
+       "dependencies": {
+         "@babel/parser": "^7.28.5",
+@@ -212,6 +209,7 @@
+       "version": "7.28.0",
+       "resolved": "https://registry.npmjs.org/@babel/helper-globals/-/helper-globals-7.28.0.tgz",
+       "integrity": "sha512-+W6cISkXFa1jXsDEdYA8HeevQT/FULhxzR99pxphltZcVaugps53THCeiWA8SguxxpSp3gKPiuYfSWopkLQ4hw==",
++      "devOptional": true,
+       "license": "MIT",
+       "engines": {
+         "node": ">=6.9.0"
+@@ -235,6 +233,7 @@
+       "version": "7.27.1",
+       "resolved": "https://registry.npmjs.org/@babel/helper-module-imports/-/helper-module-imports-7.27.1.tgz",
+       "integrity": "sha512-0gSFWUPNXNopqtIPQvlD5WgXYI5GY2kP2cCvoT8kczjbfcfuIljTbcWrulD1CIPIX2gt1wghbDy08yE1p+/r3w==",
++      "devOptional": true,
+       "license": "MIT",
+       "dependencies": {
+         "@babel/traverse": "^7.27.1",
+@@ -339,6 +338,7 @@
+       "version": "7.27.1",
+       "resolved": "https://registry.npmjs.org/@babel/helper-string-parser/-/helper-string-parser-7.27.1.tgz",
+       "integrity": "sha512-qMlSxKbpRlAridDExk92nSobyDdpPijUq2DW6oDnUqd0iOGxmQjyqhMIihI9+zv4LPyZdRje2cavWPbCbWm3eA==",
++      "devOptional": true,
+       "license": "MIT",
+       "engines": {
+         "node": ">=6.9.0"
+@@ -348,6 +348,7 @@
+       "version": "7.28.5",
+       "resolved": "https://registry.npmjs.org/@babel/helper-validator-identifier/-/helper-validator-identifier-7.28.5.tgz",
+       "integrity": "sha512-qSs4ifwzKJSV39ucNjsvc6WVHs6b7S03sOh2OcHF9UHfVPqWWALUsNUVzhSBiItjRZoLHx7nIarVjqKVusUZ1Q==",
++      "devOptional": true,
+       "license": "MIT",
+       "engines": {
+         "node": ">=6.9.0"
+@@ -396,6 +397,7 @@
+       "version": "7.28.5",
+       "resolved": "https://registry.npmjs.org/@babel/parser/-/parser-7.28.5.tgz",
+       "integrity": "sha512-KKBU1VGYR7ORr3At5HAtUQ+TV3SzRCXmA/8OdDZiLDBIZxVyzXuztPjfLd3BV1PRAQGCMWWSHYhL0F8d5uHBDQ==",
++      "devOptional": true,
+       "license": "MIT",
+       "dependencies": {
+         "@babel/types": "^7.28.5"
+@@ -1554,6 +1556,7 @@
+       "version": "7.27.2",
+       "resolved": "https://registry.npmjs.org/@babel/template/-/template-7.27.2.tgz",
+       "integrity": "sha512-LPDZ85aEJyYSd18/DkjNh4/y1ntkE5KwUHWTiqgRxruuZL2F1yuHligVHLvcHY2vMHXttKFpJn6LwfI7cw7ODw==",
++      "devOptional": true,
+       "license": "MIT",
+       "dependencies": {
+         "@babel/code-frame": "^7.27.1",
+@@ -1568,6 +1571,7 @@
+       "version": "7.28.5",
+       "resolved": "https://registry.npmjs.org/@babel/traverse/-/traverse-7.28.5.tgz",
+       "integrity": "sha512-TCCj4t55U90khlYkVV/0TfkJkAkUg3jZFA3Neb7unZT8CPok7iiRfaX0F+WnqWqt7OxhOn0uBKXCw4lbL8W0aQ==",
++      "devOptional": true,
+       "license": "MIT",
+       "dependencies": {
+         "@babel/code-frame": "^7.27.1",
+@@ -1586,6 +1590,7 @@
+       "version": "7.28.5",
+       "resolved": "https://registry.npmjs.org/@babel/types/-/types-7.28.5.tgz",
+       "integrity": "sha512-qQ5m48eI/MFLQ5PxQj4PFaprjyCTLI37ElWMmNs0K8Lk3dVeOdNpB3ks8jc7yM5CDmVC73eMVk/trk3fgmrUpA==",
++      "devOptional": true,
+       "license": "MIT",
+       "dependencies": {
+         "@babel/helper-string-parser": "^7.27.1",
+@@ -1600,6 +1605,8 @@
+       "resolved": "https://registry.npmjs.org/@emotion/babel-plugin/-/babel-plugin-11.13.5.tgz",
+       "integrity": "sha512-pxHCpT2ex+0q+HH91/zsdHkw/lXd468DIN2zvfvLtPKLLMo6gQj7oLObq8PhkrxOZb/gGCq03S3Z7PDhS8pduQ==",
+       "license": "MIT",
++      "optional": true,
++      "peer": true,
+       "dependencies": {
+         "@babel/helper-module-imports": "^7.16.7",
+         "@babel/runtime": "^7.18.3",
+@@ -1618,7 +1625,9 @@
+       "version": "1.9.0",
+       "resolved": "https://registry.npmjs.org/convert-source-map/-/convert-source-map-1.9.0.tgz",
+       "integrity": "sha512-ASFBup0Mz1uyiIjANan1jzLQami9z1PoYSZCiiYW2FczPbenXc45FZdBZLzOT+r6+iciuEModtmCti+hjaAk0A==",
+-      "license": "MIT"
++      "license": "MIT",
++      "optional": true,
++      "peer": true
+     },
+     "node_modules/@emotion/cache": {
+       "version": "11.14.0",
+@@ -1644,6 +1653,8 @@
+       "resolved": "https://registry.npmjs.org/@emotion/is-prop-valid/-/is-prop-valid-1.4.0.tgz",
+       "integrity": "sha512-QgD4fyscGcbbKwJmqNvUMSE02OsHUa+lAWKdEUIJKgqe5IwRSKd7+KhibEWdaKwgjLj0DRSHA9biAIqGBk05lw==",
+       "license": "MIT",
++      "optional": true,
++      "peer": true,
+       "dependencies": {
+         "@emotion/memoize": "^0.9.0"
+       }
+@@ -1659,6 +1670,8 @@
+       "resolved": "https://registry.npmjs.org/@emotion/react/-/react-11.14.0.tgz",
+       "integrity": "sha512-O000MLDBDdk/EohJPFUqvnp4qnHeYkVP5B0xEG0D/L7cOKP9kefu2DXn8dj74cQfsEzUqh+sr1RzFqiL1o+PpA==",
+       "license": "MIT",
++      "optional": true,
++      "peer": true,
+       "dependencies": {
+         "@babel/runtime": "^7.18.3",
+         "@emotion/babel-plugin": "^11.13.5",
+@@ -1702,6 +1715,8 @@
+       "resolved": "https://registry.npmjs.org/@emotion/styled/-/styled-11.14.1.tgz",
+       "integrity": "sha512-qEEJt42DuToa3gurlH4Qqc1kVpNq8wO8cJtDzU46TjlzWjDlsVyevtYCRijVq3SrHsROS+gVQ8Fnea108GnKzw==",
+       "license": "MIT",
++      "optional": true,
++      "peer": true,
+       "dependencies": {
+         "@babel/runtime": "^7.18.3",
+         "@emotion/babel-plugin": "^11.13.5",
+@@ -1731,6 +1746,8 @@
+       "resolved": "https://registry.npmjs.org/@emotion/use-insertion-effect-with-fallbacks/-/use-insertion-effect-with-fallbacks-1.2.0.tgz",
+       "integrity": "sha512-yJMtVdH59sxi/aVJBpk9FQq+OR8ll5GT8oWd57UpeaKEVGab41JWaCFA7FRLoMLloOZF/c/wsPoe+bfGmRKgDg==",
+       "license": "MIT",
++      "optional": true,
++      "peer": true,
+       "peerDependencies": {
+         "react": ">=16.8.0"
+       }
+@@ -2420,6 +2437,7 @@
+       "version": "0.3.13",
+       "resolved": "https://registry.npmjs.org/@jridgewell/gen-mapping/-/gen-mapping-0.3.13.tgz",
+       "integrity": "sha512-2kkt/7niJ6MgEPxF0bYdQ6etZaA+fQvDcLKckhy1yIQOzaoKjBBjSj63/aLVjYE3qhRt5dvM+uUyfCg6UKCBbA==",
++      "devOptional": true,
+       "license": "MIT",
+       "dependencies": {
+         "@jridgewell/sourcemap-codec": "^1.5.0",
+@@ -2441,6 +2459,7 @@
+       "version": "3.1.2",
+       "resolved": "https://registry.npmjs.org/@jridgewell/resolve-uri/-/resolve-uri-3.1.2.tgz",
+       "integrity": "sha512-bRISgCIjP20/tbWSPWMEi54QVPRZExkuD9lJL+UIxUKtwVJA8wW1Trb1jMs1RFXo1CBTNZ/5hpC9QvmKWdopKw==",
++      "devOptional": true,
+       "license": "MIT",
+       "engines": {
+         "node": ">=6.0.0"
+@@ -2461,12 +2480,14 @@
+       "version": "1.5.5",
+       "resolved": "https://registry.npmjs.org/@jridgewell/sourcemap-codec/-/sourcemap-codec-1.5.5.tgz",
+       "integrity": "sha512-cYQ9310grqxueWbl+WuIUIaiUaDcj7WOq5fVhEljNVgRfOUhY9fy2zTvfoqWsnebh8Sl70VScFbICvJnLKB0Og==",
++      "devOptional": true,
+       "license": "MIT"
+     },
+     "node_modules/@jridgewell/trace-mapping": {
+       "version": "0.3.31",
+       "resolved": "https://registry.npmjs.org/@jridgewell/trace-mapping/-/trace-mapping-0.3.31.tgz",
+       "integrity": "sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==",
++      "devOptional": true,
+       "license": "MIT",
+       "dependencies": {
+         "@jridgewell/resolve-uri": "^3.1.0",
+@@ -2478,6 +2499,7 @@
+       "resolved": "https://registry.npmjs.org/@mui/core-downloads-tracker/-/core-downloads-tracker-7.3.5.tgz",
+       "integrity": "sha512-kOLwlcDPnVz2QMhiBv0OQ8le8hTCqKM9cRXlfVPL91l3RGeOsxrIhNRsUt3Xb8wb+pTVUolW+JXKym93vRKxCw==",
+       "license": "MIT",
++      "peer": true,
+       "funding": {
+         "type": "opencollective",
+         "url": "https://opencollective.com/mui-org"
+@@ -2558,6 +2580,7 @@
+       "resolved": "https://registry.npmjs.org/@mui/material/-/material-7.3.5.tgz",
+       "integrity": "sha512-8VVxFmp1GIm9PpmnQoCoYo0UWHoOrdA57tDL62vkpzEgvb/d71Wsbv4FRg7r1Gyx7PuSo0tflH34cdl/NvfHNQ==",
+       "license": "MIT",
++      "peer": true,
+       "dependencies": {
+         "@babel/runtime": "^7.28.4",
+         "@mui/core-downloads-tracker": "^7.3.5",
+@@ -2804,80 +2827,12 @@
+       "resolved": "https://registry.npmjs.org/@popperjs/core/-/core-2.11.8.tgz",
+       "integrity": "sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==",
+       "license": "MIT",
++      "peer": true,
+       "funding": {
+         "type": "opencollective",
+         "url": "https://opencollective.com/popperjs"
+       }
+     },
+-    "node_modules/@react-aria/ssr": {
+-      "version": "3.9.10",
+-      "resolved": "https://registry.npmjs.org/@react-aria/ssr/-/ssr-3.9.10.tgz",
+-      "integrity": "sha512-hvTm77Pf+pMBhuBm760Li0BVIO38jv1IBws1xFm1NoL26PU+fe+FMW5+VZWyANR6nYL65joaJKZqOdTQMkO9IQ==",
+-      "license": "Apache-2.0",
+-      "dependencies": {
+-        "@swc/helpers": "^0.5.0"
+-      },
+-      "engines": {
+-        "node": ">= 12"
+-      },
+-      "peerDependencies": {
+-        "react": "^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1"
+-      }
+-    },
+-    "node_modules/@restart/hooks": {
+-      "version": "0.4.16",
+-      "resolved": "https://registry.npmjs.org/@restart/hooks/-/hooks-0.4.16.tgz",
+-      "integrity": "sha512-f7aCv7c+nU/3mF7NWLtVVr0Ra80RqsO89hO72r+Y/nvQr5+q0UFGkocElTH6MJApvReVh6JHUFYn2cw1WdHF3w==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "dequal": "^2.0.3"
+-      },
+-      "peerDependencies": {
+-        "react": ">=16.8.0"
+-      }
+-    },
+-    "node_modules/@restart/ui": {
+-      "version": "1.9.4",
+-      "resolved": "https://registry.npmjs.org/@restart/ui/-/ui-1.9.4.tgz",
+-      "integrity": "sha512-N4C7haUc3vn4LTwVUPlkJN8Ach/+yIMvRuTVIhjilNHqegY60SGLrzud6errOMNJwSnmYFnt1J0H/k8FE3A4KA==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "@babel/runtime": "^7.26.0",
+-        "@popperjs/core": "^2.11.8",
+-        "@react-aria/ssr": "^3.5.0",
+-        "@restart/hooks": "^0.5.0",
+-        "@types/warning": "^3.0.3",
+-        "dequal": "^2.0.3",
+-        "dom-helpers": "^5.2.0",
+-        "uncontrollable": "^8.0.4",
+-        "warning": "^4.0.3"
+-      },
+-      "peerDependencies": {
+-        "react": ">=16.14.0",
+-        "react-dom": ">=16.14.0"
+-      }
+-    },
+-    "node_modules/@restart/ui/node_modules/@restart/hooks": {
+-      "version": "0.5.1",
+-      "resolved": "https://registry.npmjs.org/@restart/hooks/-/hooks-0.5.1.tgz",
+-      "integrity": "sha512-EMoH04NHS1pbn07iLTjIjgttuqb7qu4+/EyhAx27MHpoENcB2ZdSsLTNxmKD+WEPnZigo62Qc8zjGnNxoSE/5Q==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "dequal": "^2.0.3"
+-      },
+-      "peerDependencies": {
+-        "react": ">=16.8.0"
+-      }
+-    },
+-    "node_modules/@restart/ui/node_modules/uncontrollable": {
+-      "version": "8.0.4",
+-      "resolved": "https://registry.npmjs.org/uncontrollable/-/uncontrollable-8.0.4.tgz",
+-      "integrity": "sha512-ulRWYWHvscPFc0QQXvyJjY6LIXU56f0h8pQFvhxiKk5V1fcI8gp9Ht9leVAhrVjzqMw0BgjspBINx9r6oyJUvQ==",
+-      "license": "MIT",
+-      "peerDependencies": {
+-        "react": ">=16.14.0"
+-      }
+-    },
+     "node_modules/@rolldown/pluginutils": {
+       "version": "1.0.0-beta.43",
+       "resolved": "https://registry.npmjs.org/@rolldown/pluginutils/-/pluginutils-1.0.0-beta.43.tgz",
+@@ -3277,15 +3232,6 @@
+         "string.prototype.matchall": "^4.0.6"
+       }
+     },
+-    "node_modules/@swc/helpers": {
+-      "version": "0.5.17",
+-      "resolved": "https://registry.npmjs.org/@swc/helpers/-/helpers-0.5.17.tgz",
+-      "integrity": "sha512-5IKx/Y13RsYd+sauPb2x+U/xZikHjolzfuDgTAl/Tdf3Q8rslRvC19NKDLgAJQ6wsqADk10ntlv08nPFw/gO/A==",
+-      "license": "Apache-2.0",
+-      "dependencies": {
+-        "tslib": "^2.8.0"
+-      }
+-    },
+     "node_modules/@types/babel__core": {
+       "version": "7.20.5",
+       "resolved": "https://registry.npmjs.org/@types/babel__core/-/babel__core-7.20.5.tgz",
+@@ -3361,7 +3307,9 @@
+       "version": "4.0.2",
+       "resolved": "https://registry.npmjs.org/@types/parse-json/-/parse-json-4.0.2.tgz",
+       "integrity": "sha512-dISoDXWWQwUquiKsyZ4Ng+HX2KsPL7LyHKHQwgGFEA3IaKac4Obd+h2a/a6waisAoepJlBcx9paWqjA8/HVjCw==",
+-      "license": "MIT"
++      "license": "MIT",
++      "optional": true,
++      "peer": true
+     },
+     "node_modules/@types/prop-types": {
+       "version": "15.7.15",
+@@ -3393,6 +3341,7 @@
+       "resolved": "https://registry.npmjs.org/@types/react-transition-group/-/react-transition-group-4.4.12.tgz",
+       "integrity": "sha512-8TV6R3h2j7a91c+1DXdJi3Syo69zzIZbz7Lg5tORM5LEJG7X/E6a1V3drRyBRZq7/utz7A+c4OgYLiLcYGHG6w==",
+       "license": "MIT",
++      "peer": true,
+       "peerDependencies": {
+         "@types/react": "*"
+       }
+@@ -3411,12 +3360,6 @@
+       "dev": true,
+       "license": "MIT"
+     },
+-    "node_modules/@types/warning": {
+-      "version": "3.0.3",
+-      "resolved": "https://registry.npmjs.org/@types/warning/-/warning-3.0.3.tgz",
+-      "integrity": "sha512-D1XC7WK8K+zZEveUPY+cf4+kgauk8N4eHr/XIHXGlGYkHLud6hK9lYfZk1ry1TNh798cZUCgb6MqGEG8DkJt6Q==",
+-      "license": "MIT"
+-    },
+     "node_modules/@vitejs/plugin-react": {
+       "version": "5.1.0",
+       "resolved": "https://registry.npmjs.org/@vitejs/plugin-react/-/plugin-react-5.1.0.tgz",
+@@ -3689,6 +3632,8 @@
+       "resolved": "https://registry.npmjs.org/babel-plugin-macros/-/babel-plugin-macros-3.1.0.tgz",
+       "integrity": "sha512-Cg7TFGpIr01vOQNODXOOaGz2NpCU5gl8x1qJFbb6hbZxR7XrcE2vtbAsTAbJ7/xwJtUuJEw8K8Zr/AE0LHlesg==",
+       "license": "MIT",
++      "optional": true,
++      "peer": true,
+       "dependencies": {
+         "@babel/runtime": "^7.12.5",
+         "cosmiconfig": "^7.0.0",
+@@ -3771,25 +3716,6 @@
+         "url": "https://github.com/sponsors/sindresorhus"
+       }
+     },
+-    "node_modules/bootstrap": {
+-      "version": "5.3.8",
+-      "resolved": "https://registry.npmjs.org/bootstrap/-/bootstrap-5.3.8.tgz",
+-      "integrity": "sha512-HP1SZDqaLDPwsNiqRqi5NcP0SSXciX2s9E+RyqJIIqGo+vJeN5AJVM98CXmW/Wux0nQ5L7jeWUdplCEf0Ee+tg==",
+-      "funding": [
+-        {
+-          "type": "github",
+-          "url": "https://github.com/sponsors/twbs"
+-        },
+-        {
+-          "type": "opencollective",
+-          "url": "https://opencollective.com/bootstrap"
+-        }
+-      ],
+-      "license": "MIT",
+-      "peerDependencies": {
+-        "@popperjs/core": "^2.11.8"
+-      }
+-    },
+     "node_modules/brace-expansion": {
+       "version": "1.1.12",
+       "resolved": "https://registry.npmjs.org/brace-expansion/-/brace-expansion-1.1.12.tgz",
+@@ -3909,6 +3835,7 @@
+       "version": "3.1.0",
+       "resolved": "https://registry.npmjs.org/callsites/-/callsites-3.1.0.tgz",
+       "integrity": "sha512-P8BjAsXvZS+VIDUI11hHCQEv74YT67YUi5JJFNWIqL235sBmjX4+qx9Muvls5ivyNENctx46xQLQ3aTuE7ssaQ==",
++      "devOptional": true,
+       "license": "MIT",
+       "engines": {
+         "node": ">=6"
+@@ -4000,12 +3927,6 @@
+         "node": ">= 6"
+       }
+     },
+-    "node_modules/classnames": {
+-      "version": "2.5.1",
+-      "resolved": "https://registry.npmjs.org/classnames/-/classnames-2.5.1.tgz",
+-      "integrity": "sha512-saHYOzhIQs6wy2sVxTM6bUDsQO4F50V9RQ22qBpEdCW+I+/Wmke2HOl6lS6dTpdxVhb88/I6+Hs+438c3lfUow==",
+-      "license": "MIT"
+-    },
+     "node_modules/clsx": {
+       "version": "2.1.1",
+       "resolved": "https://registry.npmjs.org/clsx/-/clsx-2.1.1.tgz",
+@@ -4097,6 +4018,8 @@
+       "resolved": "https://registry.npmjs.org/cosmiconfig/-/cosmiconfig-7.1.0.tgz",
+       "integrity": "sha512-AdmX6xUzdNASswsFtmwSt7Vj8po9IuqXm0UXz7QKPuEUmPB4XyjGfaAr2PSuELMwkRMVH1EpIkX5bTZGRB3eCA==",
+       "license": "MIT",
++      "optional": true,
++      "peer": true,
+       "dependencies": {
+         "@types/parse-json": "^4.0.0",
+         "import-fresh": "^3.2.1",
+@@ -4113,6 +4036,8 @@
+       "resolved": "https://registry.npmjs.org/yaml/-/yaml-1.10.2.tgz",
+       "integrity": "sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==",
+       "license": "ISC",
++      "optional": true,
++      "peer": true,
+       "engines": {
+         "node": ">= 6"
+       }
+@@ -4219,6 +4144,7 @@
+       "version": "4.4.3",
+       "resolved": "https://registry.npmjs.org/debug/-/debug-4.4.3.tgz",
+       "integrity": "sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA==",
++      "devOptional": true,
+       "license": "MIT",
+       "dependencies": {
+         "ms": "^2.1.3"
+@@ -4285,15 +4211,6 @@
+         "url": "https://github.com/sponsors/ljharb"
+       }
+     },
+-    "node_modules/dequal": {
+-      "version": "2.0.3",
+-      "resolved": "https://registry.npmjs.org/dequal/-/dequal-2.0.3.tgz",
+-      "integrity": "sha512-0je+qPKHEMohvfRTCEo3CrPG6cAzAYgmzKyxRiYSSDkS6eGJdyVJm7WaYA5ECaAD9wLB2T4EEeymA5aFVcYXCA==",
+-      "license": "MIT",
+-      "engines": {
+-        "node": ">=6"
+-      }
+-    },
+     "node_modules/didyoumean": {
+       "version": "1.2.2",
+       "resolved": "https://registry.npmjs.org/didyoumean/-/didyoumean-1.2.2.tgz",
+@@ -4313,6 +4230,7 @@
+       "resolved": "https://registry.npmjs.org/dom-helpers/-/dom-helpers-5.2.1.tgz",
+       "integrity": "sha512-nRCa7CK3VTrM2NmGkIy4cbK7IZlgBE/PYMn55rrXefr5xXDP0LdtfPnblFDoVdcAfslJ7or6iqAUnx0CCGIWQA==",
+       "license": "MIT",
++      "peer": true,
+       "dependencies": {
+         "@babel/runtime": "^7.8.7",
+         "csstype": "^3.0.2"
+@@ -4375,6 +4293,8 @@
+       "resolved": "https://registry.npmjs.org/error-ex/-/error-ex-1.3.4.tgz",
+       "integrity": "sha512-sqQamAnR14VgCr1A618A3sGrygcpK+HEbenA/HiEAkkUwcZIIB/tgWqHFxWgOyDh4nB4JCRimh79dR5Ywc9MDQ==",
+       "license": "MIT",
++      "optional": true,
++      "peer": true,
+       "dependencies": {
+         "is-arrayish": "^0.2.1"
+       }
+@@ -4571,6 +4491,7 @@
+       "version": "4.0.0",
+       "resolved": "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-4.0.0.tgz",
+       "integrity": "sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==",
++      "devOptional": true,
+       "license": "MIT",
+       "engines": {
+         "node": ">=10"
+@@ -4922,7 +4843,9 @@
+       "version": "1.1.0",
+       "resolved": "https://registry.npmjs.org/find-root/-/find-root-1.1.0.tgz",
+       "integrity": "sha512-NKfW6bec6GfKc0SGx1e07QZY9PE99u0Bft/0rzSD5k3sO/vwkVUpDUKVm5Gpp5Ue3YfShPFTX2070tDs5kB9Ng==",
+-      "license": "MIT"
++      "license": "MIT",
++      "optional": true,
++      "peer": true
+     },
+     "node_modules/find-up": {
+       "version": "5.0.0",
+@@ -5051,6 +4974,7 @@
+       "version": "1.1.2",
+       "resolved": "https://registry.npmjs.org/function-bind/-/function-bind-1.1.2.tgz",
+       "integrity": "sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==",
++      "devOptional": true,
+       "license": "MIT",
+       "funding": {
+         "url": "https://github.com/sponsors/ljharb"
+@@ -5378,6 +5302,7 @@
+       "version": "2.0.2",
+       "resolved": "https://registry.npmjs.org/hasown/-/hasown-2.0.2.tgz",
+       "integrity": "sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==",
++      "devOptional": true,
+       "license": "MIT",
+       "dependencies": {
+         "function-bind": "^1.1.2"
+@@ -5391,6 +5316,8 @@
+       "resolved": "https://registry.npmjs.org/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz",
+       "integrity": "sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==",
+       "license": "BSD-3-Clause",
++      "optional": true,
++      "peer": true,
+       "dependencies": {
+         "react-is": "^16.7.0"
+       }
+@@ -5399,7 +5326,9 @@
+       "version": "16.13.1",
+       "resolved": "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz",
+       "integrity": "sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==",
+-      "license": "MIT"
++      "license": "MIT",
++      "optional": true,
++      "peer": true
+     },
+     "node_modules/howler": {
+       "version": "2.2.4",
+@@ -5428,6 +5357,7 @@
+       "version": "3.3.1",
+       "resolved": "https://registry.npmjs.org/import-fresh/-/import-fresh-3.3.1.tgz",
+       "integrity": "sha512-TR3KfrTZTYLPB6jUjfx6MF9WcWrHL9su5TObK4ZkYgBdWKPOFoSoQIdEuTuR82pmtxH2spWG9h6etwfr1pLBqQ==",
++      "devOptional": true,
+       "license": "MIT",
+       "dependencies": {
+         "parent-module": "^1.0.0",
+@@ -5484,15 +5414,6 @@
+         "node": ">= 0.4"
+       }
+     },
+-    "node_modules/invariant": {
+-      "version": "2.2.4",
+-      "resolved": "https://registry.npmjs.org/invariant/-/invariant-2.2.4.tgz",
+-      "integrity": "sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "loose-envify": "^1.0.0"
+-      }
+-    },
+     "node_modules/is-array-buffer": {
+       "version": "3.0.5",
+       "resolved": "https://registry.npmjs.org/is-array-buffer/-/is-array-buffer-3.0.5.tgz",
+@@ -5515,7 +5436,9 @@
+       "version": "0.2.1",
+       "resolved": "https://registry.npmjs.org/is-arrayish/-/is-arrayish-0.2.1.tgz",
+       "integrity": "sha512-zz06S8t0ozoDXMG+ube26zeCTNXcKIPJZJi8hBrF4idCLms4CG9QtK7qBl1boi5ODzFpjswb5JPmHCbMpjaYzg==",
+-      "license": "MIT"
++      "license": "MIT",
++      "optional": true,
++      "peer": true
+     },
+     "node_modules/is-async-function": {
+       "version": "2.1.1",
+@@ -5600,6 +5523,7 @@
+       "version": "2.16.1",
+       "resolved": "https://registry.npmjs.org/is-core-module/-/is-core-module-2.16.1.tgz",
+       "integrity": "sha512-UfoeMA6fIJ8wTYFEUjelnaGI67v6+N7qXJEvQuIGa99l4xsCruSYOVSQ0uPANn4dAzm8lkYPaKLrrijLq7x23w==",
++      "devOptional": true,
+       "license": "MIT",
+       "dependencies": {
+         "hasown": "^2.0.2"
+@@ -6034,6 +5958,7 @@
+       "version": "3.1.0",
+       "resolved": "https://registry.npmjs.org/jsesc/-/jsesc-3.1.0.tgz",
+       "integrity": "sha512-/sM3dO2FOzXjKQhJuo0Q173wf2KOo8t4I8vHy6lF9poUp7bKT0/NHE8fPX23PwfhnykfqnC2xRxOnVw5XuGIaA==",
++      "devOptional": true,
+       "license": "MIT",
+       "bin": {
+         "jsesc": "bin/jsesc"
+@@ -6053,7 +5978,9 @@
+       "version": "2.3.1",
+       "resolved": "https://registry.npmjs.org/json-parse-even-better-errors/-/json-parse-even-better-errors-2.3.1.tgz",
+       "integrity": "sha512-xyFwyhro/JEof6Ghe2iz2NcXoj2sloNsWr/XsERDK/oiPCfaNhl5ONfp+jQdAZRQQ0IJWNzH9zIZF7li91kh2w==",
+-      "license": "MIT"
++      "license": "MIT",
++      "optional": true,
++      "peer": true
+     },
+     "node_modules/json-schema": {
+       "version": "0.4.0",
+@@ -6163,6 +6090,7 @@
+       "version": "1.2.4",
+       "resolved": "https://registry.npmjs.org/lines-and-columns/-/lines-and-columns-1.2.4.tgz",
+       "integrity": "sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==",
++      "devOptional": true,
+       "license": "MIT"
+     },
+     "node_modules/locate-path": {
+@@ -6342,6 +6270,7 @@
+       "version": "2.1.3",
+       "resolved": "https://registry.npmjs.org/ms/-/ms-2.1.3.tgz",
+       "integrity": "sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==",
++      "devOptional": true,
+       "license": "MIT"
+     },
+     "node_modules/mz": {
+@@ -6561,6 +6490,7 @@
+       "version": "1.0.1",
+       "resolved": "https://registry.npmjs.org/parent-module/-/parent-module-1.0.1.tgz",
+       "integrity": "sha512-GQ2EWRpQV8/o+Aw8YqtfZZPfNRWZYkbidE9k5rpl/hC3vtHHBfGm2Ifi6qWV+coDGkrUKZAxE3Lot5kcsRlh+g==",
++      "devOptional": true,
+       "license": "MIT",
+       "dependencies": {
+         "callsites": "^3.0.0"
+@@ -6574,6 +6504,8 @@
+       "resolved": "https://registry.npmjs.org/parse-json/-/parse-json-5.2.0.tgz",
+       "integrity": "sha512-ayCKvm/phCGxOkYRSCM82iDwct8/EonSEgCSxWxD7ve6jHggsFl4fZVQBPRNgQoKiuV/odhFrGzQXZwbifC8Rg==",
+       "license": "MIT",
++      "optional": true,
++      "peer": true,
+       "dependencies": {
+         "@babel/code-frame": "^7.0.0",
+         "error-ex": "^1.3.1",
+@@ -6621,6 +6553,7 @@
+       "version": "1.0.7",
+       "resolved": "https://registry.npmjs.org/path-parse/-/path-parse-1.0.7.tgz",
+       "integrity": "sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==",
++      "devOptional": true,
+       "license": "MIT"
+     },
+     "node_modules/path-scurry": {
+@@ -6652,6 +6585,8 @@
+       "resolved": "https://registry.npmjs.org/path-type/-/path-type-4.0.0.tgz",
+       "integrity": "sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==",
+       "license": "MIT",
++      "optional": true,
++      "peer": true,
+       "engines": {
+         "node": ">=8"
+       }
+@@ -6660,6 +6595,7 @@
+       "version": "1.1.1",
+       "resolved": "https://registry.npmjs.org/picocolors/-/picocolors-1.1.1.tgz",
+       "integrity": "sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==",
++      "devOptional": true,
+       "license": "ISC"
+     },
+     "node_modules/picomatch": {
+@@ -6902,25 +6838,6 @@
+         "react-is": "^16.13.1"
+       }
+     },
+-    "node_modules/prop-types-extra": {
+-      "version": "1.1.1",
+-      "resolved": "https://registry.npmjs.org/prop-types-extra/-/prop-types-extra-1.1.1.tgz",
+-      "integrity": "sha512-59+AHNnHYCdiC+vMwY52WmvP5dM3QLeoumYuEyceQDi9aEhtwN9zIQ2ZNo25sMyXnbh32h+P1ezDsUpUH3JAew==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "react-is": "^16.3.2",
+-        "warning": "^4.0.0"
+-      },
+-      "peerDependencies": {
+-        "react": ">=0.14.0"
+-      }
+-    },
+-    "node_modules/prop-types-extra/node_modules/react-is": {
+-      "version": "16.13.1",
+-      "resolved": "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz",
+-      "integrity": "sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==",
+-      "license": "MIT"
+-    },
+     "node_modules/prop-types/node_modules/react-is": {
+       "version": "16.13.1",
+       "resolved": "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz",
+@@ -6977,37 +6894,6 @@
+         "node": ">=0.10.0"
+       }
+     },
+-    "node_modules/react-bootstrap": {
+-      "version": "2.10.10",
+-      "resolved": "https://registry.npmjs.org/react-bootstrap/-/react-bootstrap-2.10.10.tgz",
+-      "integrity": "sha512-gMckKUqn8aK/vCnfwoBpBVFUGT9SVQxwsYrp9yDHt0arXMamxALerliKBxr1TPbntirK/HGrUAHYbAeQTa9GHQ==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "@babel/runtime": "^7.24.7",
+-        "@restart/hooks": "^0.4.9",
+-        "@restart/ui": "^1.9.4",
+-        "@types/prop-types": "^15.7.12",
+-        "@types/react-transition-group": "^4.4.6",
+-        "classnames": "^2.3.2",
+-        "dom-helpers": "^5.2.1",
+-        "invariant": "^2.2.4",
+-        "prop-types": "^15.8.1",
+-        "prop-types-extra": "^1.1.0",
+-        "react-transition-group": "^4.4.5",
+-        "uncontrollable": "^7.2.1",
+-        "warning": "^4.0.3"
+-      },
+-      "peerDependencies": {
+-        "@types/react": ">=16.14.8",
+-        "react": ">=16.14.0",
+-        "react-dom": ">=16.14.0"
+-      },
+-      "peerDependenciesMeta": {
+-        "@types/react": {
+-          "optional": true
+-        }
+-      }
+-    },
+     "node_modules/react-calendar": {
+       "version": "6.0.0",
+       "resolved": "https://registry.npmjs.org/react-calendar/-/react-calendar-6.0.0.tgz",
+@@ -7051,12 +6937,6 @@
+       "integrity": "sha512-x3Ax3kNSMIIkyVYhWPyO09bu0uttcAIoecO/um/rKGQ4EltYWVYtyiGkS/3xMynrbVQdS69Jhlv8FXUEZehlzA==",
+       "license": "MIT"
+     },
+-    "node_modules/react-lifecycles-compat": {
+-      "version": "3.0.4",
+-      "resolved": "https://registry.npmjs.org/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz",
+-      "integrity": "sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==",
+-      "license": "MIT"
+-    },
+     "node_modules/react-refresh": {
+       "version": "0.18.0",
+       "resolved": "https://registry.npmjs.org/react-refresh/-/react-refresh-0.18.0.tgz",
+@@ -7110,6 +6990,7 @@
+       "resolved": "https://registry.npmjs.org/react-transition-group/-/react-transition-group-4.4.5.tgz",
+       "integrity": "sha512-pZcd1MCJoiKiBR2NRxeCRg13uCXbydPnmB4EOeRrY7480qNWO8IIgQG6zlDkm6uRMsURXPuKq0GWtiM59a5Q6g==",
+       "license": "BSD-3-Clause",
++      "peer": true,
+       "dependencies": {
+         "@babel/runtime": "^7.5.5",
+         "dom-helpers": "^5.0.1",
+@@ -7273,6 +7154,7 @@
+       "version": "1.22.11",
+       "resolved": "https://registry.npmjs.org/resolve/-/resolve-1.22.11.tgz",
+       "integrity": "sha512-RfqAvLnMl313r7c9oclB1HhUEAezcpLjz95wFH4LVuhk9JF/r22qmVP9AMmOU4vMX7Q8pN8jwNg/CSpdFnMjTQ==",
++      "devOptional": true,
+       "license": "MIT",
+       "dependencies": {
+         "is-core-module": "^2.16.1",
+@@ -7293,6 +7175,7 @@
+       "version": "4.0.0",
+       "resolved": "https://registry.npmjs.org/resolve-from/-/resolve-from-4.0.0.tgz",
+       "integrity": "sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g==",
++      "devOptional": true,
+       "license": "MIT",
+       "engines": {
+         "node": ">=4"
+@@ -7656,6 +7539,8 @@
+       "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.5.7.tgz",
+       "integrity": "sha512-LbrmJOMUSdEVxIKvdcJzQC+nQhe8FUZQTXQy6+I75skNgn3OoQ0DZA8YnFa7gp8tqtL3KPf1kmo0R5DoApeSGQ==",
+       "license": "BSD-3-Clause",
++      "optional": true,
++      "peer": true,
+       "engines": {
+         "node": ">=0.10.0"
+       }
+@@ -7988,6 +7873,7 @@
+       "version": "1.0.0",
+       "resolved": "https://registry.npmjs.org/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz",
+       "integrity": "sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==",
++      "devOptional": true,
+       "license": "MIT",
+       "engines": {
+         "node": ">= 0.4"
+@@ -8159,12 +8045,6 @@
+       "dev": true,
+       "license": "Apache-2.0"
+     },
+-    "node_modules/tslib": {
+-      "version": "2.8.1",
+-      "resolved": "https://registry.npmjs.org/tslib/-/tslib-2.8.1.tgz",
+-      "integrity": "sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==",
+-      "license": "0BSD"
+-    },
+     "node_modules/type-check": {
+       "version": "0.4.0",
+       "resolved": "https://registry.npmjs.org/type-check/-/type-check-0.4.0.tgz",
+@@ -8288,21 +8168,6 @@
+         "url": "https://github.com/sponsors/ljharb"
+       }
+     },
+-    "node_modules/uncontrollable": {
+-      "version": "7.2.1",
+-      "resolved": "https://registry.npmjs.org/uncontrollable/-/uncontrollable-7.2.1.tgz",
+-      "integrity": "sha512-svtcfoTADIB0nT9nltgjujTi7BzVmwjZClOmskKu/E8FW9BXzg9os8OLr4f8Dlnk0rYWJIWr4wv9eKUXiQvQwQ==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "@babel/runtime": "^7.6.3",
+-        "@types/react": ">=16.9.11",
+-        "invariant": "^2.2.4",
+-        "react-lifecycles-compat": "^3.0.4"
+-      },
+-      "peerDependencies": {
+-        "react": ">=15.0.0"
+-      }
+-    },
+     "node_modules/undici-types": {
+       "version": "7.16.0",
+       "resolved": "https://registry.npmjs.org/undici-types/-/undici-types-7.16.0.tgz",
+diff --git a/package.json b/package.json
+index 8f5d366..04c8280 100644
+--- a/package.json
++++ b/package.json
+@@ -10,15 +10,10 @@
+     "preview": "vite preview"
+   },
+   "dependencies": {
+-    "@emotion/react": "^11.14.0",
+-    "@emotion/styled": "^11.14.1",
+     "@mui/icons-material": "^7.3.5",
+     "@mui/lab": "^7.0.1-beta.19",
+-    "@mui/material": "^7.3.5",
+-    "bootstrap": "^5.3.8",
+     "howler": "^2.2.4",
+     "react": "^19.1.1",
+-    "react-bootstrap": "^2.10.10",
+     "react-calendar": "^6.0.0",
+     "react-dom": "^19.1.1",
+     "react-router-dom": "^7.9.5"
+diff --git a/src/components/ExercisePreview.jsx b/src/components/ExercisePreview.jsx
+index 1dd2bde..9066c9e 100644
+--- a/src/components/ExercisePreview.jsx
++++ b/src/components/ExercisePreview.jsx
+@@ -1,14 +1,4 @@
+ import React, { useState } from 'react';
+-import {
+-  Card,
+-  CardContent,
+-  CardMedia,
+-  Typography,
+-  Box,
+-  Chip,
+-  IconButton,
+-  Tooltip
+-} from '@mui/material';
+ import { Info as InfoIcon } from '@mui/icons-material';
+ import ExerciseInfoDialog from './ExerciseInfoDialog';
+ 
+@@ -17,89 +7,54 @@ const ExercisePreview = ({ exercise, showInfoButton = true }) => {
+ 
+   return (
+     <>
+-      <Card 
+-        sx={{ 
+-          display: 'flex', 
+-          flexDirection: { xs: 'column', md: 'row' },
+-          height: 'auto',
+-          boxShadow: 2,
+-          '&:hover': {
+-            boxShadow: 3
+-          }
+-        }}
+-      >
+-        <Box sx={{ 
+-          flex: 1, 
+-          display: 'flex', 
+-          flexDirection: 'column',
+-          minWidth: 0 // This allows flex children to shrink below their content size
+-        }}>
+-          <CardContent sx={{ flex: 1 }}>
+-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+-              <Box>
+-                <Typography variant="h6" component="div" gutterBottom>
+-                  {exercise.name}
+-                </Typography>
+-                <Typography variant="body2" color="text.secondary" paragraph>
+-                  {exercise.description}
+-                </Typography>
+-                
+-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mt: 1 }}>
+-                  <Chip 
+-                    label={exercise.category} 
+-                    size="small" 
+-                    variant="outlined" 
+-                    color="primary"
+-                  />
+-                  {exercise.muscles && exercise.muscles.map((muscle, idx) => (
+-                    <Chip 
+-                      key={idx} 
+-                      label={muscle} 
+-                      size="small" 
+-                      variant="outlined" 
+-                    />
+-                  ))}
+-                </Box>
+-              </Box>
++      <div className="flex flex-col md:flex-row bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden transition-shadow duration-200 hover:shadow-lg">
++        <div className="flex-1 flex flex-col p-4 min-w-0">
++          <div className="flex justify-between items-start">
++            <div className="flex-1">
++              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
++                {exercise.name}
++              </h3>
++              <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
++                {exercise.description}
++              </p>
+               
+-              {showInfoButton && (
+-                <Tooltip title="View more info">
+-                  <IconButton
+-                    size="small"
+-                    onClick={() => setInfoDialogOpen(true)}
+-                    sx={{ 
+-                      alignSelf: 'flex-start',
+-                      color: 'text.secondary',
+-                      '&:hover': {
+-                        backgroundColor: 'action.hover'
+-                      }
+-                    }}
++              <div className="flex flex-wrap gap-2 mt-2">
++                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 border border-primary-300 dark:border-primary-700">
++                  {exercise.category}
++                </span>
++                {exercise.muscles && exercise.muscles.map((muscle, idx) => (
++                  <span
++                    key={idx}
++                    className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600"
+                   >
+-                    <InfoIcon />
+-                  </IconButton>
+-                </Tooltip>
+-              )}
+-            </Box>
+-          </CardContent>
+-        </Box>
++                    {muscle}
++                  </span>
++                ))}
++              </div>
++            </div>
++            
++            {showInfoButton && (
++              <div className="relative ml-2">
++                <button
++                  onClick={() => setInfoDialogOpen(true)}
++                  className="p-1 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full"
++                  aria-label="View more info"
++                >
++                  <InfoIcon fontSize="small" />
++                </button>
++              </div>
++            )}
++          </div>
++        </div>
+         
+         {exercise.image && (
+-          <CardMedia
+-            component="img"
+-            sx={{ 
+-              width: { xs: '100%', md: 120 },
+-              height: 120,
+-              objectFit: 'contain',
+-              flexShrink: 0,
+-              backgroundColor: '#f5f5f5',
+-              m: 1,
+-              borderRadius: 1
+-            }}
+-            image={`/exercise_images/${exercise.image}.webp`}
++          <img
++            className="w-full md:w-32 h-32 object-contain flex-shrink-0 bg-gray-100 dark:bg-gray-900 m-2 rounded"
++            src={`/exercise_images/${exercise.image}.webp`}
+             alt={exercise.name}
+           />
+         )}
+-      </Card>
++      </div>
+       
+       <ExerciseInfoDialog
+         exercise={exercise}
+diff --git a/src/components/WorkoutCard.jsx b/src/components/WorkoutCard.jsx
+index da48f12..58d3f94 100644
+--- a/src/components/WorkoutCard.jsx
++++ b/src/components/WorkoutCard.jsx
+@@ -1,21 +1,21 @@
+ import React, { useState } from 'react';
+ import { Link } from 'react-router-dom';
+ 
+-const WorkoutCard = ({ workout, onEdit, onDelete }) => {
+-  // Generate a color based on the workout name for visual distinction
+-  const getColorByWorkout = (name) => {
+-    const colors = [
+-      'primary',
+-      'emerald',
+-      'amber',
+-      'rose',
+-      'indigo',
+-      'purple'
+-    ];
+-    const colorIndex = name ? name.charCodeAt(0) % colors.length : 0;
+-    return colors[colorIndex];
+-  };
++// Moved outside component to prevent re-declaration on every render
++const getColorByWorkout = (name) => {
++  const colors = [
++    'primary',
++    'emerald',
++    'amber',
++    'rose',
++    'indigo',
++    'purple'
++  ];
++  const colorIndex = name ? name.charCodeAt(0) % colors.length : 0;
++  return colors[colorIndex];
++};
+ 
++const WorkoutCard = ({ workout, onEdit, onDelete }) => {
+   const cardColor = getColorByWorkout(workout.name);
+   const colorClasses = {
+     primary: 'border-l-primary-500 bg-primary-50 dark:bg-primary-900/20',
+@@ -29,11 +29,14 @@ const WorkoutCard = ({ workout, onEdit, onDelete }) => {
+   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+ 
+   const handleDeleteClick = (e) => {
++    e.preventDefault(); // Prevent link navigation
+     e.stopPropagation();
+     setShowDeleteConfirm(true);
+   };
+ 
+-  const handleConfirmDelete = () => {
++  const handleConfirmDelete = (e) => {
++    e.preventDefault();
++    e.stopPropagation();
+     if (onDelete) {
+       onDelete(workout.id);
+     }
+@@ -41,106 +44,86 @@ const WorkoutCard = ({ workout, onEdit, onDelete }) => {
+   };
+ 
+   const handleCancelDelete = (e) => {
++    e.preventDefault();
+     e.stopPropagation();
+     setShowDeleteConfirm(false);
+   };
++  
++  const handleEditClick = (e) => {
++    e.preventDefault(); // Prevent link navigation
++    e.stopPropagation();
++    onEdit(workout.id);
++  };
+ 
+   return (
+-    <div
+-      className={`card border-l-4 ${colorClasses[cardColor]} mb-4 transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 cursor-pointer`}
+-      onClick={() => window.location.href = `/workouts/${workout.id}`}
+-    >
+-      <div className="flex justify-between items-start">
+-        <div className="flex-1 min-w-0">
+-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 truncate">
+-            {workout.name}
+-          </h3>
+-          {workout.description && (
+-            <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
+-              {workout.description}
+-            </p>
+-          )}
+-          
+-          <div className="flex flex-wrap gap-2">
+-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+-              {workout.exercises || 0} exercises
+-            </span>
+-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+-              {workout.duration || '0 min'}
+-            </span>
++    <>
++      <Link
++        to={`/workouts/${workout.id}`}
++        className={`card block border-l-4 ${colorClasses[cardColor]} mb-4 transition-all duration-200 hover:shadow-md hover:-translate-y-0.5`}
++      >
++        <div className="flex justify-between items-start">
++          <div className="flex-1 min-w-0">
++            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 truncate">
++              {workout.name}
++            </h3>
++            {workout.description && (
++              <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
++                {workout.description}
++              </p>
++            )}
++            
++            <div className="flex flex-wrap gap-2">
++              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
++                {workout.exercises || 0} exercises
++              </span>
++              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
++                {workout.duration || '0 min'}
++              </span>
++            </div>
+           </div>
+-        </div>
+-        
+-        <div className="flex gap-2 ml-4 flex-shrink-0" onClick={(e) => e.stopPropagation()}>
+-          <button
+-            onClick={(e) => {
+-              e.stopPropagation();
+-              onEdit(workout.id);
+-            }}
+-            className="p-2 text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+-            aria-label="Edit workout"
+-          >
+-            <svg
+-              className="w-5 h-5"
+-              fill="none"
+-              stroke="currentColor"
+-              viewBox="0 0 24 24"
+-            >
+-              <path
+-                strokeLinecap="round"
+-                strokeLinejoin="round"
+-                strokeWidth={2}
+-                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+-              />
+-            </svg>
+-          </button>
+-          <Link
+-            to={`/workouts/${workout.id}`}
+-            className="p-2 text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+-            aria-label="Start workout"
+-            onClick={(e) => e.stopPropagation()}
+-          >
+-            <svg
+-              className="w-5 h-5"
+-              fill="none"
+-              stroke="currentColor"
+-              viewBox="0 0 24 24"
++          
++          <div className="flex gap-2 ml-4 flex-shrink-0">
++            <button
++              onClick={handleEditClick}
++              className="p-2 text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
++              aria-label="Edit workout"
+             >
+-              <path
+-                strokeLinecap="round"
+-                strokeLinejoin="round"
+-                strokeWidth={2}
+-                d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+-              />
+-              <path
+-                strokeLinecap="round"
+-                strokeLinejoin="round"
+-                strokeWidth={2}
+-                d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+-              />
+-            </svg>
+-          </Link>
+-          <button
+-            onClick={handleDeleteClick}
+-            className="p-2 text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+-            aria-label="Delete workout"
+-          >
+-            <svg
+-              className="w-5 h-5"
+-              fill="none"
+-              stroke="currentColor"
+-              viewBox="0 0 24 24"
++              <svg
++                className="w-5 h-5"
++                fill="none"
++                stroke="currentColor"
++                viewBox="0 0 24 24"
++              >
++                <path
++                  strokeLinecap="round"
++                  strokeLinejoin="round"
++                  strokeWidth={2}
++                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
++                />
++              </svg>
++            </button>
++            <button
++              onClick={handleDeleteClick}
++              className="p-2 text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
++              aria-label="Delete workout"
+             >
+-              <path
+-                strokeLinecap="round"
+-                strokeLinejoin="round"
+-                strokeWidth={2}
+-                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+-              />
+-            </svg>
+-          </button>
++              <svg
++                className="w-5 h-5"
++                fill="none"
++                stroke="currentColor"
++                viewBox="0 0 24 24"
++              >
++                <path
++                  strokeLinecap="round"
++                  strokeLinejoin="round"
++                  strokeWidth={2}
++                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
++                />
++              </svg>
++            </button>
++          </div>
+         </div>
+-      </div>
++      </Link>
+ 
+       {/* Delete Confirmation Dialog */}
+       {showDeleteConfirm && (
+@@ -175,7 +158,7 @@ const WorkoutCard = ({ workout, onEdit, onDelete }) => {
+           </div>
+         </div>
+       )}
+-    </div>
++    </>
+   );
+ };
+ 
+diff --git a/src/screens/HomePage.jsx b/src/screens/HomePage.jsx
+index 0bdf6c2..d459b8f 100644
+--- a/src/screens/HomePage.jsx
++++ b/src/screens/HomePage.jsx
+@@ -1,49 +1,37 @@
+-import React, { useState } from 'react';
+-import { Box, BottomNavigation, BottomNavigationAction, Paper } from '@mui/material';
++import React from 'react';
++import { Outlet, Routes, Route, NavLink } from 'react-router-dom';
+ import { Home as HomeIcon, History as HistoryIcon, Settings as SettingsIcon } from '@mui/icons-material';
+-import { useNavigate, Outlet, Routes, Route } from 'react-router-dom';
+ 
+-const HomePageWithRoutes = () => {
+-  const [value, setValue] = useState(0);
+-  const navigate = useNavigate();
++const NavItem = ({ to, icon, label }) => {
++  const navLinkClasses = ({ isActive }) =>
++    `flex flex-col items-center justify-center w-full pt-2 pb-1 text-xs transition-colors duration-200 ${
++      isActive
++        ? 'text-primary-600 dark:text-primary-400'
++        : 'text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400'
++    }`;
+ 
+-  const handleChange = (event, newValue) => {
+-    setValue(newValue);
+-    switch(newValue) {
+-      case 0:
+-        navigate('/workouts');
+-        break;
+-      case 1:
+-        navigate('/activity');
+-        break;
+-      case 2:
+-        navigate('/settings');
+-        break;
+-      default:
+-        break;
+-    }
+-  };
++  return (
++    <NavLink to={to} className={navLinkClasses}>
++      {icon}
++      <span className="mt-1">{label}</span>
++    </NavLink>
++  );
++};
+ 
++const HomePageWithRoutes = () => {
+   return (
+-    <Box sx={{ pb: 7, height: '100vh', display: 'flex', flexDirection: 'column' }}>
+-      <Box sx={{ flex: 1, overflow: 'auto' }}>
++    <div className="flex flex-col h-screen">
++      <main className="flex-1 overflow-y-auto pb-16">
+         <Outlet />
+-      </Box>
+-      <Paper 
+-        sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} 
+-        elevation={3}
+-      >
+-        <BottomNavigation
+-          showLabels
+-          value={value}
+-          onChange={handleChange}
+-        >
+-          <BottomNavigationAction label="Home" icon={<HomeIcon />} />
+-          <BottomNavigationAction label="Activity" icon={<HistoryIcon />} />
+-          <BottomNavigationAction label="Settings" icon={<SettingsIcon />} />
+-        </BottomNavigation>
+-      </Paper>
+-    </Box>
++      </main>
++      <nav className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 shadow-t-md">
++        <div className="flex justify-around">
++          <NavItem to="/workouts" icon={<HomeIcon />} label="Home" />
++          <NavItem to="/activity" icon={<HistoryIcon />} label="Activity" />
++          <NavItem to="/settings" icon={<SettingsIcon />} label="Settings" />
++        </div>
++      </nav>
++    </div>
+   );
+ };
+ 
+@@ -53,9 +41,9 @@ const HomePage = () => {
+     <Routes>
+       <Route path="/" element={<HomePageWithRoutes />}>
+         <Route index element={
+-          <div style={{ padding: '20px' }}>
+-            <h2>Welcome to Chapter Two</h2>
+-            <p>Select a tab below to get started</p>
++          <div className="p-5">
++            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Welcome to Chapter Two</h2>
++            <p className="text-gray-600 dark:text-gray-400">Select a tab below to get started</p>
+           </div>
+         } />
+       </Route>
+diff --git a/src/screens/WorkoutDetailScreen.jsx b/src/screens/WorkoutDetailScreen.jsx
+index d6740c8..7ccaa86 100644
+--- a/src/screens/WorkoutDetailScreen.jsx
++++ b/src/screens/WorkoutDetailScreen.jsx
+@@ -1,6 +1,6 @@
+ import React, { useState, useEffect } from 'react';
+ import { useParams, useNavigate } from 'react-router-dom';
+-import { workoutExercises } from '../utils/exerciseData';
++import { exercisesData, workoutExercises } from '../utils/exerciseData';
+ import { useAppContext } from '../context/AppContext';
+ import ExerciseInfoDialog from '../components/ExerciseInfoDialog';
+ import { useSound } from '../hooks/useSound';
+@@ -33,7 +33,11 @@ export const WorkoutDetailScreen = () => {
+   if (currentWorkout && currentWorkout.exercises_list) {
+     exercises = currentWorkout.exercises_list;
+   } else {
+-    exercises = workoutExercises[id] || [];
++    const exerciseList = workoutExercises[id] || [];
++    exercises = exerciseList.map(ex => ({
++      ...exercisesData[ex.exerciseId],
++      duration: ex.duration
++    }));
+   }
+ 
+   const currentExercise = exercises[currentExerciseIndex];
+diff --git a/src/utils/exerciseData.js b/src/utils/exerciseData.js
+index 46e5800..ebc1ef2 100644
+--- a/src/utils/exerciseData.js
++++ b/src/utils/exerciseData.js
+@@ -514,90 +514,176 @@ export const exercisesData = {
+   }
+ };
+ 
+-// Workout exercises mapping
++// Workout exercises mapping - Normalized
++
+ export const workoutExercises = {
++
+   1: [
+-    { ...exercisesData.pushup, duration: 30 },
+-    { ...exercisesData.squat, duration: 30 },
+-    { ...exercisesData.plank, duration: 30 },
+-    { ...exercisesData.lunge, duration: 30 },
+-    { ...exercisesData['jumping-jack'], duration: 30 },
+-    { ...exercisesData['wall-sit'], duration: 30 },
+-    { ...exercisesData['ab-crunches'], duration: 30 }
++
++    { exerciseId: 'pushup', duration: 30 },
++
++    { exerciseId: 'squat', duration: 30 },
++
++    { exerciseId: 'plank', duration: 30 },
++
++    { exerciseId: 'lunge', duration: 30 },
++
++    { exerciseId: 'jumping-jack', duration: 30 },
++
++    { exerciseId: 'wall-sit', duration: 30 },
++
++    { exerciseId: 'ab-crunches', duration: 30 }
++
+   ],
++
+   2: [
+-    { ...exercisesData['jumping-jack'], duration: 30 },
+-    { ...exercisesData['high-knees'], duration: 30 },
+-    { ...exercisesData.burpee, duration: 45 },
+-    { ...exercisesData['mountain-climber'], duration: 30 },
+-    { ...exercisesData['jump-rope'], duration: 45 },
+-    { ...exercisesData.rest, duration: 30 },
+-    { ...exercisesData['high-knees'], duration: 30 },
+-    { ...exercisesData.burpee, duration: 45 },
+-    { ...exercisesData['no-pushup-burpee'], duration: 45 },
+-    { ...exercisesData['squat-thrusts'], duration: 45 }
++
++    { exerciseId: 'jumping-jack', duration: 30 },
++
++    { exerciseId: 'high-knees', duration: 30 },
++
++    { exerciseId: 'burpee', duration: 45 },
++
++    { exerciseId: 'mountain-climber', duration: 30 },
++
++    { exerciseId: 'jump-rope', duration: 45 },
++
++    { exerciseId: 'rest', duration: 30 },
++
++    { exerciseId: 'high-knees', duration: 30 },
++
++    { exerciseId: 'burpee', duration: 45 },
++
++    { exerciseId: 'no-pushup-burpee', duration: 45 },
++
++    { exerciseId: 'squat-thrusts', duration: 45 }
++
+   ],
++
+   3: [
+-    { ...exercisesData.pushup, duration: 45 },
+-    { ...exercisesData.squat, duration: 45 },
+-    { ...exercisesData['chair-dips'], duration: 45 },
+-    { ...exercisesData.lunge, duration: 45 },
+-    { ...exercisesData.plank, duration: 60 },
+-    { ...exercisesData['pushup-rotation'], duration: 45 },
+-    { ...exercisesData['glute-bridge'], duration: 45 },
+-    { ...exercisesData['tricep-dip'], duration: 45 },
+-    { ...exercisesData['leg-raise'], duration: 45 },
+-    { ...exercisesData['pike-pushups'], duration: 45 },
+-    { ...exercisesData['step-ups'], duration: 45 },
+-    { ...exercisesData.rest, duration: 60 }
++
++    { exerciseId: 'pushup', duration: 45 },
++
++    { exerciseId: 'squat', duration: 45 },
++
++    { exerciseId: 'chair-dips', duration: 45 },
++
++    { exerciseId: 'lunge', duration: 45 },
++
++    { exerciseId: 'plank', duration: 60 },
++
++    { exerciseId: 'pushup-rotation', duration: 45 },
++
++    { exerciseId: 'glute-bridge', duration: 45 },
++
++    { exerciseId: 'tricep-dip', duration: 45 },
++
++    { exerciseId: 'leg-raise', duration: 45 },
++
++    { exerciseId: 'pike-pushups', duration: 45 },
++
++    { exerciseId: 'step-ups', duration: 45 },
++
++    { exerciseId: 'rest', duration: 60 }
++
+   ],
++
+   4: [
+-    { ...exercisesData['neck-turns'], duration: 15 },
+-    { ...exercisesData['shoulder-shrugs'], duration: 15 },
+-    { ...exercisesData['arm-circles'], duration: 15 },
+-    { ...exercisesData['side-bends'], duration: 15 },
+-    { ...exercisesData['calf-stretches'], duration: 15 },
+-    { ...exercisesData['childs-pose'], duration: 30 },
+-    { ...exercisesData['shoulder-rotation-forward'], duration: 15 },
+-    { ...exercisesData['shoulder-rotation-backward'], duration: 15 },
+-    { ...exercisesData['chin-tuck'], duration: 15 },
+-    { ...exercisesData['head-tilts'], duration: 15 },
+-    { ...exercisesData['back-neck-stretch'], duration: 30 }
++
++    { exerciseId: 'neck-turns', duration: 15 },
++
++    { exerciseId: 'shoulder-shrugs', duration: 15 },
++
++    { exerciseId: 'arm-circles', duration: 15 },
++
++    { exerciseId: 'side-bends', duration: 15 },
++
++    { exerciseId: 'calf-stretches', duration: 15 },
++
++    { exerciseId: 'childs-pose', duration: 30 },
++
++    { exerciseId: 'shoulder-rotation-forward', duration: 15 },
++
++    { exerciseId: 'shoulder-rotation-backward', duration: 15 },
++
++    { exerciseId: 'chin-tuck', duration: 15 },
++
++    { exerciseId: 'head-tilts', duration: 15 },
++
++    { exerciseId: 'back-neck-stretch', duration: 30 }
++
+   ],
++
+   5: [
+-    { ...exercisesData['ab-crunches'], duration: 30 },
+-    { ...exercisesData['reverse-lunges'], duration: 30 },
+-    { ...exercisesData['sumo-squat'], duration: 30 },
+-    { ...exercisesData['calf-raises-left'], duration: 30 },
+-    { ...exercisesData['calf-raises-right'], duration: 30 },
+-    { ...exercisesData['split-squats-left'], duration: 30 },
+-    { ...exercisesData['split-squats-right'], duration: 30 },
+-    { ...exercisesData['pistol-squats-left'], duration: 20 },
+-    { ...exercisesData['pistol-squats-right'], duration: 20 },
+-    { ...exercisesData.rest, duration: 45 }
++
++    { exerciseId: 'ab-crunches', duration: 30 },
++
++    { exerciseId: 'reverse-lunges', duration: 30 },
++
++    { exerciseId: 'sumo-squat', duration: 30 },
++
++    { exerciseId: 'calf-raises-left', duration: 30 },
++
++    { exerciseId: 'calf-raises-right', duration: 30 },
++
++    { exerciseId: 'split-squats-left', duration: 30 },
++
++    { exerciseId: 'split-squats-right', duration: 30 },
++
++    { exerciseId: 'pistol-squats-left', duration: 20 },
++
++    { exerciseId: 'pistol-squats-right', duration: 20 },
++
++    { exerciseId: 'rest', duration: 45 }
++
+   ],
++
+   6: [
+-    { ...exercisesData['side-plank-left'], duration: 20 },
+-    { ...exercisesData['side-plank-right'], duration: 20 },
+-    { ...exercisesData['lateral-neck-stretch-left'], duration: 15 },
+-    { ...exercisesData['lateral-neck-stretch-right'], duration: 15 },
+-    { ...exercisesData['levator-scapulae-stretch-left'], duration: 20 },
+-    { ...exercisesData['levator-scapulae-stretch-right'], duration: 20 },
+-    { ...exercisesData['neck-circles-clockwise'], duration: 15 },
+-    { ...exercisesData['neck-circles-counterclockwise'], duration: 15 },
+-    { ...exercisesData['quadruped-thoracic-rotation-left'], duration: 20 },
+-    { ...exercisesData['quadruped-thoracic-rotation-right'], duration: 20 },
+-    { ...exercisesData['arm-circles-backward'], duration: 15 },
+-    { ...exercisesData.rest, duration: 30 }
++
++    { exerciseId: 'side-plank-left', duration: 20 },
++
++    { exerciseId: 'side-plank-right', duration: 20 },
++
++    { exerciseId: 'lateral-neck-stretch-left', duration: 15 },
++
++    { exerciseId: 'lateral-neck-stretch-right', duration: 15 },
++
++    { exerciseId: 'levator-scapulae-stretch-left', duration: 20 },
++
++    { exerciseId: 'levator-scapulae-stretch-right', duration: 20 },
++
++    { exerciseId: 'neck-circles-clockwise', duration: 15 },
++
++    { exerciseId: 'neck-circles-counterclockwise', duration: 15 },
++
++    { exerciseId: 'quadruped-thoracic-rotation-left', duration: 20 },
++
++    { exerciseId: 'quadruped-thoracic-rotation-right', duration: 20 },
++
++    { exerciseId: 'arm-circles-backward', duration: 15 },
++
++    { exerciseId: 'rest', duration: 30 }
++
+   ],
++
+   7: [
+-    { ...exercisesData['pull-up'], duration: 15 },
+-    { ...exercisesData['kettlebell-deadlift'], duration: 30 },
+-    { ...exercisesData['alternating-bicep-curls'], duration: 30 },
+-    { ...exercisesData['ywts'], duration: 20 },
+-    { ...exercisesData['bent-over-row-to-external-rotation'], duration: 20 },
+-    { ...exercisesData['shoulder-dislocates'], duration: 20 },
+-    { ...exercisesData['high-plank'], duration: 30 },
+-    { ...exercisesData.rest, duration: 45 }
++
++    { exerciseId: 'pull-up', duration: 15 },
++
++    { exerciseId: 'kettlebell-deadlift', duration: 30 },
++
++    { exerciseId: 'alternating-bicep-curls', duration: 30 },
++
++    { exerciseId: 'ywts', duration: 20 },
++
++    { exerciseId: 'bent-over-row-to-external-rotation', duration: 20 },
++
++    { exerciseId: 'shoulder-dislocates', duration: 20 },
++
++    { exerciseId: 'high-plank', duration: 30 },
++
++    { exerciseId: 'rest', duration: 45 }
++
+   ]
+-};
+\ No newline at end of file
++
++};
+diff --git a/vite.config.js b/vite.config.js
+index 94712ac..a226b5d 100644
+--- a/vite.config.js
++++ b/vite.config.js
+@@ -18,12 +18,12 @@ name: 'Chapter Two - Home Workout App',
+       theme_color: '#ffffff',
+       icons: [
+         {
+-          src: 'pwa-192x192.png',
++          src: 'android-chrome-192x192.png',
+           sizes: '192x192',
+           type: 'image/png'
+         },
+         {
+-          src: 'pwa-512x512.png',
++          src: 'android-chrome-512x512.png',
+           sizes: '512x512',
+           type: 'image/png'
+         }
