@@ -26,19 +26,26 @@ export const WorkoutDetailScreen = () => {
     }
   }, [permission, requestPermission]);
 
+  const [exercises, setExercises] = useState([]);
   const currentWorkout = state.workouts.find(workout => workout.id === parseInt(id));
 
-  // Get exercises based on whether it's a custom workout or default
-  let exercises;
-  if (currentWorkout && currentWorkout.exercises_list) {
-    exercises = currentWorkout.exercises_list;
-  } else {
-    const exerciseList = workoutExercises[id] || [];
-    exercises = exerciseList.map(ex => ({
-      ...exercisesData[ex.exerciseId],
-      duration: ex.duration
-    }));
-  }
+  useEffect(() => {
+    let exerciseList = [];
+    if (currentWorkout) {
+      if (currentWorkout.exercises_list) {
+        // Custom workout
+        exerciseList = currentWorkout.exercises_list;
+      } else {
+        // Predefined workout
+        const predefinedExercises = workoutExercises[currentWorkout.id] || [];
+        exerciseList = predefinedExercises.map(ex => ({
+          ...exercisesData[ex.exerciseId],
+          duration: ex.duration
+        }));
+      }
+    }
+    setExercises(exerciseList);
+  }, [id, state.workouts, currentWorkout]);
 
   const currentExercise = exercises[currentExerciseIndex];
 
