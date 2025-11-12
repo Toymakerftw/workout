@@ -15,19 +15,7 @@ export const SettingsScreen = () => {
     });
   };
 
-  const handleLanguageChange = (event) => {
-    dispatch({
-      type: 'UPDATE_SETTING',
-      payload: { key: 'language', value: event.target.value }
-    });
-  };
 
-  const handlePersonalizedColorsChange = (event) => {
-    dispatch({
-      type: 'UPDATE_SETTING',
-      payload: { key: 'personalizedColors', value: event.target.checked }
-    });
-  };
 
   const handleGeminiApiKeyChange = (event) => {
     dispatch({
@@ -80,31 +68,7 @@ export const SettingsScreen = () => {
             </button>
           </div>
 
-          {/* Personalized Colors Toggle */}
-          <div className="flex items-center justify-between py-3 border-b border-gray-200 dark:border-gray-700 last:border-0">
-            <div className="flex-1">
-              <label className="text-base font-medium text-gray-900 dark:text-white">
-                Personalized Colors
-              </label>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                Use personalized color schemes
-              </p>
-            </div>
-            <button
-              onClick={(e) => handlePersonalizedColorsChange({ target: { checked: !state.settings.personalizedColors } })}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 ${
-                state.settings.personalizedColors ? 'bg-primary-600' : 'bg-gray-300 dark:bg-gray-600'
-              }`}
-              role="switch"
-              aria-checked={state.settings.personalizedColors}
-            >
-              <span
-                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                  state.settings.personalizedColors ? 'translate-x-6' : 'translate-x-1'
-                }`}
-              />
-            </button>
-          </div>
+
         </div>
       </div>
 
@@ -142,28 +106,6 @@ export const SettingsScreen = () => {
         </div>
       </div>
 
-      {/* Language Settings */}
-      <div className="card">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-          Language
-        </h2>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Select Language
-          </label>
-          <select
-            className="input-field"
-            value={state.settings.language}
-            onChange={handleLanguageChange}
-          >
-            <option value="en">English</option>
-            <option value="es">Español</option>
-            <option value="fr">Français</option>
-            <option value="de">Deutsch</option>
-            <option value="it">Italiano</option>
-          </select>
-        </div>
-      </div>
 
       {/* AI Integration Settings */}
       <div className="card">

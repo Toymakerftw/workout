@@ -6,7 +6,7 @@ A simple home workout app that respects your privacy. This web version mirrors t
 - **Exercise Library**: Browse and select from a comprehensive exercise database
 - **Workout Player**: Interactive workout sessions with timer and progress tracking
 - **Activity Tracking**: Comprehensive workout history with calendar view
-- **Settings**: Customize app appearance with dark mode and personalized colors
+- **Settings**: Customize app appearance with dark mode
 - **Workout Timing**: Adjustable exercise and break durations per workout
 
 ## Features
@@ -24,8 +24,6 @@ A simple home workout app that respects your privacy. This web version mirrors t
 
 ### Settings
 - Toggle between light and dark themes
-- Enable personalized color schemes
-- Language selection
 - Notification preferences
 
 ## Tech Stack

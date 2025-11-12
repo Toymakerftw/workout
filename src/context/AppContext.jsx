@@ -19,8 +19,6 @@ const initialState = {
   settings: {
     darkMode: false,
     remindersEnabled: true,
-    language: 'en',
-    personalizedColors: false,
     geminiApiKey: ''
   }
 };
