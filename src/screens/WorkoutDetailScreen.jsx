@@ -19,6 +19,7 @@ export const WorkoutDetailScreen = () => {
   const [timeLeft, setTimeLeft] = useState(0);
   const [isCompleted, setIsCompleted] = useState(false);
   const [exerciseInfoOpen, setExerciseInfoOpen] = useState(false);
+  const [currentStage, setCurrentStage] = useState('exercise'); // 'exercise' or 'rest'
 
   useEffect(() => {
     if (permission === 'default') {
@@ -56,31 +57,72 @@ export const WorkoutDetailScreen = () => {
       interval = setInterval(() => {
         setTimeLeft(prev => {
           if (prev <= 1) {
-            if (currentExerciseIndex < exercises.length - 1) {
-              setCurrentExerciseIndex(prevIndex => prevIndex + 1);
-              const nextExercise = exercises[currentExerciseIndex + 1];
-              return nextExercise?.duration || currentWorkout?.exerciseDuration || 30;
-            } else {
-              setIsPlaying(false);
-              setIsCompleted(true);
-              playSound('end');
-              triggerHapticFeedback([200, 100, 200]);
-              sendNotification('Workout Completed!', {
-                body: 'Great job completing your workout!'
-              });
-              const totalDuration = exercises.reduce((sum, ex) => sum + (ex.duration || currentWorkout?.exerciseDuration || 30), 0) +
-                                   (exercises.length - 1) * (currentWorkout?.breakDuration || 15);
-              const completedWorkout = {
-                id: Date.now(),
-                name: currentWorkout?.name || 'Unknown Workout',
-                date: new Date().toISOString().split('T')[0],
-                duration: `${Math.round(totalDuration / 60)} min`,
-                calories: Math.round(totalDuration * 0.15),
-                status: 'complete'
-              };
-              dispatch({ type: 'ADD_WORKOUT_HISTORY', payload: completedWorkout });
-              return 0;
+            if (currentStage === 'exercise') {
+              // Exercise time is up, check if we need rest
+              if (currentExerciseIndex < exercises.length - 1) {
+                // Switch to rest stage between exercises
+                setCurrentStage('rest');
+                playSound('break'); // Play break sound when exercise ends
+                return currentWorkout?.breakDuration || 15;
+              } else {
+                // Workout is completed
+                setIsPlaying(false);
+                setIsCompleted(true);
+                playSound('finish');
+                triggerHapticFeedback([200, 100, 200]);
+                sendNotification('Workout Completed!', {
+                  body: 'Great job completing your workout!'
+                });
+                const totalDuration = exercises.reduce((sum, ex) => sum + (ex.duration || currentWorkout?.exerciseDuration || 30), 0) +
+                                     (exercises.length > 1 ? (exercises.length - 1) * (currentWorkout?.breakDuration || 15) : 0);
+                const completedWorkout = {
+                  id: Date.now(),
+                  name: currentWorkout?.name || 'Unknown Workout',
+                  date: new Date().toISOString().split('T')[0],
+                  duration: `${Math.round(totalDuration / 60)} min`,
+                  calories: Math.round(totalDuration * 0.15),
+                  status: 'complete'
+                };
+                dispatch({ type: 'ADD_WORKOUT_HISTORY', payload: completedWorkout });
+                return 0;
+              }
+            } else if (currentStage === 'rest') {
+              // Rest time is up, move to next exercise
+              if (currentExerciseIndex < exercises.length - 1) {
+                setCurrentExerciseIndex(prevIndex => prevIndex + 1);
+                setCurrentStage('exercise');
+                playSound('exercise'); // Play exercise sound when rest ends
+                const nextExercise = exercises[currentExerciseIndex + 1];
+                return nextExercise?.duration || currentWorkout?.exerciseDuration || 30;
+              } else {
+                // Should not happen if logic is correct, but add safety check
+                setIsPlaying(false);
+                setIsCompleted(true);
+                playSound('finish');
+                triggerHapticFeedback([200, 100, 200]);
+                sendNotification('Workout Completed!', {
+                  body: 'Great job completing your workout!'
+                });
+                const totalDuration = exercises.reduce((sum, ex) => sum + (ex.duration || currentWorkout?.exerciseDuration || 30), 0) +
+                                     (exercises.length > 1 ? (exercises.length - 1) * (currentWorkout?.breakDuration || 15) : 0);
+                const completedWorkout = {
+                  id: Date.now(),
+                  name: currentWorkout?.name || 'Unknown Workout',
+                  date: new Date().toISOString().split('T')[0],
+                  duration: `${Math.round(totalDuration / 60)} min`,
+                  calories: Math.round(totalDuration * 0.15),
+                  status: 'complete'
+                };
+                dispatch({ type: 'ADD_WORKOUT_HISTORY', payload: completedWorkout });
+                return 0;
+              }
             }
+          } else if (prev <= 5 && currentStage === 'exercise') {
+            // Play tick sound for last 5 seconds of exercise
+            playSound('tick');
+          } else if (prev <= 5 && currentStage === 'rest') {
+            // Play tick sound for last 5 seconds of rest
+            playSound('tick');
           }
           return prev - 1;
         });
@@ -88,18 +130,26 @@ export const WorkoutDetailScreen = () => {
     }
 
     return () => clearInterval(interval);
-  }, [isPlaying, timeLeft, currentExerciseIndex, exercises, currentExercise, currentWorkout, dispatch, playSound, triggerHapticFeedback, sendNotification]);
+  }, [isPlaying, timeLeft, currentExerciseIndex, exercises, currentExercise, currentWorkout, currentStage, dispatch, playSound, triggerHapticFeedback, sendNotification]);
 
   useEffect(() => {
     if (currentExercise) {
-      setTimeLeft(currentExercise.duration || currentWorkout?.exerciseDuration || 30);
+      if (currentStage === 'exercise') {
+        setTimeLeft(currentExercise.duration || currentWorkout?.exerciseDuration || 30);
+      } else if (currentStage === 'rest') {
+        setTimeLeft(currentWorkout?.breakDuration || 15);
+      }
     }
-  }, [currentExerciseIndex, currentExercise, currentWorkout]);
+  }, [currentExerciseIndex, currentExercise, currentWorkout, currentStage]);
 
   const handlePlayPause = () => {
     triggerHapticFeedback();
     if (!isPlaying) {
-      playSound('start');
+      if (currentStage === 'exercise') {
+        playSound('exercise');
+      } else if (currentStage === 'rest') {
+        playSound('break');
+      }
     } else {
       playSound('click');
     }
@@ -111,7 +161,8 @@ export const WorkoutDetailScreen = () => {
     playSound('click');
     setIsPlaying(false);
     setCurrentExerciseIndex(0);
-    setTimeLeft(exercises[0]?.duration || 0);
+    setCurrentStage('exercise');
+    setTimeLeft(exercises[0]?.duration || currentWorkout?.exerciseDuration || 30);
     setIsCompleted(false);
   };
 
@@ -122,17 +173,35 @@ export const WorkoutDetailScreen = () => {
   const handleNext = () => {
     triggerHapticFeedback();
     playSound('click');
-    if (currentExerciseIndex < exercises.length - 1) {
-      setCurrentExerciseIndex(prev => prev + 1);
-      setTimeLeft(exercises[currentExerciseIndex + 1]?.duration || 0);
-      setIsPlaying(false);
-    } else {
-      setIsCompleted(true);
-      playSound('end');
-      triggerHapticFeedback([200, 100, 200]);
-      sendNotification('Workout Completed!', {
-        body: 'Great job completing your workout!'
-      });
+    if (currentStage === 'exercise') {
+      // Skip to rest after current exercise
+      if (currentExerciseIndex < exercises.length - 1) {
+        setCurrentStage('rest');
+        setTimeLeft(currentWorkout?.breakDuration || 15);
+        setIsPlaying(false);
+      } else {
+        setIsCompleted(true);
+        playSound('end');
+        triggerHapticFeedback([200, 100, 200]);
+        sendNotification('Workout Completed!', {
+          body: 'Great job completing your workout!'
+        });
+      }
+    } else if (currentStage === 'rest') {
+      // Skip rest and move to next exercise
+      if (currentExerciseIndex < exercises.length - 1) {
+        setCurrentExerciseIndex(prev => prev + 1);
+        setCurrentStage('exercise');
+        setTimeLeft(exercises[currentExerciseIndex + 1]?.duration || currentWorkout?.exerciseDuration || 30);
+        setIsPlaying(false);
+      } else {
+        setIsCompleted(true);
+        playSound('end');
+        triggerHapticFeedback([200, 100, 200]);
+        sendNotification('Workout Completed!', {
+          body: 'Great job completing your workout!'
+        });
+      }
     }
   };
 
@@ -140,8 +209,21 @@ export const WorkoutDetailScreen = () => {
     triggerHapticFeedback();
     playSound('click');
     if (currentExerciseIndex > 0 || timeLeft < (exercises[0]?.duration || currentWorkout?.exerciseDuration || 30)) {
-      const elapsedTime = (currentExerciseIndex * (currentWorkout?.exerciseDuration || 30 + currentWorkout?.breakDuration || 15)) +
-                          ((currentWorkout?.exerciseDuration || 30) - timeLeft);
+      let elapsedTime = 0;
+      
+      // Add time for completed exercises and their rest periods
+      for (let i = 0; i < currentExerciseIndex; i++) {
+        const exerciseDuration = exercises[i]?.duration || currentWorkout?.exerciseDuration || 30;
+        elapsedTime += exerciseDuration + (currentWorkout?.breakDuration || 15);
+      }
+      
+      // Add the remaining time for the current exercise or rest period
+      if (currentStage === 'exercise') {
+        elapsedTime += (exercises[currentExerciseIndex]?.duration || currentWorkout?.exerciseDuration || 30) - timeLeft;
+      } else { // rest stage
+        elapsedTime += (currentWorkout?.breakDuration || 15) - timeLeft;
+      }
+      
       const incompleteWorkout = {
         id: Date.now(),
         name: currentWorkout?.name || 'Unknown Workout',
@@ -161,7 +243,8 @@ export const WorkoutDetailScreen = () => {
       playSound('click');
       setIsPlaying(false);
       setCurrentExerciseIndex(0);
-      setTimeLeft(exercises[0]?.duration || 0);
+      setCurrentStage('exercise');
+      setTimeLeft(exercises[0]?.duration || currentWorkout?.exerciseDuration || 30);
       setIsCompleted(false);
     };
 
@@ -240,9 +323,15 @@ export const WorkoutDetailScreen = () => {
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <div>
-          <p className="text-sm text-gray-600 dark:text-gray-400">
-            Exercise {currentExerciseIndex + 1} of {exercises.length}
-          </p>
+          {currentStage === 'exercise' ? (
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Exercise {currentExerciseIndex + 1} of {exercises.length}
+            </p>
+          ) : (
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Rest Time
+            </p>
+          )}
           <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mt-2">
             <div
               className="bg-primary-600 h-2 rounded-full transition-all duration-300"
@@ -254,6 +343,7 @@ export const WorkoutDetailScreen = () => {
           onClick={handleExerciseInfo}
           className="p-2 text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
           aria-label="Exercise info"
+          disabled={currentStage === 'rest'} // Disable during rest time
         >
           <svg
             className="w-6 h-6"
@@ -273,25 +363,58 @@ export const WorkoutDetailScreen = () => {
 
       {/* Exercise Info */}
       <div className="text-center mb-6">
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
-          {currentExercise.name}
-        </h2>
-        <p className="text-base text-gray-600 dark:text-gray-400">
-          {currentExercise.description}
-        </p>
+        {currentStage === 'exercise' ? (
+          <>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
+              {currentExercise.name}
+            </h2>
+            <p className="text-base text-gray-600 dark:text-gray-400">
+              {currentExercise.description}
+            </p>
+          </>
+        ) : (
+          <>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
+              Rest Time
+            </h2>
+            <p className="text-base text-gray-600 dark:text-gray-400">
+              Take a break before the next exercise
+            </p>
+          </>
+        )}
       </div>
 
-      {/* Exercise Image */}
+      {/* Exercise Image or Rest Timer */}
       <div className="w-full max-w-sm mx-auto mb-6 rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 aspect-square flex items-center justify-center">
-        {currentExercise.image ? (
-          <img
-            src={`/exercise_images/${currentExercise.image}.webp`}
-            alt={currentExercise.name}
-            className="w-full h-full object-contain p-4"
-          />
+        {currentStage === 'exercise' ? (
+          currentExercise.image ? (
+            <img
+              src={`/exercise_images/${currentExercise.image}.webp`}
+              alt={currentExercise.name}
+              className="w-full h-full object-contain p-4"
+            />
+          ) : (
+            <div className="text-gray-400 dark:text-gray-500 text-sm">
+              Exercise Image
+            </div>
+          )
         ) : (
-          <div className="text-gray-400 dark:text-gray-500 text-sm">
-            Exercise Image
+          // Rest time visual - show a pause symbol or rest icon
+          <div className="flex flex-col items-center justify-center">
+            <svg 
+              className="w-24 h-24 text-gray-400 dark:text-gray-500 mb-4" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <span className="text-gray-500 dark:text-gray-400 text-lg">Rest</span>
           </div>
         )}
       </div>

@@ -9,6 +9,18 @@ const sounds = {
   }),
   click: new Howl({
     src: ['/sounds/click.mp3']
+  }),
+  exercise: new Howl({
+    src: ['/sounds/exercise.mp3']
+  }),
+  break: new Howl({
+    src: ['/sounds/break.mp3']
+  }),
+  finish: new Howl({
+    src: ['/sounds/finish.mp3']
+  }),
+  tick: new Howl({
+    src: ['/sounds/tick.mp3']
   })
 };
 
