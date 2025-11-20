@@ -25,11 +25,12 @@ const ExerciseInfoDialog = ({ exercise, open, onClose }) => {
 
         {/* Modal panel */}
         <div
-          className="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+          className="inline-block align-bottom bg-white dark:bg-gray-800 rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
           onClick={(e) => e.stopPropagation()}
+          role="document"
         >
           {/* Header */}
-          <div className="bg-gray-50 dark:bg-gray-700 px-6 py-4 flex justify-between items-center border-b border-gray-200 dark:border-gray-600">
+          <div className="bg-gray-50 dark:bg-gray-700 px-6 py-4 flex justify-between items-center border-b border-gray-200 dark:border-gray-600 rounded-t-xl">
             <h3
               id="exercise-dialog-title"
               className="text-xl font-semibold text-gray-900 dark:text-white"
@@ -38,7 +39,7 @@ const ExerciseInfoDialog = ({ exercise, open, onClose }) => {
             </h3>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition-colors"
+              className="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition-colors rounded-full p-1 hover:bg-gray-200 dark:hover:bg-gray-600"
               aria-label="Close"
             >
               <svg
@@ -46,6 +47,7 @@ const ExerciseInfoDialog = ({ exercise, open, onClose }) => {
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
+                aria-hidden="true"
               >
                 <path
                   strokeLinecap="round"
@@ -58,7 +60,7 @@ const ExerciseInfoDialog = ({ exercise, open, onClose }) => {
           </div>
 
           {/* Content */}
-          <div className="px-6 py-4 max-h-[calc(100vh-200px)] overflow-y-auto">
+          <div className="px-6 py-6 max-h-[calc(100vh-200px)] overflow-y-auto">
             <p className="text-gray-700 dark:text-gray-300 mb-4">
               {exercise.description}
             </p>
@@ -95,13 +97,13 @@ const ExerciseInfoDialog = ({ exercise, open, onClose }) => {
               <div className="mt-4 mb-4 flex justify-center rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 p-4">
                 <img
                   src={`/exercise_images/${exercise.image}.webp`}
-                  alt={exercise.name}
+                  alt={exercise.name ? `${exercise.name} exercise demonstration` : 'Exercise image'}
                   className="max-w-full max-h-64 object-contain"
                 />
               </div>
             )}
 
-            <div className="border-t border-gray-200 dark:border-gray-700 mt-4 pt-4">
+            <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
               <p className="text-xs text-gray-500 dark:text-gray-400">
                 <strong>Disclaimer:</strong> The exercises provided are for informational and
                 educational purposes only. Consult with a healthcare professional before beginning
@@ -111,7 +113,7 @@ const ExerciseInfoDialog = ({ exercise, open, onClose }) => {
           </div>
 
           {/* Footer */}
-          <div className="bg-gray-50 dark:bg-gray-700 px-6 py-4 flex justify-end border-t border-gray-200 dark:border-gray-600">
+          <div className="bg-gray-50 dark:bg-gray-700 px-6 py-4 flex justify-end border-t border-gray-200 dark:border-gray-600 rounded-b-xl">
             <button
               onClick={onClose}
               className="btn-primary"

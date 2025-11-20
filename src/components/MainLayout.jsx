@@ -37,7 +37,7 @@ const MainLayout = ({ children }) => {
         <div className="flex justify-around items-center h-16">
           <button
             onClick={() => handleNavigation('/workouts', 'workouts')}
-            className={`flex flex-col items-center justify-center flex-1 h-full transition-colors ${
+            className={`flex flex-col items-center justify-center flex-1 h-full transition-colors rounded-lg ${
               activeTab === 'workouts'
                 ? 'text-primary-600 dark:text-primary-400'
                 : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
@@ -62,7 +62,7 @@ const MainLayout = ({ children }) => {
 
           <button
             onClick={() => handleNavigation('/workouts/generate', 'generate')}
-            className={`flex flex-col items-center justify-center flex-1 h-full transition-colors ${
+            className={`flex flex-col items-center justify-center flex-1 h-full transition-colors rounded-lg ${
               activeTab === 'generate'
                 ? 'text-primary-600 dark:text-primary-400'
                 : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
@@ -87,7 +87,7 @@ const MainLayout = ({ children }) => {
 
           <button
             onClick={() => handleNavigation('/activity', 'activity')}
-            className={`flex flex-col items-center justify-center flex-1 h-full transition-colors ${
+            className={`flex flex-col items-center justify-center flex-1 h-full transition-colors rounded-lg ${
               activeTab === 'activity'
                 ? 'text-primary-600 dark:text-primary-400'
                 : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
@@ -112,7 +112,7 @@ const MainLayout = ({ children }) => {
 
           <button
             onClick={() => handleNavigation('/nutrition', 'nutrition')}
-            className={`flex flex-col items-center justify-center flex-1 h-full transition-colors ${
+            className={`flex flex-col items-center justify-center flex-1 h-full transition-colors rounded-lg ${
               activeTab === 'nutrition'
                 ? 'text-primary-600 dark:text-primary-400'
                 : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
@@ -125,11 +125,11 @@ const MainLayout = ({ children }) => {
               stroke="currentColor"
               viewBox="0 0 24 24"
             >
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth={2} 
-                d="M12 6v6m0 0v6m0-6h6m-6 0H6" 
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
               />
             </svg>
             <span className="text-xs font-medium">Nutrition</span>
@@ -137,7 +137,7 @@ const MainLayout = ({ children }) => {
 
           <button
             onClick={() => handleNavigation('/settings', 'settings')}
-            className={`flex flex-col items-center justify-center flex-1 h-full transition-colors ${
+            className={`flex flex-col items-center justify-center flex-1 h-full transition-colors rounded-lg ${
               activeTab === 'settings'
                 ? 'text-primary-600 dark:text-primary-400'
                 : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
@@ -170,11 +170,11 @@ const MainLayout = ({ children }) => {
 
       {/* Sidebar Navigation - Desktop */}
       <aside className="hidden md:flex fixed left-0 top-0 bottom-0 w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex-col p-4">
-        <h1 className="text-2xl font-bold text-primary-600 dark:text-primary-400 mb-8">Chapter Two</h1>
+        <h1 className="text-xl font-bold text-primary-600 dark:text-primary-400 mb-8">Chapter Two</h1>
         <nav className="flex flex-col space-y-2">
           <button
             onClick={() => handleNavigation('/workouts', 'workouts')}
-            className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
+            className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 ${
               activeTab === 'workouts'
                 ? 'bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300'
                 : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
@@ -198,7 +198,7 @@ const MainLayout = ({ children }) => {
 
           <button
             onClick={() => handleNavigation('/workouts/generate', 'generate')}
-            className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
+            className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 ${
               activeTab === 'generate'
                 ? 'bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300'
                 : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
@@ -222,7 +222,7 @@ const MainLayout = ({ children }) => {
 
           <button
             onClick={() => handleNavigation('/activity', 'activity')}
-            className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
+            className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 ${
               activeTab === 'activity'
                 ? 'bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300'
                 : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
@@ -246,7 +246,7 @@ const MainLayout = ({ children }) => {
 
           <button
             onClick={() => handleNavigation('/nutrition', 'nutrition')}
-            className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
+            className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 ${
               activeTab === 'nutrition'
                 ? 'bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300'
                 : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
@@ -258,11 +258,11 @@ const MainLayout = ({ children }) => {
               stroke="currentColor"
               viewBox="0 0 24 24"
             >
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth={2} 
-                d="M12 6v6m0 0v6m0-6h6m-6 0H6" 
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
               />
             </svg>
             <span className="font-medium">Nutrition</span>
@@ -270,7 +270,7 @@ const MainLayout = ({ children }) => {
 
           <button
             onClick={() => handleNavigation('/settings', 'settings')}
-            className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
+            className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 ${
               activeTab === 'settings'
                 ? 'bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300'
                 : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'

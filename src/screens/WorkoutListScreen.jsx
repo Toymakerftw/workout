@@ -22,7 +22,7 @@ const WorkoutListScreen = () => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full max-w-2xl mx-auto">
       {/* Header */}
       <div className="mb-6">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
@@ -34,7 +34,7 @@ const WorkoutListScreen = () => {
       </div>
 
       {/* Workout List */}
-      <div className="mb-20 md:mb-4">
+      <div className="mb-4">
         {state.workouts.length > 0 ? (
           <div className="space-y-4">
             {state.workouts.map((workout) => (
@@ -71,26 +71,29 @@ const WorkoutListScreen = () => {
         )}
       </div>
 
-      {/* Floating Action Button */}
-      <button
-        onClick={handleCreateNewWorkout}
-        className="fixed bottom-24 right-4 md:bottom-6 md:right-6 bg-primary-600 hover:bg-primary-700 text-white rounded-full p-4 shadow-lg hover:shadow-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 z-40"
-        aria-label="Create new workout"
-      >
-        <svg
-          className="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
+      {/* Create Button */}
+      <div className="flex justify-center mt-6">
+        <button
+          onClick={handleCreateNewWorkout}
+          className="btn-primary flex items-center gap-2 px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-200"
+          aria-label="Create new workout"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M12 4v16m8-8H4"
-          />
-        </svg>
-      </button>
+          <svg
+            className="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 4v16m8-8H4"
+            />
+          </svg>
+          <span>Create New</span>
+        </button>
+      </div>
     </div>
   );
 };

@@ -59,7 +59,8 @@ const WorkoutCard = ({ workout, onEdit, onDelete }) => {
     <>
       <Link
         to={`/workouts/${workout.id}`}
-        className={`card block border-l-4 ${colorClasses[cardColor]} mb-4 transition-all duration-200 hover:shadow-md hover:-translate-y-0.5`}
+        className={`card block border-l-4 ${colorClasses[cardColor]} mb-4 transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 p-5`}
+        aria-label={`View workout: ${workout.name}`}
       >
         <div className="flex justify-between items-start">
           <div className="flex-1 min-w-0">
@@ -71,7 +72,7 @@ const WorkoutCard = ({ workout, onEdit, onDelete }) => {
                 {workout.description}
               </p>
             )}
-            
+
             <div className="flex flex-wrap gap-2">
               <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
                 {workout.exercises || 0} exercises
@@ -81,7 +82,7 @@ const WorkoutCard = ({ workout, onEdit, onDelete }) => {
               </span>
             </div>
           </div>
-          
+
           <div className="flex gap-2 ml-4 flex-shrink-0">
             <button
               onClick={handleEditClick}
@@ -93,6 +94,7 @@ const WorkoutCard = ({ workout, onEdit, onDelete }) => {
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
+                aria-hidden="true"
               >
                 <path
                   strokeLinecap="round"
@@ -112,6 +114,7 @@ const WorkoutCard = ({ workout, onEdit, onDelete }) => {
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
+                aria-hidden="true"
               >
                 <path
                   strokeLinecap="round"
@@ -127,15 +130,22 @@ const WorkoutCard = ({ workout, onEdit, onDelete }) => {
 
       {/* Delete Confirmation Dialog */}
       {showDeleteConfirm && (
-        <div 
+        <div
           className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
           onClick={handleCancelDelete}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="delete-dialog-title"
         >
-          <div 
+          <div
             className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-sm"
             onClick={(e) => e.stopPropagation()}
+            role="document"
           >
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+            <h3
+              id="delete-dialog-title"
+              className="text-lg font-semibold text-gray-900 dark:text-white mb-2"
+            >
               Delete Workout
             </h3>
             <p className="text-gray-600 dark:text-gray-400 mb-6">

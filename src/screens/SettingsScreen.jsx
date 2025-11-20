@@ -25,7 +25,7 @@ export const SettingsScreen = () => {
   };
 
   return (
-    <div className="w-full space-y-6">
+    <div className="w-full max-w-2xl mx-auto space-y-6">
       {/* Header */}
       <div className="mb-6">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
@@ -37,7 +37,7 @@ export const SettingsScreen = () => {
       </div>
 
       {/* Appearance Settings */}
-      <div className="card">
+      <div className="card p-6">
         <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           Appearance
         </h2>
@@ -67,19 +67,17 @@ export const SettingsScreen = () => {
               />
             </button>
           </div>
-
-
         </div>
       </div>
 
       {/* Notifications Settings */}
-      <div className="card">
+      <div className="card p-6">
         <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           Notifications
         </h2>
         <div className="space-y-4">
           {/* Workout Reminders Toggle */}
-          <div className="flex items-center justify-between py-3">
+          <div className="flex items-center justify-between py-3 border-b border-gray-200 dark:border-gray-700 last:border-0">
             <div className="flex-1">
               <label className="text-base font-medium text-gray-900 dark:text-white">
                 Workout Reminders
@@ -106,9 +104,8 @@ export const SettingsScreen = () => {
         </div>
       </div>
 
-
       {/* AI Integration Settings */}
-      <div className="card">
+      <div className="card p-6">
         <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           AI Integration
         </h2>
@@ -128,9 +125,9 @@ export const SettingsScreen = () => {
             />
             <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
               Get your API key from{' '}
-              <a 
-                href="https://makersuite.google.com/app/apikey" 
-                target="_blank" 
+              <a
+                href="https://makersuite.google.com/app/apikey"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary-600 hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-300"
               >
@@ -143,7 +140,7 @@ export const SettingsScreen = () => {
       </div>
 
       {/* About Section */}
-      <div className="card">
+      <div className="card p-6">
         <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           About
         </h2>

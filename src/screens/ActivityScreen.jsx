@@ -39,7 +39,7 @@ export const ActivityScreen = () => {
   const totalCalories = history.reduce((total, record) => total + record.calories, 0);
 
   return (
-    <div className="w-full space-y-6">
+    <div className="w-full max-w-2xl mx-auto space-y-6">
       {/* Header */}
       <div className="mb-6">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
@@ -51,12 +51,12 @@ export const ActivityScreen = () => {
       </div>
 
       {/* Stats Card */}
-      <div className="card mb-6">
+      <div className="card p-6">
         <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4">
           This Week
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div>
+          <div className="text-center p-4 bg-gray-50 dark:bg-gray-800/30 rounded-lg">
             <div className="text-3xl font-bold text-primary-600 dark:text-primary-400 mb-1">
               {totalWorkouts}
             </div>
@@ -64,7 +64,7 @@ export const ActivityScreen = () => {
               Workouts
             </div>
           </div>
-          <div>
+          <div className="text-center p-4 bg-gray-50 dark:bg-gray-800/30 rounded-lg">
             <div className="text-3xl font-bold text-primary-600 dark:text-primary-400 mb-1">
               {totalMinutes}
             </div>
@@ -72,7 +72,7 @@ export const ActivityScreen = () => {
               Minutes
             </div>
           </div>
-          <div>
+          <div className="text-center p-4 bg-gray-50 dark:bg-gray-800/30 rounded-lg">
             <div className="text-3xl font-bold text-primary-600 dark:text-primary-400 mb-1">
               {totalCalories}
             </div>
@@ -83,8 +83,8 @@ export const ActivityScreen = () => {
         </div>
       </div>
 
-      {/* Calendar Card */}
-      <div className="card mb-6">
+      {/* Calendar Section */}
+      <div className="card p-6">
         <div className="flex items-center gap-2 mb-4">
           <svg
             className="w-5 h-5 text-gray-600 dark:text-gray-400"
@@ -165,7 +165,7 @@ export const ActivityScreen = () => {
       </div>
 
       {/* All Workout History */}
-      <div className="card">
+      <div className="card p-6">
         <div className="flex items-center gap-2 mb-4">
           <svg
             className="w-5 h-5 text-gray-600 dark:text-gray-400"
