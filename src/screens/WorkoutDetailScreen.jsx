@@ -31,14 +31,28 @@ export const WorkoutDetailScreen = () => {
 
   // --- VISUAL THEME LOGIC ---
   const isRest = currentStage === 'rest';
-  
+
+  // Get theme from context to determine dark/light mode
+  const isDarkMode = state.settings.darkMode;
+
   const theme = {
     text: isRest ? 'text-amber-400' : 'text-cyan-400',
     bg: isRest ? 'bg-amber-500' : 'bg-cyan-500',
     ring: isRest ? 'text-amber-500' : 'text-cyan-500',
-    gradient: isRest 
-      ? 'from-gray-900 via-gray-900 to-amber-900/20' 
-      : 'from-gray-900 via-gray-900 to-cyan-900/20',
+    bgClass: isDarkMode
+      ? (isRest ? 'from-gray-900 via-gray-900 to-amber-900/20' : 'from-gray-900 via-gray-900 to-cyan-900/20')
+      : (isRest ? 'from-amber-50 to-amber-100' : 'from-cyan-50 to-cyan-100'),
+    controlsBg: isDarkMode
+      ? 'bg-gray-900/60 backdrop-blur-xl border-t border-white/10'
+      : 'bg-white/60 backdrop-blur-xl border-t border-gray-200',
+    headerBg: isDarkMode
+      ? 'bg-gray-900/80 backdrop-blur'
+      : 'bg-white/80 backdrop-blur',
+    textColor: isDarkMode ? 'text-white' : 'text-gray-900',
+    textSecondary: isDarkMode ? 'text-gray-400' : 'text-gray-600',
+    progressBg: isDarkMode ? 'bg-gray-800/50' : 'bg-gray-200',
+    buttonBg: isDarkMode ? 'bg-gray-800' : 'bg-white',
+    buttonBorder: isDarkMode ? 'border-gray-900' : 'border-gray-200',
   };
 
   // --- INITIALIZATION ---
@@ -198,56 +212,56 @@ export const WorkoutDetailScreen = () => {
   };
 
   // --- RENDER HELPERS ---
-  if (!currentExercise) return <div className="bg-gray-900 h-screen w-full" />;
+  if (!currentExercise) return <div className={`${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'} h-screen w-full`} />;
 
-  const maxTime = currentStage === 'exercise' 
+  const maxTime = currentStage === 'exercise'
     ? (currentExercise.duration || currentWorkout?.exerciseDuration || 30)
     : (currentWorkout?.breakDuration || 15);
-    
+
   const timeProgress = ((maxTime - timeLeft) / maxTime) * 100;
   const totalProgress = ((currentExerciseIndex + (currentStage === 'rest' ? 0.5 : 0)) / exercises.length) * 100;
 
   if (isCompleted) {
     return (
-       <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-gray-900 text-white p-6">
+       <div className={`fixed inset-0 z-50 flex flex-col items-center justify-center ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'} ${theme.textColor} p-6`}>
           <div className="relative w-32 h-32 mb-6">
             <div className="absolute inset-0 bg-green-500 rounded-full blur-2xl opacity-20 animate-pulse"></div>
-            <div className="relative bg-gray-800 rounded-full w-full h-full flex items-center justify-center border border-green-500/30">
+            <div className={`${theme.buttonBg} relative rounded-full w-full h-full flex items-center justify-center ${isDarkMode ? 'border border-green-500/30' : 'border border-green-300'}`}>
                 <span className="text-5xl">🎉</span>
             </div>
           </div>
           <h2 className="text-3xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-500">Workout Complete!</h2>
-          <p className="text-gray-400 mb-8">You crushed it.</p>
-          <button onClick={handleStop} className="w-full max-w-xs py-4 bg-gray-800 hover:bg-gray-700 rounded-xl font-bold text-white transition-all">Back to Home</button>
+          <p className={theme.textSecondary + " mb-8"}>You crushed it.</p>
+          <button onClick={handleStop} className={`w-full max-w-xs py-4 ${isDarkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-white hover:bg-gray-100'} rounded-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'} transition-all`}>Back to Home</button>
        </div>
     );
   }
 
   return (
-    <div className={`fixed inset-0 z-50 flex flex-col transition-colors duration-700 bg-gradient-to-br ${theme.gradient} text-white overflow-hidden`}>
-      
+    <div className={`fixed inset-0 z-50 flex flex-col transition-colors duration-700 bg-gradient-to-br ${theme.bgClass} ${theme.textColor} overflow-hidden`}>
+
       {/* HEADER */}
-      <div className="flex items-center justify-between px-6 py-6 pt-safe-top">
+      <div className={`${theme.headerBg} flex items-center justify-between px-6 py-6 pt-safe-top`}>
         <div className="flex-1">
             <div className="flex items-center gap-3 mb-2">
                 <span className={`text-xs font-bold tracking-widest uppercase ${theme.text} transition-colors duration-500`}>
                     {currentStage}
                 </span>
-                <span className="text-xs text-gray-500 font-mono">
+                <span className={`${isDarkMode ? 'text-gray-500' : 'text-gray-400'} text-xs font-mono`}>
                     {currentExerciseIndex + 1} / {exercises.length}
                 </span>
             </div>
-            <div className="h-1 w-32 bg-gray-800/50 rounded-full overflow-hidden backdrop-blur-sm">
-                <div 
-                    className={`h-full transition-all duration-700 ease-out ${theme.bg}`} 
+            <div className={`h-1 w-32 ${theme.progressBg} rounded-full overflow-hidden backdrop-blur-sm`}>
+                <div
+                    className={`h-full transition-all duration-700 ease-out ${theme.bg}`}
                     style={{ width: `${totalProgress}%` }}
                 />
             </div>
         </div>
 
-        <button 
+        <button
             onClick={handleStop}
-            className="p-3 rounded-full text-gray-400 hover:text-white hover:bg-white/10 transition-all"
+            className={`p-3 rounded-full ${isDarkMode ? 'text-gray-400 hover:text-white hover:bg-white/10' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-200'} transition-all`}
         >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
         </button>
@@ -256,22 +270,22 @@ export const WorkoutDetailScreen = () => {
       {/* MAIN CONTENT */}
       <div className="flex-1 flex flex-col items-center justify-center relative px-6">
         <div className="relative w-full max-w-[280px] aspect-square mb-8 flex items-center justify-center">
-            <div className={`absolute inset-4 rounded-full blur-3xl opacity-30 transition-colors duration-700 ${isRest ? 'bg-amber-500' : 'bg-cyan-500'}`}></div>
+            <div className={`absolute inset-4 rounded-full blur-3xl opacity-30 transition-colors duration-700 ${isRest ? (isDarkMode ? 'bg-amber-500' : 'bg-amber-300') : (isDarkMode ? 'bg-cyan-500' : 'bg-cyan-300')}`}></div>
             <div className="relative z-10 w-full h-full flex items-center justify-center animate-float">
                 {isRest ? (
                     <div className="flex flex-col items-center justify-center">
                         <div className="text-7xl mb-4 animate-bounce-slow">😮‍💨</div>
-                        <p className="text-amber-200/80 font-medium tracking-wide">Breathe</p>
+                        <p className={`${isRest ? (isDarkMode ? 'text-amber-200/80' : 'text-amber-700/80') : (isDarkMode ? 'text-cyan-200/80' : 'text-cyan-700/80')} font-medium tracking-wide`}>Breathe</p>
                     </div>
                 ) : (
                     currentExercise.image ? (
-                        <img 
-                            src={`/exercise_images/${currentExercise.image}.webp`} 
+                        <img
+                            src={`/exercise_images/${currentExercise.image}.webp`}
                             alt={currentExercise.name}
                             className="w-full h-full object-contain drop-shadow-2xl transition-transform duration-500 hover:scale-105"
                         />
                     ) : (
-                        <div className="text-6xl opacity-20">💪</div>
+                        <div className={`${isDarkMode ? 'text-gray-400' : 'text-gray-300'} text-6xl`}>💪</div>
                     )
                 )}
             </div>
@@ -280,16 +294,16 @@ export const WorkoutDetailScreen = () => {
         <div className="text-center z-10 w-full max-w-md">
             <h2 className="text-3xl md:text-4xl font-black tracking-tight leading-none mb-3 transition-all duration-300">
                 {isRest ? (
-                    <span className="text-gray-300">Up Next: <span className="text-white">{exercises[currentExerciseIndex + 1]?.name || 'Finish'}</span></span>
+                    <span className={`${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>Up Next: <span className={theme.textColor}>{exercises[currentExerciseIndex + 1]?.name || 'Finish'}</span></span>
                 ) : (
                     currentExercise.name
                 )}
             </h2>
-            
+
             {!isRest && (
-                <button 
+                <button
                     onClick={() => setExerciseInfoOpen(true)}
-                    className="inline-flex items-center gap-1 text-sm text-gray-400 hover:text-cyan-400 transition-colors group py-2 px-4 rounded-full hover:bg-white/5"
+                    className={`inline-flex items-center gap-1 text-sm ${isDarkMode ? 'text-gray-400 hover:text-cyan-400' : 'text-gray-500 hover:text-cyan-600'} transition-colors group py-2 px-4 rounded-full ${isDarkMode ? 'hover:bg-white/5' : 'hover:bg-cyan-50'}`}
                 >
                     <span>See Instructions</span>
                     <svg className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
@@ -300,43 +314,43 @@ export const WorkoutDetailScreen = () => {
 
       {/* BOTTOM CONTROLS */}
       <div className="relative">
-        <div className="absolute inset-0 bg-gray-900/60 backdrop-blur-xl border-t border-white/10 rounded-t-[2.5rem]"></div>
+        <div className={`${theme.controlsBg} absolute inset-0 rounded-t-[2.5rem]`}></div>
         <div className="relative z-10 pt-8 pb-10 px-6 flex flex-col items-center">
             <div className="flex items-center justify-between w-full max-w-sm px-4">
-                
+
                 {/* Restart */}
-                <button 
+                <button
                     onClick={handleRestart}
-                    className="group p-4 flex flex-col items-center gap-1 text-gray-500 hover:text-white transition-colors"
+                    className={`group p-4 flex flex-col items-center gap-1 ${isDarkMode ? 'text-gray-500 hover:text-white' : 'text-gray-400 hover:text-gray-900'} transition-colors`}
                 >
-                    <div className="p-2 rounded-full group-hover:bg-white/10 transition-colors">
+                    <div className={`${isDarkMode ? 'group-hover:bg-white/10' : 'group-hover:bg-gray-200'} p-2 rounded-full transition-colors`}>
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
                     </div>
                 </button>
 
                 {/* Play / Pause / Timer */}
                 <div className="relative -mt-12 mb-2">
-                    <div className={`absolute inset-2 rounded-full blur-xl opacity-40 transition-colors duration-700 ${isRest ? 'bg-amber-500' : 'bg-cyan-500'}`}></div>
+                    <div className={`absolute inset-2 rounded-full blur-xl opacity-40 transition-colors duration-700 ${isRest ? (isDarkMode ? 'bg-amber-500' : 'bg-amber-300') : (isDarkMode ? 'bg-cyan-500' : 'bg-cyan-300')}`}></div>
                     <button
                         onClick={handlePlayPause}
-                        className="relative w-24 h-24 rounded-full bg-gray-800 flex items-center justify-center shadow-2xl border-4 border-gray-900 group active:scale-95 transition-transform duration-200"
+                        className={`relative w-24 h-24 rounded-full ${theme.buttonBg} flex items-center justify-center shadow-2xl ${theme.buttonBorder} group active:scale-95 transition-transform duration-200`}
                     >
                         <svg className="absolute inset-0 w-full h-full -rotate-90 pointer-events-none scale-110">
-                            <circle cx="50%" cy="50%" r="46%" stroke="#1f2937" strokeWidth="4" fill="transparent" />
-                            <circle 
-                                cx="50%" cy="50%" r="46%" 
-                                stroke="currentColor" strokeWidth="4" fill="transparent" 
+                            <circle cx="50%" cy="50%" r="46%" stroke={isDarkMode ? "#1f2937" : "#e5e7eb"} strokeWidth="4" fill="transparent" />
+                            <circle
+                                cx="50%" cy="50%" r="46%"
+                                stroke="currentColor" strokeWidth="4" fill="transparent"
                                 strokeDasharray={`${2 * Math.PI * 46}%`}
                                 strokeDashoffset={`${2 * Math.PI * 46 * (1 - timeProgress / 100)}%`}
                                 strokeLinecap="round"
                                 className={`${theme.ring} transition-all duration-1000 ease-linear shadow-[0_0_10px_currentColor] drop-shadow-lg`}
                             />
                         </svg>
-                        <div className={`flex flex-col items-center justify-center transition-colors duration-300 ${isPlaying ? 'text-white' : theme.text}`}>
+                        <div className={`flex flex-col items-center justify-center transition-colors duration-300 ${isPlaying ? theme.textColor : theme.text}`}>
                             {isPlaying ? (
                                 <>
                                     <span className="text-3xl font-bold tabular-nums leading-none tracking-tight">{timeLeft}</span>
-                                    <span className="text-[10px] uppercase tracking-wider opacity-70 font-bold mt-0.5">
+                                    <span className={`text-[10px] uppercase tracking-wider opacity-70 font-bold mt-0.5 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
                                         {isRest ? 'Rest' : 'Sec'}
                                     </span>
                                 </>
@@ -348,16 +362,16 @@ export const WorkoutDetailScreen = () => {
                 </div>
 
                 {/* Skip */}
-                <button 
+                <button
                     onClick={handleNext}
-                    className="group p-4 flex flex-col items-center gap-1 text-gray-500 hover:text-white transition-colors"
+                    className={`group p-4 flex flex-col items-center gap-1 ${isDarkMode ? 'text-gray-500 hover:text-white' : 'text-gray-400 hover:text-gray-900'} transition-colors`}
                 >
-                    <div className="p-2 rounded-full group-hover:bg-white/10 transition-colors">
+                    <div className={`${isDarkMode ? 'group-hover:bg-white/10' : 'group-hover:bg-gray-200'} p-2 rounded-full transition-colors`}>
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 5l7 7-7 7M5 5l7 7-7 7" /></svg>
                     </div>
                 </button>
             </div>
-            <p className="text-xs font-medium text-gray-500 uppercase tracking-widest mt-2">
+            <p className={`text-xs font-medium ${isDarkMode ? 'text-gray-500' : 'text-gray-400'} uppercase tracking-widest mt-2`}>
                 {isPlaying ? (isRest ? 'Resting...' : 'Workout in progress') : 'Tap to Start'}
             </p>
         </div>
@@ -368,7 +382,7 @@ export const WorkoutDetailScreen = () => {
         open={exerciseInfoOpen}
         onClose={() => setExerciseInfoOpen(false)}
       />
-      
+
       <style>{`
         @keyframes float {
           0% { transform: translateY(0px); }
