@@ -114,12 +114,22 @@ export const AppProvider = ({ children }) => {
     localStorage.setItem('chapter-two-app-state', JSON.stringify(state));
   }, [state]);
 
-  // Apply dark mode to document
+  // Apply dark mode to document and update theme color
   React.useEffect(() => {
     if (state.settings.darkMode) {
       document.documentElement.classList.add('dark');
+      // Update theme color for status bar in dark mode
+      const themeColorMeta = document.getElementById('theme-color');
+      if (themeColorMeta) {
+        themeColorMeta.setAttribute('content', '#0f172a'); // dark slate color for dark mode
+      }
     } else {
       document.documentElement.classList.remove('dark');
+      // Update theme color for status bar in light mode
+      const themeColorMeta = document.getElementById('theme-color');
+      if (themeColorMeta) {
+        themeColorMeta.setAttribute('content', '#ffffff'); // white for light mode
+      }
     }
   }, [state.settings.darkMode]);
 
