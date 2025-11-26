@@ -41,8 +41,8 @@ const WorkoutListScreen = () => {
     setShowReminderDialog(true);
   };
 
-  const handleConfirmSchedule = (workout, scheduledDateTime) => {
-    scheduleWorkoutReminder(workout, scheduledDateTime);
+  const handleConfirmSchedule = (workout, scheduledDateTime, repeatDaily) => {
+    scheduleWorkoutReminder(workout, scheduledDateTime, repeatDaily);
     showToast(`Reminder scheduled for ${scheduledDateTime.toLocaleString()}`, 'success');
   };
 

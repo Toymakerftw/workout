@@ -7,6 +7,7 @@ const NutritionReminderDialog = ({ isOpen, onClose, onSchedule }) => {
   const [selectedDate, setSelectedDate] = useState('');
   const [reminderType, setReminderType] = useState('meal'); // meal, breakfast, lunch, dinner
   const [customMessage, setCustomMessage] = useState('');
+  const [repeatDaily, setRepeatDaily] = useState(false);
 
   if (!isOpen) return null;
 
@@ -45,7 +46,7 @@ const NutritionReminderDialog = ({ isOpen, onClose, onSchedule }) => {
       }
     }
 
-    onSchedule(scheduledDateTime, message);
+    onSchedule(scheduledDateTime, message, repeatDaily);
     onClose();
   };
 
@@ -121,6 +122,18 @@ const NutritionReminderDialog = ({ isOpen, onClose, onSchedule }) => {
                 className="input-field w-full"
                 rows="2"
               />
+            </div>
+            <div className="flex items-center">
+              <input
+                id="repeatDailyNutrition"
+                type="checkbox"
+                checked={repeatDaily}
+                onChange={(e) => setRepeatDaily(e.target.checked)}
+                className="h-4 w-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
+              />
+              <label htmlFor="repeatDailyNutrition" className="ml-2 block text-sm text-gray-900 dark:text-gray-300">
+                Repeat Daily
+              </label>
             </div>
           </div>
 

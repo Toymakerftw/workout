@@ -19,77 +19,6 @@ export const useWorkoutReminders = () => {
     }
   });
 
-  // Effect to re-schedule reminders when the component mounts or reminders change
-  useEffect(() => {
-    reminders.forEach(reminder => {
-      const now = new Date();
-      const timeDiff = reminder.scheduledTime.getTime() - now.getTime();
-
-      if (timeDiff > 0 && !reminder.timeoutId) { // Only re-schedule if in the future and not already scheduled
-        const timeoutId = setTimeout(() => {
-          if ('Notification' in window && Notification.permission === 'granted') {
-            new Notification(
-              reminder.reminderType === 'workout' ? 'Workout Reminder' : 'Meal Reminder',
-              {
-                body: reminder.reminderType === 'workout'
-                  ? `Time for your "${reminder.workoutName}" workout!`
-                  : reminder.customMessage,
-                icon: '/android-chrome-192x192.png',
-                tag: reminder.id
-              }
-            );
-          } else if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.ready.then(registration => {
-              registration.showNotification(
-                reminder.reminderType === 'workout' ? 'Workout Reminder' : 'Meal Reminder',
-                {
-                  body: reminder.reminderType === 'workout'
-                    ? `Time for your "${reminder.workoutName}" workout!`
-                    : reminder.customMessage,
-                  icon: '/android-chrome-192x192.png',
-                  tag: reminder.id
-                }
-              );
-            });
-          }
-          setReminders(prev => prev.filter(r => r.id !== reminder.id));
-        }, timeDiff);
-
-        setReminders(prev =>
-          prev.map(r => (r.id === reminder.id ? { ...r, timeoutId } : r))
-        );
-      } else if (timeDiff <= 0 && reminder.timeoutId) {
-        // Clear past reminders that somehow still have a timeoutId
-        clearTimeout(reminder.timeoutId);
-        setReminders(prev => prev.filter(r => r.id !== reminder.id));
-      }
-    });
-
-    // Cleanup function to clear all timeouts if the component unmounts
-    return () => {
-      reminders.forEach(reminder => {
-        if (reminder.timeoutId) {
-          clearTimeout(reminder.timeoutId);
-        }
-      });
-    };
-  }, [reminders]);
-
-
-  // Effect to save reminders to localStorage whenever they change
-  useEffect(() => {
-    try {
-      // Don't store timeoutId in localStorage
-      const serializableReminders = reminders.map(({ timeoutId, ...rest }) => ({
-        ...rest,
-        scheduledTime: rest.scheduledTime.toISOString() // Store as ISO string
-      }));
-      localStorage.setItem(REMINDERS_STORAGE_KEY, JSON.stringify(serializableReminders));
-    } catch (error) {
-      console.error("Failed to save reminders to localStorage", error);
-    }
-  }, [reminders]);
-
   const triggerNotification = useCallback((reminder) => {
     if ('Notification' in window && Notification.permission === 'granted') {
       new Notification(
@@ -124,7 +53,14 @@ export const useWorkoutReminders = () => {
     const now = new Date();
     const timeDiff = newReminder.scheduledTime.getTime() - now.getTime();
 
-    if (timeDiff <= 0) return; // Don't schedule if time is in the past
+    if (timeDiff <= 0) { // Don't schedule if time is in the past
+      if (newReminder.recurring === 'daily') {
+        const nextDay = new Date(newReminder.scheduledTime);
+        nextDay.setDate(nextDay.getDate() + 1);
+        scheduleReminder({ ...newReminder, scheduledTime: nextDay });
+      }
+      return;
+    }
 
     // Clear existing reminder if it has the same ID
     setReminders(prev => {
@@ -137,34 +73,76 @@ export const useWorkoutReminders = () => {
 
     const timeoutId = setTimeout(() => {
       triggerNotification(newReminder);
-      setReminders(prev => prev.filter(r => r.id !== newReminder.id));
+      if (newReminder.recurring === 'daily') {
+        const nextDay = new Date(newReminder.scheduledTime);
+        nextDay.setDate(nextDay.getDate() + 1);
+        scheduleReminder({ ...newReminder, scheduledTime: nextDay });
+      } else {
+        setReminders(prev => prev.filter(r => r.id !== newReminder.id));
+      }
     }, timeDiff);
 
     setReminders(prev => [...prev, { ...newReminder, timeoutId }]);
   }, [state.settings.remindersEnabled, triggerNotification]);
 
+
+  // Effect to re-schedule reminders when the component mounts or reminders change
+  useEffect(() => {
+    reminders.forEach(reminder => {
+      if (!reminder.timeoutId) { // Only schedule if it doesn't have a timeout
+        scheduleReminder(reminder);
+      }
+    });
+
+    // Cleanup function to clear all timeouts if the component unmounts
+    return () => {
+      reminders.forEach(reminder => {
+        if (reminder.timeoutId) {
+          clearTimeout(reminder.timeoutId);
+        }
+      });
+    };
+  }, [reminders, scheduleReminder]);
+
+
+  // Effect to save reminders to localStorage whenever they change
+  useEffect(() => {
+    try {
+      // Don't store timeoutId in localStorage
+      const serializableReminders = reminders.map(({ timeoutId, ...rest }) => ({
+        ...rest,
+        scheduledTime: rest.scheduledTime.toISOString() // Store as ISO string
+      }));
+      localStorage.setItem(REMINDERS_STORAGE_KEY, JSON.stringify(serializableReminders));
+    } catch (error) {
+      console.error("Failed to save reminders to localStorage", error);
+    }
+  }, [reminders]);
+
   // Function to schedule a workout reminder
-  const scheduleWorkoutReminder = useCallback((workout, scheduledTime) => {
-    const reminderId = `workout-${workout.id}-${scheduledTime.getTime()}`;
+  const scheduleWorkoutReminder = useCallback((workout, scheduledTime, repeatDaily) => {
+    const reminderId = `workout-${workout.id}`; // Use a stable ID for recurring reminders
     const newReminder = {
       id: reminderId,
       reminderType: 'workout',
       workoutId: workout.id,
       workoutName: workout.name,
       scheduledTime,
+      recurring: repeatDaily ? 'daily' : null,
       timeoutId: null
     };
     scheduleReminder(newReminder);
   }, [scheduleReminder]);
 
   // Function to schedule a nutrition reminder
-  const scheduleNutritionReminder = useCallback((scheduledTime, customMessage = 'Time to log your meal!') => {
-    const reminderId = `nutrition-${scheduledTime.getTime()}`;
+  const scheduleNutritionReminder = useCallback((scheduledTime, customMessage = 'Time to log your meal!', repeatDaily) => {
+    const reminderId = `nutrition-${new Date().getTime()}`; // Less chance of stable ID needed here unless we build a UI for it
     const newReminder = {
       id: reminderId,
       reminderType: 'nutrition',
       customMessage,
       scheduledTime,
+      recurring: repeatDaily ? 'daily' : null,
       timeoutId: null
     };
     scheduleReminder(newReminder);

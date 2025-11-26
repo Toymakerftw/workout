@@ -63,8 +63,8 @@ const NutritionTrackingScreen = () => {
     setShowNutritionReminderDialog(true);
   };
 
-  const handleConfirmNutritionSchedule = (scheduledDateTime, message) => {
-    scheduleNutritionReminder(scheduledDateTime, message);
+  const handleConfirmNutritionSchedule = (scheduledDateTime, message, repeatDaily) => {
+    scheduleNutritionReminder(scheduledDateTime, message, repeatDaily);
     showToast(`Meal reminder scheduled for ${scheduledDateTime.toLocaleString()}`, 'success');
   };
 

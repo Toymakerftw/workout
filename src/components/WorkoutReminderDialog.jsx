@@ -5,6 +5,7 @@ const WorkoutReminderDialog = ({ workout, isOpen, onClose, onSchedule }) => {
   const showToast = useToast();
   const [selectedTime, setSelectedTime] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
+  const [repeatDaily, setRepeatDaily] = useState(false);
 
   if (!isOpen) return null;
 
@@ -22,7 +23,7 @@ const WorkoutReminderDialog = ({ workout, isOpen, onClose, onSchedule }) => {
       return;
     }
 
-    onSchedule(workout, scheduledDateTime);
+    onSchedule(workout, scheduledDateTime, repeatDaily);
     onClose();
   };
 
@@ -68,6 +69,19 @@ const WorkoutReminderDialog = ({ workout, isOpen, onClose, onSchedule }) => {
                 onChange={(e) => setSelectedTime(e.target.value)}
                 className="input-field w-full"
               />
+            </div>
+
+            <div className="flex items-center">
+              <input
+                id="repeatDaily"
+                type="checkbox"
+                checked={repeatDaily}
+                onChange={(e) => setRepeatDaily(e.target.checked)}
+                className="h-4 w-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
+              />
+              <label htmlFor="repeatDaily" className="ml-2 block text-sm text-gray-900 dark:text-gray-300">
+                Repeat Daily
+              </label>
             </div>
           </div>
 
