@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useToast } from '../hooks/useToast';
 
 const WorkoutReminderDialog = ({ workout, isOpen, onClose, onSchedule }) => {
+  const showToast = useToast();
   const [selectedTime, setSelectedTime] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
 
@@ -8,7 +10,7 @@ const WorkoutReminderDialog = ({ workout, isOpen, onClose, onSchedule }) => {
 
   const handleSchedule = () => {
     if (!selectedDate || !selectedTime) {
-      alert('Please select both date and time');
+      showToast('Please select both date and time', 'error');
       return;
     }
 
@@ -16,7 +18,7 @@ const WorkoutReminderDialog = ({ workout, isOpen, onClose, onSchedule }) => {
     
     // Check if the selected time is in the past
     if (scheduledDateTime <= new Date()) {
-      alert('Please select a future date and time');
+      showToast('Please select a future date and time', 'error');
       return;
     }
 

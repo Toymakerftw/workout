@@ -3,11 +3,12 @@ import { useAppContext } from '../context/AppContext';
 import { useNotifications } from '../hooks/useNotifications';
 import { useWorkoutReminders } from '../hooks/useWorkoutReminders';
 import NutritionReminderDialog from '../components/NutritionReminderDialog';
+import { useToast } from '../hooks/useToast';
 
 const NutritionTrackingScreen = () => {
   const { state } = useAppContext();
-  const { requestPermission } = useNotifications();
   const { scheduleNutritionReminder } = useWorkoutReminders();
+  const showToast = useToast();
   const [showHistory, setShowHistory] = useState(false);
   const [showNutritionReminderDialog, setShowNutritionReminderDialog] = useState(false);
   const [meals, setMeals] = useState([]);
@@ -54,18 +55,17 @@ const NutritionTrackingScreen = () => {
   // Function to handle nutrition reminder scheduling
   const handleScheduleNutritionReminder = () => {
     if (!state.settings.remindersEnabled) {
-      alert('Please enable workout reminders in Settings first.');
+      showToast('Please enable workout reminders in Settings first.', 'info');
       // Redirect to settings could be added here if needed
       return;
     }
 
-    requestPermission();
     setShowNutritionReminderDialog(true);
   };
 
   const handleConfirmNutritionSchedule = (scheduledDateTime, message) => {
     scheduleNutritionReminder(scheduledDateTime, message);
-    alert(`Meal reminder scheduled for ${scheduledDateTime.toLocaleString()}`);
+    showToast(`Meal reminder scheduled for ${scheduledDateTime.toLocaleString()}`, 'success');
   };
 
   // Function to handle image capture
@@ -84,7 +84,7 @@ const NutritionTrackingScreen = () => {
   // Function to analyze food image using Gemini API
   const analyzeFoodImage = async (base64Image) => {
     if (!state.settings.geminiApiKey) {
-      alert('Please set your Gemini API key in Settings first');
+      showToast('Please set your Gemini API key in Settings first', 'info');
       setCapturedImage(null);
       return;
     }
@@ -149,7 +149,7 @@ const NutritionTrackingScreen = () => {
       }
     } catch (error) {
       console.error('Error analyzing food image:', error);
-      alert('Error analyzing food image. Please try again.');
+      showToast('Error analyzing food image. Please try again.', 'error');
       setAnalysisResult(null);
       setCapturedImage(null); // Close modal on error
     } finally {
@@ -168,11 +168,13 @@ const NutritionTrackingScreen = () => {
     
     setMeals(prev => [newMeal, ...prev]);
     closeModal();
+    showToast('Meal added successfully!', 'success');
   };
 
   // Delete a meal
   const deleteMeal = (mealId) => {
     setMeals(prev => prev.filter(meal => meal.id !== mealId));
+    showToast('Meal deleted.', 'info');
   };
   
   const closeModal = () => {

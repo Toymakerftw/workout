@@ -1,167 +1,239 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useAppContext } from '../context/AppContext';
+
+const REMINDERS_STORAGE_KEY = 'feeel_reminders';
 
 export const useWorkoutReminders = () => {
   const { state } = useAppContext();
-  const [reminders, setReminders] = useState([]);
+  const [reminders, setReminders] = useState(() => {
+    try {
+      const storedReminders = localStorage.getItem(REMINDERS_STORAGE_KEY);
+      return storedReminders ? JSON.parse(storedReminders).map(r => ({
+        ...r,
+        scheduledTime: new Date(r.scheduledTime), // Convert back to Date object
+        timeoutId: null // Will be set on re-scheduling
+      })) : [];
+    } catch (error) {
+      console.error("Failed to parse reminders from localStorage", error);
+      return [];
+    }
+  });
 
-  // Function to schedule a workout reminder
-  const scheduleWorkoutReminder = (workout, scheduledTime) => {
+  // Effect to re-schedule reminders when the component mounts or reminders change
+  useEffect(() => {
+    reminders.forEach(reminder => {
+      const now = new Date();
+      const timeDiff = reminder.scheduledTime.getTime() - now.getTime();
+
+      if (timeDiff > 0 && !reminder.timeoutId) { // Only re-schedule if in the future and not already scheduled
+        const timeoutId = setTimeout(() => {
+          if ('Notification' in window && Notification.permission === 'granted') {
+            new Notification(
+              reminder.reminderType === 'workout' ? 'Workout Reminder' : 'Meal Reminder',
+              {
+                body: reminder.reminderType === 'workout'
+                  ? `Time for your "${reminder.workoutName}" workout!`
+                  : reminder.customMessage,
+                icon: '/android-chrome-192x192.png',
+                tag: reminder.id
+              }
+            );
+          } else if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.ready.then(registration => {
+              registration.showNotification(
+                reminder.reminderType === 'workout' ? 'Workout Reminder' : 'Meal Reminder',
+                {
+                  body: reminder.reminderType === 'workout'
+                    ? `Time for your "${reminder.workoutName}" workout!`
+                    : reminder.customMessage,
+                  icon: '/android-chrome-192x192.png',
+                  tag: reminder.id
+                }
+              );
+            });
+          }
+          setReminders(prev => prev.filter(r => r.id !== reminder.id));
+        }, timeDiff);
+
+        setReminders(prev =>
+          prev.map(r => (r.id === reminder.id ? { ...r, timeoutId } : r))
+        );
+      } else if (timeDiff <= 0 && reminder.timeoutId) {
+        // Clear past reminders that somehow still have a timeoutId
+        clearTimeout(reminder.timeoutId);
+        setReminders(prev => prev.filter(r => r.id !== reminder.id));
+      }
+    });
+
+    // Cleanup function to clear all timeouts if the component unmounts
+    return () => {
+      reminders.forEach(reminder => {
+        if (reminder.timeoutId) {
+          clearTimeout(reminder.timeoutId);
+        }
+      });
+    };
+  }, [reminders]);
+
+
+  // Effect to save reminders to localStorage whenever they change
+  useEffect(() => {
+    try {
+      // Don't store timeoutId in localStorage
+      const serializableReminders = reminders.map(({ timeoutId, ...rest }) => ({
+        ...rest,
+        scheduledTime: rest.scheduledTime.toISOString() // Store as ISO string
+      }));
+      localStorage.setItem(REMINDERS_STORAGE_KEY, JSON.stringify(serializableReminders));
+    } catch (error) {
+      console.error("Failed to save reminders to localStorage", error);
+    }
+  }, [reminders]);
+
+  const triggerNotification = useCallback((reminder) => {
+    if ('Notification' in window && Notification.permission === 'granted') {
+      new Notification(
+        reminder.reminderType === 'workout' ? 'Workout Reminder' : 'Meal Reminder',
+        {
+          body: reminder.reminderType === 'workout'
+            ? `Time for your "${reminder.workoutName}" workout!`
+            : reminder.customMessage,
+          icon: '/android-chrome-192x192.png',
+          tag: reminder.id
+        }
+      );
+    } else if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.ready.then(registration => {
+        registration.showNotification(
+          reminder.reminderType === 'workout' ? 'Workout Reminder' : 'Meal Reminder',
+          {
+            body: reminder.reminderType === 'workout'
+              ? `Time for your "${reminder.workoutName}" workout!`
+              : reminder.customMessage,
+            icon: '/android-chrome-192x192.png',
+            tag: reminder.id
+          }
+        );
+      });
+    }
+  }, []);
+
+  const scheduleReminder = useCallback((newReminder) => {
     if (!state.settings.remindersEnabled) return;
 
     const now = new Date();
-    const timeDiff = scheduledTime.getTime() - now.getTime();
+    const timeDiff = newReminder.scheduledTime.getTime() - now.getTime();
 
-    // Don't schedule if time is in the past
-    if (timeDiff <= 0) return;
+    if (timeDiff <= 0) return; // Don't schedule if time is in the past
 
-    // Create a unique ID for the reminder
-    const reminderId = `workout-${workout.id}-${scheduledTime.getTime()}`;
-
-    // Check if a similar reminder already exists
-    const existingReminder = reminders.find(r => r.id === reminderId);
-    if (existingReminder) {
-      // Clear the existing reminder
-      clearTimeout(existingReminder.timeoutId);
-    }
+    // Clear existing reminder if it has the same ID
+    setReminders(prev => {
+      const existing = prev.find(r => r.id === newReminder.id);
+      if (existing && existing.timeoutId) {
+        clearTimeout(existing.timeoutId);
+      }
+      return prev.filter(r => r.id !== newReminder.id);
+    });
 
     const timeoutId = setTimeout(() => {
-      if ('Notification' in window && Notification.permission === 'granted') {
-        new Notification('Workout Reminder', {
-          body: `Time for your "${workout.name}" workout!`,
-          icon: '/android-chrome-192x192.png',
-          tag: reminderId
-        });
-      } else if ('serviceWorker' in navigator) {
-        // Use service worker notification if available
-        navigator.serviceWorker.ready.then(registration => {
-          registration.showNotification('Workout Reminder', {
-            body: `Time for your "${workout.name}" workout!`,
-            icon: '/android-chrome-192x192.png',
-            tag: reminderId
-          });
-        });
-      }
-
-      // Remove the reminder after it's triggered
-      setReminders(prev => prev.filter(r => r.id !== reminderId));
+      triggerNotification(newReminder);
+      setReminders(prev => prev.filter(r => r.id !== newReminder.id));
     }, timeDiff);
 
-    // Store the reminder
+    setReminders(prev => [...prev, { ...newReminder, timeoutId }]);
+  }, [state.settings.remindersEnabled, triggerNotification]);
+
+  // Function to schedule a workout reminder
+  const scheduleWorkoutReminder = useCallback((workout, scheduledTime) => {
+    const reminderId = `workout-${workout.id}-${scheduledTime.getTime()}`;
     const newReminder = {
       id: reminderId,
       reminderType: 'workout',
       workoutId: workout.id,
       workoutName: workout.name,
       scheduledTime,
-      timeoutId
+      timeoutId: null
     };
-
-    setReminders(prev => [...prev, newReminder]);
-  };
+    scheduleReminder(newReminder);
+  }, [scheduleReminder]);
 
   // Function to schedule a nutrition reminder
-  const scheduleNutritionReminder = (scheduledTime, customMessage = 'Time to log your meal!') => {
-    if (!state.settings.remindersEnabled) return;
-
-    const now = new Date();
-    const timeDiff = scheduledTime.getTime() - now.getTime();
-
-    // Don't schedule if time is in the past
-    if (timeDiff <= 0) return;
-
-    // Create a unique ID for the nutrition reminder
+  const scheduleNutritionReminder = useCallback((scheduledTime, customMessage = 'Time to log your meal!') => {
     const reminderId = `nutrition-${scheduledTime.getTime()}`;
-
-    // Check if a similar reminder already exists
-    const existingReminder = reminders.find(r => r.id === reminderId);
-    if (existingReminder) {
-      // Clear the existing reminder
-      clearTimeout(existingReminder.timeoutId);
-    }
-
-    const timeoutId = setTimeout(() => {
-      if ('Notification' in window && Notification.permission === 'granted') {
-        new Notification('Meal Reminder', {
-          body: customMessage,
-          icon: '/android-chrome-192x192.png',
-          tag: reminderId
-        });
-      } else if ('serviceWorker' in navigator) {
-        // Use service worker notification if available
-        navigator.serviceWorker.ready.then(registration => {
-          registration.showNotification('Meal Reminder', {
-            body: customMessage,
-            icon: '/android-chrome-192x192.png',
-            tag: reminderId
-          });
-        });
-      }
-
-      // Remove the reminder after it's triggered
-      setReminders(prev => prev.filter(r => r.id !== reminderId));
-    }, timeDiff);
-
-    // Store the reminder
     const newReminder = {
       id: reminderId,
       reminderType: 'nutrition',
       customMessage,
       scheduledTime,
-      timeoutId
+      timeoutId: null
     };
-
-    setReminders(prev => [...prev, newReminder]);
-  };
+    scheduleReminder(newReminder);
+  }, [scheduleReminder]);
 
   // Function to cancel a specific reminder
-  const cancelWorkoutReminder = (reminderId) => {
-    const reminder = reminders.find(r => r.id === reminderId);
-    if (reminder) {
-      clearTimeout(reminder.timeoutId);
-      setReminders(prev => prev.filter(r => r.id !== reminderId));
-    }
-  };
+  const cancelReminder = useCallback((reminderId) => {
+    setReminders(prev => {
+      const reminderToCancel = prev.find(r => r.id === reminderId);
+      if (reminderToCancel && reminderToCancel.timeoutId) {
+        clearTimeout(reminderToCancel.timeoutId);
+      }
+      return prev.filter(r => r.id !== reminderId);
+    });
+  }, []);
+
 
   // Function to cancel all reminders for a specific workout
-  const cancelAllRemindersForWorkout = (workoutId) => {
-    const workoutReminders = reminders.filter(r => r.workoutId === workoutId);
-    workoutReminders.forEach(reminder => {
-      clearTimeout(reminder.timeoutId);
+  const cancelAllRemindersForWorkout = useCallback((workoutId) => {
+    setReminders(prev => {
+      const remainingReminders = prev.filter(r => {
+        if (r.reminderType === 'workout' && r.workoutId === workoutId) {
+          if (r.timeoutId) clearTimeout(r.timeoutId);
+          return false;
+        }
+        return true;
+      });
+      return remainingReminders;
     });
-    setReminders(prev => prev.filter(r => r.workoutId !== workoutId));
-  };
+  }, []);
 
   // Function to cancel all nutrition reminders
-  const cancelAllNutritionReminders = () => {
-    const nutritionReminders = reminders.filter(r => r.reminderType === 'nutrition');
-    nutritionReminders.forEach(reminder => {
-      clearTimeout(reminder.timeoutId);
+  const cancelAllNutritionReminders = useCallback(() => {
+    setReminders(prev => {
+      const remainingReminders = prev.filter(r => {
+        if (r.reminderType === 'nutrition') {
+          if (r.timeoutId) clearTimeout(r.timeoutId);
+          return false;
+        }
+        return true;
+      });
+      return remainingReminders;
     });
-    setReminders(prev => prev.filter(r => r.reminderType !== 'nutrition'));
-  };
+  }, []);
 
-  // Cleanup function to clear all reminders when component unmounts
-  const cancelAllReminders = () => {
-    reminders.forEach(reminder => {
-      clearTimeout(reminder.timeoutId);
+  // Cleanup function to clear all reminders when component unmounts or reminders are disabled
+  const cancelAllReminders = useCallback(() => {
+    setReminders(prev => {
+      prev.forEach(reminder => {
+        if (reminder.timeoutId) {
+          clearTimeout(reminder.timeoutId);
+        }
+      });
+      return [];
     });
-    setReminders([]);
-  };
+  }, []);
 
   // Effect to handle remindersEnabled setting change
   useEffect(() => {
     if (!state.settings.remindersEnabled) {
-      // Cancel all reminders if reminders are disabled
       cancelAllReminders();
     }
-  }, [state.settings.remindersEnabled]);
+  }, [state.settings.remindersEnabled, cancelAllReminders]);
 
   return {
     reminders,
     scheduleWorkoutReminder,
     scheduleNutritionReminder,
-    cancelWorkoutReminder,
+    cancelReminder, // Renamed from cancelWorkoutReminder for generality
     cancelAllRemindersForWorkout,
     cancelAllNutritionReminders,
     cancelAllReminders

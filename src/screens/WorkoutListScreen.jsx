@@ -5,12 +5,13 @@ import { useNotifications } from '../hooks/useNotifications';
 import { useWorkoutReminders } from '../hooks/useWorkoutReminders';
 import WorkoutCard from '../components/WorkoutCard';
 import WorkoutReminderDialog from '../components/WorkoutReminderDialog';
+import { useToast } from '../hooks/useToast';
 
 const WorkoutListScreen = () => {
   const { state, dispatch } = useAppContext();
   const navigate = useNavigate();
-  const { requestPermission } = useNotifications();
   const { scheduleWorkoutReminder } = useWorkoutReminders();
+  const showToast = useToast();
   const [showReminderDialog, setShowReminderDialog] = useState(false);
   const [selectedWorkout, setSelectedWorkout] = useState(null);
 
@@ -25,24 +26,24 @@ const WorkoutListScreen = () => {
   const handleDeleteWorkout = (workoutId) => {
     if (window.confirm('Are you sure you want to delete this workout? This action cannot be undone.')) {
       dispatch({ type: 'DELETE_WORKOUT', payload: workoutId });
+      showToast('Workout deleted successfully!', 'success');
     }
   };
 
   const handleScheduleReminder = (workout) => {
     if (!state.settings.remindersEnabled) {
-      alert('Please enable workout reminders in Settings first.');
+      showToast('Please enable workout reminders in Settings first.', 'info');
       navigate('/settings');
       return;
     }
 
-    requestPermission();
     setSelectedWorkout(workout);
     setShowReminderDialog(true);
   };
 
   const handleConfirmSchedule = (workout, scheduledDateTime) => {
     scheduleWorkoutReminder(workout, scheduledDateTime);
-    alert(`Reminder scheduled for ${scheduledDateTime.toLocaleString()}`);
+    showToast(`Reminder scheduled for ${scheduledDateTime.toLocaleString()}`, 'success');
   };
 
   return (

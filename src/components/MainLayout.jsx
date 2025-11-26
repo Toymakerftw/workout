@@ -12,9 +12,7 @@ const MainLayout = ({ children }) => {
 
   useEffect(() => {
     // Request notification permission when reminders are enabled
-    if (state.settings.remindersEnabled) {
-      requestPermission();
-    }
+
 
     if (location.pathname === '/workouts/generate') {
       setActiveTab('generate');
@@ -27,7 +25,7 @@ const MainLayout = ({ children }) => {
     } else if (location.pathname === '/settings') {
       setActiveTab('settings');
     }
-  }, [location.pathname, state.settings.remindersEnabled, requestPermission]);
+  }, [location.pathname, state.settings.remindersEnabled]);
 
   const handleNavigation = (path, tab) => {
     setActiveTab(tab);
