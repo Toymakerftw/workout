@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useAppContext } from '../context/AppContext';
+import { useNotifications } from '../hooks/useNotifications';
 
 const MainLayout = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { state } = useAppContext();
+  const { requestPermission } = useNotifications();
   const [activeTab, setActiveTab] = useState('workouts');
 
   useEffect(() => {
+    // Request notification permission when reminders are enabled
+    if (state.settings.remindersEnabled) {
+      requestPermission();
+    }
+
     if (location.pathname === '/workouts/generate') {
       setActiveTab('generate');
     } else if (location.pathname === '/workouts' || location.pathname.startsWith('/workouts/')) {
@@ -18,7 +27,7 @@ const MainLayout = ({ children }) => {
     } else if (location.pathname === '/settings') {
       setActiveTab('settings');
     }
-  }, [location.pathname]);
+  }, [location.pathname, state.settings.remindersEnabled, requestPermission]);
 
   const handleNavigation = (path, tab) => {
     setActiveTab(tab);

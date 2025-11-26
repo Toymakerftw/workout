@@ -15,7 +15,7 @@ const getColorByWorkout = (name) => {
   return colors[colorIndex];
 };
 
-const WorkoutCard = ({ workout, onEdit, onDelete }) => {
+const WorkoutCard = ({ workout, onEdit, onDelete, onScheduleReminder }) => {
   const cardColor = getColorByWorkout(workout.name);
   const colorClasses = {
     primary: 'border-l-primary-500 bg-primary-50 dark:bg-primary-900/20',
@@ -84,6 +84,32 @@ const WorkoutCard = ({ workout, onEdit, onDelete }) => {
           </div>
 
           <div className="flex gap-2 ml-4 flex-shrink-0">
+            {onScheduleReminder && (
+              <button
+                onClick={(e) => {
+                  e.preventDefault(); // Prevent link navigation
+                  e.stopPropagation();
+                  onScheduleReminder(workout);
+                }}
+                className="p-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
+                aria-label="Schedule reminder for workout"
+              >
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </button>
+            )}
             <button
               onClick={handleEditClick}
               className="p-2 text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"

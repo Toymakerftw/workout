@@ -1,13 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAppContext } from '../context/AppContext';
+import { useNotifications } from '../hooks/useNotifications';
+import { useWorkoutReminders } from '../hooks/useWorkoutReminders';
+import NutritionReminderDialog from '../components/NutritionReminderDialog';
 
 const NutritionTrackingScreen = () => {
-  const { state } = useAppContext(); // eslint-disable-line no-unused-vars
+  const { state } = useAppContext();
+  const { requestPermission } = useNotifications();
+  const { scheduleNutritionReminder } = useWorkoutReminders();
   const [showHistory, setShowHistory] = useState(false);
+  const [showNutritionReminderDialog, setShowNutritionReminderDialog] = useState(false);
   const [meals, setMeals] = useState([]);
   const [dailyGoal, setDailyGoal] = useState(2000); // default calories goal
   const [loading, setLoading] = useState(true);
-  
+
   // Camera and AI analysis state
   const [capturedImage, setCapturedImage] = useState(null);
   const [analyzing, setAnalyzing] = useState(false);
@@ -44,6 +50,23 @@ const NutritionTrackingScreen = () => {
   const totalProtein = todaysMeals.reduce((sum, meal) => sum + (meal.protein || 0), 0);
   const totalCarbs = todaysMeals.reduce((sum, meal) => sum + (meal.carbs || 0), 0);
   const totalFat = todaysMeals.reduce((sum, meal) => sum + (meal.fat || 0), 0);
+
+  // Function to handle nutrition reminder scheduling
+  const handleScheduleNutritionReminder = () => {
+    if (!state.settings.remindersEnabled) {
+      alert('Please enable workout reminders in Settings first.');
+      // Redirect to settings could be added here if needed
+      return;
+    }
+
+    requestPermission();
+    setShowNutritionReminderDialog(true);
+  };
+
+  const handleConfirmNutritionSchedule = (scheduledDateTime, message) => {
+    scheduleNutritionReminder(scheduledDateTime, message);
+    alert(`Meal reminder scheduled for ${scheduledDateTime.toLocaleString()}`);
+  };
 
   // Function to handle image capture
   const handleImageUpload = async (e) => {
@@ -221,12 +244,23 @@ const NutritionTrackingScreen = () => {
       <div className="card">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Today's Meals</h2>
-          <button 
-            onClick={() => fileInputRef.current && fileInputRef.current.click()}
-            className="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg text-sm font-medium"
-          >
-            + Log Food
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={handleScheduleNutritionReminder}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg text-sm font-medium flex items-center gap-1"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Reminder
+            </button>
+            <button
+              onClick={() => fileInputRef.current && fileInputRef.current.click()}
+              className="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg text-sm font-medium"
+            >
+              + Log Food
+            </button>
+          </div>
         </div>
 
         {todaysMeals.length === 0 ? (
@@ -451,10 +485,17 @@ const NutritionTrackingScreen = () => {
         onChange={handleImageUpload}
         ref={fileInputRef}
       />
-      
+
       {showHistory ? <HistoryView /> : <DashboardView />}
-      
+
       <AnalysisModal />
+
+      {/* Nutrition Reminder Dialog */}
+      <NutritionReminderDialog
+        isOpen={showNutritionReminderDialog}
+        onClose={() => setShowNutritionReminderDialog(false)}
+        onSchedule={handleConfirmNutritionSchedule}
+      />
     </div>
   );
 };

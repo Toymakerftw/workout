@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppContext } from '../context/AppContext';
+import { useNotifications } from '../hooks/useNotifications';
+import { useWorkoutReminders } from '../hooks/useWorkoutReminders';
 import WorkoutCard from '../components/WorkoutCard';
+import WorkoutReminderDialog from '../components/WorkoutReminderDialog';
 
 const WorkoutListScreen = () => {
   const { state, dispatch } = useAppContext();
   const navigate = useNavigate();
+  const { requestPermission } = useNotifications();
+  const { scheduleWorkoutReminder } = useWorkoutReminders();
+  const [showReminderDialog, setShowReminderDialog] = useState(false);
+  const [selectedWorkout, setSelectedWorkout] = useState(null);
 
   const handleCreateNewWorkout = () => {
     navigate('/workouts/new');
@@ -19,6 +26,23 @@ const WorkoutListScreen = () => {
     if (window.confirm('Are you sure you want to delete this workout? This action cannot be undone.')) {
       dispatch({ type: 'DELETE_WORKOUT', payload: workoutId });
     }
+  };
+
+  const handleScheduleReminder = (workout) => {
+    if (!state.settings.remindersEnabled) {
+      alert('Please enable workout reminders in Settings first.');
+      navigate('/settings');
+      return;
+    }
+
+    requestPermission();
+    setSelectedWorkout(workout);
+    setShowReminderDialog(true);
+  };
+
+  const handleConfirmSchedule = (workout, scheduledDateTime) => {
+    scheduleWorkoutReminder(workout, scheduledDateTime);
+    alert(`Reminder scheduled for ${scheduledDateTime.toLocaleString()}`);
   };
 
   return (
@@ -43,6 +67,7 @@ const WorkoutListScreen = () => {
                 workout={workout}
                 onEdit={handleEditWorkout}
                 onDelete={handleDeleteWorkout}
+                onScheduleReminder={handleScheduleReminder}
               />
             ))}
           </div>
@@ -94,6 +119,14 @@ const WorkoutListScreen = () => {
           <span>Create New</span>
         </button>
       </div>
+
+      {/* Workout Reminder Dialog */}
+      <WorkoutReminderDialog
+        workout={selectedWorkout}
+        isOpen={showReminderDialog}
+        onClose={() => setShowReminderDialog(false)}
+        onSchedule={handleConfirmSchedule}
+      />
     </div>
   );
 };
