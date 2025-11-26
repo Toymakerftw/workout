@@ -6,6 +6,7 @@ import ExerciseInfoDialog from '../components/ExerciseInfoDialog';
 import { useSound } from '../hooks/useSound';
 import { useHapticFeedback } from '../hooks/useHapticFeedback';
 import { useNotifications } from '../hooks/useNotifications';
+import { useWakeLock } from '../hooks/useWakeLock';
 
 export const WorkoutDetailScreen = () => {
   const { id } = useParams();
@@ -26,6 +27,7 @@ export const WorkoutDetailScreen = () => {
   
   // Refs
   const timerRef = useRef(null);
+  const { request: requestWakeLock, release: releaseWakeLock, supported: wakeLockSupported } = useWakeLock();
 
   const currentWorkout = state.workouts.find(workout => workout.id === parseInt(id));
 
@@ -34,6 +36,15 @@ export const WorkoutDetailScreen = () => {
 
   // Get theme from context to determine dark/light mode
   const isDarkMode = state.settings.darkMode;
+
+  // Cleanup wake lock when component unmounts
+  useEffect(() => {
+    return () => {
+      if (wakeLockSupported) {
+        releaseWakeLock();
+      }
+    };
+  }, [wakeLockSupported, releaseWakeLock]);
 
   const theme = {
     text: isRest ? 'text-amber-400' : 'text-cyan-400',
@@ -111,14 +122,19 @@ export const WorkoutDetailScreen = () => {
     }
   }, [timeLeft, isPlaying, playSound]);
 
-  const handleTimerComplete = () => {
+  const handleTimerComplete = async () => {
     clearInterval(timerRef.current);
-    
+
     if (currentStage === 'exercise') {
       if (currentExerciseIndex < exercises.length - 1) {
         // Exercise -> Rest
         playSound('break'); // Play break sound automatically
         setCurrentStage('rest');
+
+        // If workout is still playing after transition, request wake lock again if needed
+        if (isPlaying && wakeLockSupported) {
+          await requestWakeLock();
+        }
       } else {
         finishWorkout();
       }
@@ -128,20 +144,30 @@ export const WorkoutDetailScreen = () => {
         playSound('exercise'); // Play exercise sound automatically
         setCurrentExerciseIndex(prev => prev + 1);
         setCurrentStage('exercise');
+
+        // If workout is still playing after transition, request wake lock again if needed
+        if (isPlaying && wakeLockSupported) {
+          await requestWakeLock();
+        }
       } else {
         finishWorkout();
       }
     }
   };
 
-  const finishWorkout = () => {
+  const finishWorkout = async () => {
     setIsPlaying(false);
     setIsCompleted(true);
     playSound('finish');
     triggerHapticFeedback([200, 100, 200]);
     sendNotification('Workout Completed!', { body: 'Great job!' });
-    
-    const totalDuration = exercises.length * 30; 
+
+    // Release wake lock when workout is completed
+    if (wakeLockSupported) {
+      await releaseWakeLock();
+    }
+
+    const totalDuration = exercises.length * 30;
     const completedWorkout = {
       id: Date.now(),
       name: currentWorkout?.name || 'Workout',
@@ -156,13 +182,18 @@ export const WorkoutDetailScreen = () => {
   // --- CONTROLS ---
 
   // UPDATED: Smart Sound Triggering
-  const handlePlayPause = () => {
+  const handlePlayPause = async () => {
     triggerHapticFeedback();
-    
+
     if (!isPlaying) {
       // We are STARTING or RESUMING
-      if(timeLeft === 0) return; 
-      
+      if(timeLeft === 0) return;
+
+      // Request wake lock when starting/resuming workout
+      if (wakeLockSupported) {
+        await requestWakeLock();
+      }
+
       // Play context-aware sound
       if (currentStage === 'exercise') {
         playSound('exercise'); // Whistle/Start sound
@@ -172,24 +203,34 @@ export const WorkoutDetailScreen = () => {
     } else {
       // We are PAUSING
       playSound('click');
+
+      // Release wake lock when pausing workout
+      if (wakeLockSupported) {
+        await releaseWakeLock();
+      }
     }
-    
+
     setIsPlaying(!isPlaying);
   };
 
-  const handleRestart = () => {
+  const handleRestart = async () => {
     triggerHapticFeedback();
     playSound('click');
     setIsPlaying(false);
     setCurrentExerciseIndex(0);
     setCurrentStage('exercise');
     setTimeLeft(exercises[0]?.duration || 30);
+
+    // Release wake lock when restarting
+    if (wakeLockSupported) {
+      await releaseWakeLock();
+    }
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     triggerHapticFeedback();
     playSound('click');
-    
+
     if (currentStage === 'exercise') {
         if (currentExerciseIndex < exercises.length - 1) {
             setCurrentStage('rest');
@@ -206,8 +247,14 @@ export const WorkoutDetailScreen = () => {
     }
   };
 
-  const handleStop = () => {
+  const handleStop = async () => {
     triggerHapticFeedback();
+
+    // Release wake lock when stopping the workout
+    if (wakeLockSupported) {
+      await releaseWakeLock();
+    }
+
     navigate('/workouts');
   };
 
