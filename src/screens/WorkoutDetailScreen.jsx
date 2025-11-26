@@ -7,6 +7,8 @@ import { useSound } from '../hooks/useSound';
 import { useHapticFeedback } from '../hooks/useHapticFeedback';
 import { useNotifications } from '../hooks/useNotifications';
 import { useWakeLock } from '../hooks/useWakeLock';
+import GetReadyScreen from './GetReadyScreen';
+import CongratsScreen from './CongratsScreen';
 
 export const WorkoutDetailScreen = () => {
   const { id } = useParams();
@@ -15,16 +17,19 @@ export const WorkoutDetailScreen = () => {
   const { playSound } = useSound();
   const { triggerHapticFeedback } = useHapticFeedback();
   const { permission, requestPermission, sendNotification } = useNotifications();
-  
+
   // State
   const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [timeLeft, setTimeLeft] = useState(0);
-  const [isCompleted, setIsCompleted] = useState(false);
+  const [, setIsCompleted] = useState(false); // Used only for setting completed state
   const [exerciseInfoOpen, setExerciseInfoOpen] = useState(false);
-  const [currentStage, setCurrentStage] = useState('exercise'); 
+  const [currentStage, setCurrentStage] = useState('exercise');
   const [exercises, setExercises] = useState([]);
-  
+  const [showGetReady, setShowGetReady] = useState(true);
+  const [showCongrats, setShowCongrats] = useState(false);
+  const [completedWorkout, setCompletedWorkout] = useState(null);
+
   // Refs
   const timerRef = useRef(null);
   const { request: requestWakeLock, release: releaseWakeLock, supported: wakeLockSupported } = useWakeLock();
@@ -90,30 +95,30 @@ export const WorkoutDetailScreen = () => {
   const currentExercise = exercises[currentExerciseIndex];
 
   // --- TIMER LOGIC ---
-  
+
   // 1. Initialize Timer on Stage Change
   useEffect(() => {
-    if (currentExercise) {
+    if (currentExercise && !showGetReady) {
       if (currentStage === 'exercise') {
         setTimeLeft(currentExercise.duration || currentWorkout?.exerciseDuration || 30);
       } else {
         setTimeLeft(currentWorkout?.breakDuration || 15);
       }
     }
-  }, [currentExerciseIndex, currentExercise, currentStage]);
+  }, [currentExerciseIndex, currentExercise, currentStage, showGetReady]);
 
   // 2. The Timer Loop
   useEffect(() => {
-    if (isPlaying && timeLeft > 0) {
+    if (isPlaying && timeLeft > 0 && !showGetReady) {
       timerRef.current = setInterval(() => {
         setTimeLeft((prev) => prev - 1);
       }, 1000);
-    } else if (timeLeft === 0 && isPlaying) {
+    } else if (timeLeft === 0 && isPlaying && !showGetReady) {
       handleTimerComplete();
     }
 
     return () => clearInterval(timerRef.current);
-  }, [isPlaying, timeLeft]);
+  }, [isPlaying, timeLeft, showGetReady]);
 
   // 3. Ticking Sound Effect
   useEffect(() => {
@@ -155,33 +160,7 @@ export const WorkoutDetailScreen = () => {
     }
   };
 
-  const finishWorkout = async () => {
-    setIsPlaying(false);
-    setIsCompleted(true);
-    playSound('finish');
-    triggerHapticFeedback([200, 100, 200]);
-    sendNotification('Workout Completed!', { body: 'Great job!' });
 
-    // Release wake lock when workout is completed
-    if (wakeLockSupported) {
-      await releaseWakeLock();
-    }
-
-    const totalDuration = exercises.length * 30;
-    const completedWorkout = {
-      id: Date.now(),
-      name: currentWorkout?.name || 'Workout',
-      date: new Date().toISOString().split('T')[0],
-      duration: `${Math.round(totalDuration / 60)} min`,
-      calories: Math.round(totalDuration * 0.15),
-      status: 'complete'
-    };
-    dispatch({ type: 'ADD_WORKOUT_HISTORY', payload: completedWorkout });
-  };
-
-  // --- CONTROLS ---
-
-  // UPDATED: Smart Sound Triggering
   const handlePlayPause = async () => {
     triggerHapticFeedback();
 
@@ -258,8 +237,66 @@ export const WorkoutDetailScreen = () => {
     navigate('/workouts');
   };
 
+  const handleGetReadyComplete = () => {
+    triggerHapticFeedback();
+    setShowGetReady(false);
+    // Start the first exercise automatically
+    setIsPlaying(true);
+  };
+
+  const finishWorkout = async () => {
+    setIsPlaying(false);
+    setIsCompleted(true);
+    playSound('finish');
+    triggerHapticFeedback([200, 100, 200]);
+    sendNotification('Workout Completed!', { body: 'Great job!' });
+
+    // Release wake lock when workout is completed
+    if (wakeLockSupported) {
+      await releaseWakeLock();
+    }
+
+    const totalDuration = exercises.reduce((total, exercise) => total + (exercise.duration || currentWorkout?.exerciseDuration || 30), 0);
+    const completedWorkoutData = {
+      id: Date.now(),
+      name: currentWorkout?.name || 'Workout',
+      date: new Date().toISOString().split('T')[0],
+      duration: `${Math.round(totalDuration / 60)} min`,
+      calories: Math.round(totalDuration * 0.15),
+      status: 'complete'
+    };
+
+    dispatch({ type: 'ADD_WORKOUT_HISTORY', payload: completedWorkoutData });
+    setCompletedWorkout(completedWorkoutData);
+    setShowCongrats(true);
+  };
+
   // --- RENDER HELPERS ---
   if (!currentExercise) return <div className={`${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'} h-screen w-full`} />;
+
+  // Show Get Ready screen if showGetReady is true
+  if (showGetReady) {
+    return (
+      <GetReadyScreen
+        onReady={handleGetReadyComplete}
+        currentWorkout={currentWorkout}
+        exercises={exercises}
+        isDarkMode={isDarkMode}
+      />
+    );
+  }
+
+  // Show Congrats screen if showCongrats is true
+  if (showCongrats) {
+    return (
+      <CongratsScreen
+        onExit={() => navigate('/workouts')}
+        currentWorkout={currentWorkout}
+        completedWorkout={completedWorkout}
+        isDarkMode={isDarkMode}
+      />
+    );
+  }
 
   const maxTime = currentStage === 'exercise'
     ? (currentExercise.duration || currentWorkout?.exerciseDuration || 30)
@@ -267,22 +304,6 @@ export const WorkoutDetailScreen = () => {
 
   const timeProgress = ((maxTime - timeLeft) / maxTime) * 100;
   const totalProgress = ((currentExerciseIndex + (currentStage === 'rest' ? 0.5 : 0)) / exercises.length) * 100;
-
-  if (isCompleted) {
-    return (
-       <div className={`fixed inset-0 z-50 flex flex-col items-center justify-center ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'} ${theme.textColor} p-6`}>
-          <div className="relative w-32 h-32 mb-6">
-            <div className="absolute inset-0 bg-green-500 rounded-full blur-2xl opacity-20 animate-pulse"></div>
-            <div className={`${theme.buttonBg} relative rounded-full w-full h-full flex items-center justify-center ${isDarkMode ? 'border border-green-500/30' : 'border border-green-300'}`}>
-                <span className="text-5xl">🎉</span>
-            </div>
-          </div>
-          <h2 className="text-3xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-500">Workout Complete!</h2>
-          <p className={theme.textSecondary + " mb-8"}>You crushed it.</p>
-          <button onClick={handleStop} className={`w-full max-w-xs py-4 ${isDarkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-white hover:bg-gray-100'} rounded-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'} transition-all`}>Back to Home</button>
-       </div>
-    );
-  }
 
   return (
     <div className={`fixed inset-0 z-50 flex flex-col transition-colors duration-700 bg-gradient-to-br ${theme.bgClass} ${theme.textColor} overflow-hidden`}>
